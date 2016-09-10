@@ -1,6 +1,8 @@
 import org.openqa.selenium.chrome.ChromeDriver
 import org.openqa.selenium.firefox.FirefoxDriver
 
+// Favor não modificar esse arquivo.
+
 environments {
     chrome {
         if (!System.getProperty("webdriver.chrome.driver")) {
