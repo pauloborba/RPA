@@ -8,7 +8,7 @@ Faça o download do chromedriver compatível com sua máquina e coloque ele na p
 
 Em GebConfig.groovy setar caminho do chromeDriver no File
 
-Mark as Test Source todas as subpastas imediatas de test (não as subpastas das subpastas) 
+Mark as Test Source todas as subpastas imediatas de test (não as subpastas das subpastas)
 
 Run configurations:
 
@@ -18,7 +18,7 @@ P/ rodar run-app
 
 Cucumber:RPA
 
-(IntelliJ) Para rodar os testes, crie uma configuração do grails com a seguinte linha de comando: 
+(IntelliJ) Para rodar os testes, crie uma configuração do grails com a seguinte linha de comando:
 
 P/ testar test-app -Dgeb.env=chrome functional:cucumber
 
