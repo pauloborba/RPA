@@ -7,8 +7,11 @@ Java JDK: 1.7
 
 Run configurations:
 
+
 Grails: dev
+
 $ run-app --stacktrace --verbose
 
 Grails: test
+
 $ test-app -Dgeb.env=chrome functional:cucumber --stacktrace --verbose
