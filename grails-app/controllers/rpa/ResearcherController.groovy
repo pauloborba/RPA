@@ -1,0 +1,4 @@
+package rpa
+
+class ResearcherController {
+}
