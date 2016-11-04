@@ -71,6 +71,7 @@ class ResearcherScoreController {
             form multipartForm {
                 flash.message = message(code: 'default.updated.message', args: [message(code: 'ResearcherScore.label', default: 'ResearcherScore'), researcherScoreInstance.id])
                 redirect researcherScoreInstance
+                researcherScoreInstance.score = CalculateScore(researcherScoreInstance);
             }
             '*'{ respond researcherScoreInstance, [status: OK] }
         }
