@@ -10,8 +10,8 @@
       When I ask for the score of cpf "12121212121" in the qualis "2012"
       Then The system creates a string saying that "1" article wasn't scored because it's jornal wasn't found
 
-    Scenario: to list the articles of a reseacher that weren’t found in qualis
-      Given I am at the score page for the researcher “Higor Botelho” in “Qualis 2012”
-      And I can see that “1” article wasn’t scored because it’s journal wasn’t found
-      When I ask to show the articles that weren’t scored
-      Then I should see a list containing the name of the article that wasn’t scored
+    Scenario: article of a researcher not avaliated
+      Given I created the reseacher of cpf "11111111111" with just an article published at "Theoretical Computer Science"
+      And I created the qualis "2013" with just an avaliation for "NTI"
+      When I ask to create the avaliation of the researcher of cpf "11111111111" in qualis "2013"
+      Then I should see that "1" article wasn't scored

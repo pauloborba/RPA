@@ -2,17 +2,14 @@ package steps
 
 import cucumber.api.PendingException
 
-import pages.ResearcherScorePage
 import rpa.ResearcherScore
 import rpa.ResearcherScoreController
 import rpa.Researcher
-import rpa.ResearcherController
 import rpa.Qualis
-import rpa.QualisController
 import rpa.QualisAvaliation
-import rpa.QualisAvaliationController
 import rpa.Article
-import rpa.ArticleController
+import pages.CreateArticlePage
+import pages.CreateResearcherPage
 
 this.metaClass.mixin(cucumber.api.groovy.Hooks)
 this.metaClass.mixin(cucumber.api.groovy.EN)
@@ -56,17 +53,20 @@ Then(~/^The system creates a string saying that "([^"]*)" article wasn't scored 
     String cmp1 = "Not Avaliated: " + number + ";"
     assert score.score.contains(cmp1)
 }
-Given(~/^I am at the score page for the researcher “Higor Botelho” in “Qualis (\d+)”$/) { int arg1 ->
-    // Write code here that turns the phrase above into concrete actions
-    throw new PendingException()
-}
-When(~/^I ask to show the articles that weren’t scored$/) { ->
-    // Write code here that turns the phrase above into concrete actions
-    throw new PendingException()
-}
-Then(~/^I should see a list containing the name of the article that wasn’t scored$/) { ->
-    // Write code here that turns the phrase above into concrete actions
-    throw new PendingException()
-}
 
-
+Given(~/^I created the reseacher of cpf "([^"]*)" with just an article published at "([^"]*)"$/) { String cpf, String journal ->
+    // Write code here that turns the phrase above into concrete actions
+    throw new PendingException()
+}
+And(~/^I created the qualis "([^"]*)" with just an avaliation for "([^"]*)"$/) { String arg1, String arg2 ->
+    // Write code here that turns the phrase above into concrete actions
+    throw new PendingException()
+}
+When(~/^I ask to create the avaliation of the researcher of cpf "([^"]*)" in qualis "([^"]*)"$/) { String arg1, String arg2 ->
+    // Write code here that turns the phrase above into concrete actions
+    throw new PendingException()
+}
+Then(~/^I should see that "([^"]*)" article wasn't scored$/) { String arg1 ->
+    // Write code here that turns the phrase above into concrete actions
+    throw new PendingException()
+}
