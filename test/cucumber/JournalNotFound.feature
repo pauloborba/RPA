@@ -10,6 +10,12 @@
       When I ask for the score of cpf "12121212121" in the qualis "2012"
       Then The system creates a string saying that "1" article wasn't scored because it's jornal wasn't found
 
+    Scenario: to list the journal of a researcher article that wasn't found in qualis
+      Given The qualis "2013" has avaliations no avaliation for the journal "Nature"
+      And The researcher of cpf "11111111111" has only one article: "The Future of Computers" published at "Nature"
+      When The system create a score for the reseacher of cpf "11111111111" in the qualis "2013"
+      Then The system also creates a list of articles not found containing only "The Future of Computers"
+
     Scenario: article of a researcher not avaliated
       Given I created the reseacher of cpf "11111111111" with just an article published at "Theoretical Computer Science"
       And I created the qualis "2013" with just an avaliation for "NTI"

@@ -70,3 +70,42 @@ Then(~/^I should see that "([^"]*)" article wasn't scored$/) { String arg1 ->
     // Write code here that turns the phrase above into concrete actions
     throw new PendingException()
 }
+Given(~/^The qualis "([^"]*)" has avaliations no avaliation for the journal "([^"]*)"$/) { String year, String journal ->
+    QualisAvaliation av1 = new QualisAvaliation("Just Another Journal", "A1")
+    Set<QualisAvaliation> avs = new HashSet<QualisAvaliation>()
+    avs.add(av1)
+    av1.save flush:true
+    Qualis qualis = new Qualis(year, avs)
+    qualis.save flush:true
+    boolean hasJournal = false;
+    qualis.avaliations.each{ if(it.journal == journal) hasJournal = true}
+    assert !hasJournal
+}
+And(~/^The researcher of cpf "([^"]*)" has only one article: "([^"]*)" published at "([^"]*)"$/) { String cpf, String article, String journal ->
+    Article a1 = new Article(article, journal, "TesteISSN")
+    Set<Article> aSet = new HashSet<Article>();
+    aSet.add(a1)
+    a1.save flush:true
+    Researcher researcher = new Researcher("Higor Botelho", cpf, aSet)
+    researcher.save flush:true
+    boolean hasAnotherArticle = false;
+    researcher.articles.each {if(it.tittle != article) hasAnotherArticle = true}
+    assert !hasAnotherArticle
+}
+When(~/^The system create a score for the reseacher of cpf "([^"]*)" in the qualis "([^"]*)"$/) { String cpf, String year ->
+    Researcher researcher = Researcher.findByCpf(cpf)
+    Qualis qualis = Qualis.findByYear(year)
+    score = new ResearcherScore(researcher, qualis)
+    ResearcherScoreController scoreController = new ResearcherScoreController()
+    score.articlesNotFound = scoreController.NotAvaliated(researcher.articles, qualis.avaliations)
+    score.save flush:true
+}
+Then(~/^The system also creates a list of articles not found containing only "([^"]*)"$/) { String article ->
+    boolean hasArticle = false;
+    boolean hasAnotherArticle = false;
+    score.articlesNotFound.each{
+        if(it.tittle == article) hasArticle = true
+        else hasAnotherArticle = true
+    }
+    assert (hasArticle && !hasAnotherArticle)
+}
