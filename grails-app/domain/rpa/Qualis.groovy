@@ -1,9 +1,9 @@
 package rpa
 
 class Qualis {
-    String year
+    String title
 
     static constraints = {
-        year(nullable: false, blank: false)
+        title(nullable: false, blank: false)
     }
 }
