@@ -5,12 +5,10 @@
     so I can check if there aren't any mistakes in the articles names
 
     Scenario: journal of a researcher article not found in qualis
-      Given I am at the create researcher score page
-      And the qualis "2012" has avaliations for the journals entitled "Theoretical Computer Science", "NTI" and "ISS"
-      And the researcher "Higor Botelho" has only two articles: "Software Engineerig" published at "NTI" and Software Development" published at “Nature”
-      When I ask for the score of "Higor Botelho" in the qualis "2012"
-      Then I go to the succesful creation page
-      And I can see that “1” article wasn’t scored because it’s journal wasn’t found
+      Given the qualis "2012" has avaliations for the journals entitled "Theoretical Computer Science", "NTI" and "ISS"
+      And the researcher of cpf "12121212121" has only two articles: "Software Engineerig" published at "NTI" and "Software Development" published at "Nature"
+      When I ask for the score of cpf "12121212121" in the qualis "2012"
+      Then The system creates a string saying that "1" article wasn't scored because it's jornal wasn't found
 
     Scenario: to list the articles of a reseacher that weren’t found in qualis
       Given I am at the score page for the researcher “Higor Botelho” in “Qualis 2012”
