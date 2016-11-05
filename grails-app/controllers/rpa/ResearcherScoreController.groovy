@@ -42,6 +42,7 @@ class ResearcherScoreController {
                 flash.message = message(code: 'default.created.message', args: [message(code: 'researcherScore.label', default: 'ResearcherScore'), researcherScoreInstance.id])
                 redirect researcherScoreInstance
                 researcherScoreInstance.score = CalculateScore(researcherScoreInstance);
+                researcherScoreInstance.articlesNotFound = NotAvaliated(researcherScoreInstance.researcher.articles, researcherScoreInstance.qualis.avaliations)
             }
             '*' { respond researcherScoreInstance, [status: CREATED] }
 
@@ -71,7 +72,8 @@ class ResearcherScoreController {
             form multipartForm {
                 flash.message = message(code: 'default.updated.message', args: [message(code: 'ResearcherScore.label', default: 'ResearcherScore'), researcherScoreInstance.id])
                 redirect researcherScoreInstance
-                researcherScoreInstance.score = CalculateScore(researcherScoreInstance);
+                researcherScoreInstance.score = CalculateScore(researcherScoreInstance)
+                researcherScoreInstance.articlesNotFound = NotAvaliated(researcherScoreInstance.researcher.articles, researcherScoreInstance.qualis.avaliations)
             }
             '*'{ respond researcherScoreInstance, [status: OK] }
         }
@@ -114,12 +116,10 @@ class ResearcherScoreController {
     String CalculateScore(ResearcherScore researcherScoreInstance){
         Set<Article> researcherArticles = researcherScoreInstance.researcher.articles;
         Set<QualisAvaliation> qualisAvaliations =  researcherScoreInstance.qualis.avaliations;
-        Boolean[] avaliated = new Boolean[researcherArticles.size()];
         def categoryPoints = [:];
         for(int i = 0; i < researcherArticles.size(); ++i){
             for(int j = 0; j < qualisAvaliations.size(); ++j){
                 if(researcherArticles[i].journal == qualisAvaliations[j].journal){
-                    avaliated[i] = true;
                     if(categoryPoints.containsKey(qualisAvaliations[j].avaliation))
                         categoryPoints[qualisAvaliations[j].avaliation]++;
                     else
@@ -131,13 +131,26 @@ class ResearcherScoreController {
         categoryPoints.each{
             cp -> score += cp.key + ": " + cp.value + "; ";
         }
-        int notAvaliated;
+        Set<Article> notAvaliated = NotAvaliated(researcherArticles, qualisAvaliations)
+        score += "Not Avaliated: " + notAvaliated.size() + ";";
+        score
+    }
+
+    Set<Article> NotAvaliated(Set<Article> researcherArticles, Set<QualisAvaliation> qualisAvaliations){
+        Boolean[] avaliated = new Boolean[researcherArticles.size()];
+        Set<Article> notAvaliated = new HashSet<Article>()
         for(int i = 0; i < researcherArticles.size(); ++i){
-            if(!avaliated[i]){
-                notAvaliated++;
+            for(int j = 0; j < qualisAvaliations.size(); ++j){
+                if(researcherArticles[i].journal == qualisAvaliations[j].journal){
+                    avaliated[i] = true;
+                }
             }
         }
-        score += "Not Avaliated: " + notAvaliated + ";";
-        score
+        for(int i = 0; i < researcherArticles.size(); ++i) {
+            if (!avaliated[i]) {
+                notAvaliated.add(researcherArticles[i]);
+            }
+        }
+        notAvaliated
     }
 }

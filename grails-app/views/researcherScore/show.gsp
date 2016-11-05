@@ -49,6 +49,17 @@
 
 					</li>
 				</g:if>
+
+				<g:if test="${researcherScoreInstance?.articlesNotFound}">
+					<li class="fieldcontain">
+						<span id="articlesNotFound-label" class="property-label"><g:message code="researcherScore.articlesNotFound.label" default="JournalsNotFound" /></span>
+
+						<g:each in="${researcherScoreInstance.articlesNotFound}" var="a">
+							<span class="property-value" aria-labelledby="articlesNotFound-label"><g:link controller="article" action="show" id="${a.id}">${a?.tittle.encodeAsHTML()}</g:link></span>
+						</g:each>
+
+					</li>
+				</g:if>
 			
 			</ol>
 			<g:form url="[resource:researcherScoreInstance, action:'delete']" method="DELETE">
