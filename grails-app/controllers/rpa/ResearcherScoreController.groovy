@@ -110,8 +110,8 @@ class ResearcherScoreController {
     *   Receives a ReseacherScore from the .gsp view containing a Reseacher and a Qualis
     *   and scanf throught every Article in the Researcher, counting the score their journal
     *   has in the Qualis. Returns a String for the view to show the final score.
-     */
-    private String CalculateScore(ResearcherScore researcherScoreInstance){
+    */
+    String CalculateScore(ResearcherScore researcherScoreInstance){
         Set<Article> researcherArticles = researcherScoreInstance.researcher.articles;
         Set<QualisAvaliation> qualisAvaliations =  researcherScoreInstance.qualis.avaliations;
         Boolean[] avaliated = new Boolean[researcherArticles.size()];

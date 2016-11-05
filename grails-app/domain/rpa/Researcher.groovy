@@ -9,4 +9,10 @@ class Researcher {
         name(nullable: false, blank: false)
         cpf(unique: true, nullable: false, blank: false, minSize: 11, maxSize: 11)
     }
+
+    Researcher(String name, String cpf, Set<Article> articles){
+        this.name = name
+        this.cpf = cpf
+        this.articles = articles
+    }
 }

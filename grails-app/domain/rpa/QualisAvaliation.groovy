@@ -8,4 +8,9 @@ class QualisAvaliation {
         journal(nullable: false, blank: false)
         avaliation(nullable: false, blank: false)
     }
+
+    QualisAvaliation(String journal, String avaliation){
+        this.journal = journal
+        this.avaliation = avaliation
+    }
 }
