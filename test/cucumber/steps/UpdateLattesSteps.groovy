@@ -1,5 +1,6 @@
 package steps
 
+import cucumber.api.PendingException
 import rpa.Researcher
 import rpa.Article
 import static cucumber.api.groovy.EN.*
@@ -111,4 +112,9 @@ And(~/^o pesquisador de cpf "([^"]*)", nome "([^"]*)" e só tem o artigo "([^"]*
         assert TestAndOperations.compareResearcherWithCpfAndName(researcher,cpf,name)
         assert researcher.articles.size() == 1
         assert TestAndOperations.compareArticle(researcher.articles[0],title,journal,issn)
+}
+
+Then(~/^Sistema não armazena nenhum novo diff no pesquisador de cpf "([^"]*)"\.$/) { String cpf ->
+    def researcher = Researcher.findByCpf(cpf)
+    assert researcher.diffs.size() == 0
 }
