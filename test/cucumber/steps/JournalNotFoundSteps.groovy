@@ -1,7 +1,7 @@
 package steps
 
 import cucumber.api.PendingException
-
+import pages.CreateReseacherScorePage
 import rpa.ResearcherScore
 import rpa.ResearcherScoreController
 import rpa.Researcher
@@ -55,20 +55,32 @@ Then(~/^The system creates a string saying that "([^"]*)" article wasn't scored 
 }
 
 Given(~/^I created the reseacher of cpf "([^"]*)" with just an article published at "([^"]*)"$/) { String cpf, String journal ->
-    // Write code here that turns the phrase above into concrete actions
-    throw new PendingException()
+    to CreateArticlePage
+    at CreateArticlePage
+    page.CreateArticle(journal)
+    to CreateResearcherPage
+    at CreateResearcherPage
+    Set<Article> h = new HashSet<Article>();
+    h.add(Article.findByJournal(journal))
+    page.CreateResearcher(cpf, h)
 }
-And(~/^I created the qualis "([^"]*)" with just an avaliation for "([^"]*)"$/) { String arg1, String arg2 ->
-    // Write code here that turns the phrase above into concrete actions
-    throw new PendingException()
+And(~/^I created the qualis "([^"]*)" with just an avaliation for "([^"]*)"$/) { String year, String journal ->
+    to CreateQualisAvaliationPage
+    at CreateQualisAvaliationPage
+    page.CreateAvaliation(journal, "B2")
+    to CreateQualisPage
+    at CreateQualisPage
+    Set<QualisAvaliation> h = new HashSet<QualisAvaliation>()
+    h.add(QualisAvaliation.findByJournal(journal))
+    page.CreateQualis(year, h)
 }
-When(~/^I ask to create the avaliation of the researcher of cpf "([^"]*)" in qualis "([^"]*)"$/) { String arg1, String arg2 ->
-    // Write code here that turns the phrase above into concrete actions
-    throw new PendingException()
+When(~/^I ask to create the avaliation of the researcher of cpf "([^"]*)" in qualis "([^"]*)"$/) { String cpf, String year ->
+    to CreateReseacherScorePage
+    at CreateReseacherScorePage
+    page.CreateScore(Reseacher.findByCpf(cpf), Qualis.findByYear(year))
 }
 Then(~/^I should see that "([^"]*)" article wasn't scored$/) { String arg1 ->
-    // Write code here that turns the phrase above into concrete actions
-    throw new PendingException()
+    page.Showing()
 }
 Given(~/^The qualis "([^"]*)" has avaliations no avaliation for the journal "([^"]*)"$/) { String year, String journal ->
     QualisAvaliation av1 = new QualisAvaliation("Just Another Journal", "A1")

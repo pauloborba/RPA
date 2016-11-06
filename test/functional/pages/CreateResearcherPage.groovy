@@ -4,7 +4,7 @@ import geb.Page
 import rpa.Article
 
 class CreateResearcherPage extends Page{
-    static url ="/researcher/create/"
+    static url ="/RPA/researcher/create/"
 
     static at = {
         title ==~ /Criar Researcher/
