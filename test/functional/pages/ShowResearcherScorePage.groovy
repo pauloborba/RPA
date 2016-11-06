@@ -2,7 +2,7 @@ package pages
 
 import geb.Page
 
-class ShowReseacherScorePage extends Page {
+class ShowResearcherScorePage extends Page {
     static url = "/RPA/researcherScore/show/1/"
 
     static at = {

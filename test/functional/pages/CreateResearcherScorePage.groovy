@@ -4,11 +4,11 @@ import geb.Page
 import rpa.Researcher
 import rpa.Qualis
 
-class CreateReseacherScorePage extends Page {
+class CreateResearcherScorePage extends Page {
     static url = "/RPA/researcherScore/create/"
 
     static at ={
-        title ==~ /Criar ReseacherScore/
+        title ==~ /Criar ResearcherScore/
     }
 
     boolean CreateScore(Researcher r, Qualis l){

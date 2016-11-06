@@ -1,7 +1,5 @@
 package steps
 
-import cucumber.api.PendingException
-import pages.CreateReseacherScorePage
 import rpa.ResearcherScore
 import rpa.ResearcherScoreController
 import rpa.Researcher
@@ -10,6 +8,10 @@ import rpa.QualisAvaliation
 import rpa.Article
 import pages.CreateArticlePage
 import pages.CreateResearcherPage
+import pages.CreateResearcherScorePage
+import pages.CreateQualisAvaliationPage
+import pages.CreateQualisPage
+import pages.ShowResearcherScorePage
 
 this.metaClass.mixin(cucumber.api.groovy.Hooks)
 this.metaClass.mixin(cucumber.api.groovy.EN)
@@ -75,11 +77,13 @@ And(~/^I created the qualis "([^"]*)" with just an avaliation for "([^"]*)"$/) {
     page.CreateQualis(year, h)
 }
 When(~/^I ask to create the avaliation of the researcher of cpf "([^"]*)" in qualis "([^"]*)"$/) { String cpf, String year ->
-    to CreateReseacherScorePage
-    at CreateReseacherScorePage
-    page.CreateScore(Reseacher.findByCpf(cpf), Qualis.findByYear(year))
+    to CreateResearcherScorePage
+    at CreateResearcherScorePage
+    page.CreateScore(Researcher.findByCpf(cpf), Qualis.findByYear(year))
 }
 Then(~/^I should see that "([^"]*)" article wasn't scored$/) { String arg1 ->
+    to ShowResearcherScorePage
+    at ShowResearcherScorePage
     page.Showing()
 }
 Given(~/^The qualis "([^"]*)" has avaliations no avaliation for the journal "([^"]*)"$/) { String year, String journal ->
