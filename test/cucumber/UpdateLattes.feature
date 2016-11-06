@@ -9,5 +9,17 @@ Feature: Atualizar currículo lattes e mostrar diff
     Given pesquisador  de nome "Rafael", cpf  "12345678911", só tem o artigo "Implementation cow confident with BFS" do journal "Journal" e issn "1" e não tem atualizações está cadastrado no sistema
     And  o arquivo "CurriculoValidoComDoisArtigos.xml" tem o Pesquisador "Rafael" com cpf "12345678911" e tem dois artigos "Implementation cow confident with BFS" e  "Implementation sudoku with backtracking" ambos com journal "Journal"e issn "1"
     When eu tento importar arquivo "CurriculoValidoComDoisArtigos.xml"
-    Then sistema salva um diff no pesquisador  de nome "Rafael" e cpf "12345678911" com a mensagem que o artigo "Implementation sudoku with backtracking" foi adicionado
+    Then sistema salva um diff no pesquisador  de nome "Rafael" e cpf "12345678911" informando que o artigo "Implementation sudoku with backtracking" foi adicionado
     And o pesquisador de cpf "12345678911", nome "Rafael" e tem dois artigos "Implementation cow confident with BFS" e  "Implementation sudoku with backtracking" ambos com journal "Journal" e issn "1" está cadastrado
+
+  #Cenario2
+  #controller
+  #controller
+  Scenario: Remover artigos do pesquisador
+    Given o sistema não tem nenhum artigo com o titulo "Implementation cow confident with BFS" cadastrado
+    And pesquisador  de nome "Rafael", cpf "12345678911", tem dois artigos "Implementation cow confident with BFS" e "Implementation sudoku with backtracking" ambos com journal "Journal" e issn "1" e não tem diff está cadastrado no sistema
+    And  o arquivo "CurriculoValidoComUmArtigo.xml" tem o Pesquisador "Rafael", cpf "12345678911" e só tem o artigo "Implementation sudoku with backtracking" com journal "Journal" e issn "1"
+    When eu tento importar arquivo "CurriculoValidoComUmArtigo.xml"
+    And sistema salva um diff no pesquisador  de nome "Rafael" e cpf "12345678911" informando que o artigo "Implementation cow confident with BFS" foi removido
+    And o artigo "Implementation cow confident with BFS" foi removido do sistema
+    And o pesquisador de cpf "12345678911", nome "Rafael" e só tem o artigo "Implementation sudoku with backtracking" com journal "Journal" e issn "1" está cadastrado

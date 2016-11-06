@@ -50,7 +50,8 @@ class TestAndOperations {
         def xmlInputStream = new FileInputStream(new File(dirFiles+filename));
         def multipartFile = new GrailsMockMultipartFile('file', xmlInputStream)
         cont.request.addFile(multipartFile)
-        cont.update()
+        cont.importFile()
+        Researcher.all
         cont.response.reset()
     }
 
