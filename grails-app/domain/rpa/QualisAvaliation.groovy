@@ -5,6 +5,7 @@ class QualisAvaliation {
     String journal
     String evaluation
     String subject
+
     static belongsTo = [qualis:Qualis]
 
     static constraints = {
