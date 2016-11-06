@@ -34,3 +34,9 @@ Feature: Atualizar currículo lattes e mostrar diff
 
   #Cenario4
   #controller
+  Scenario: Tentar adicionar e remover um artigo
+    Given pesquisador  de nome "Rafael", cpf  "12345678911", só tem o artigo "Implementation cow confident with BFS" do journal "Journal" e issn "1" e não tem atualizações está cadastrado no sistema
+    And o arquivo "CurriculoValidoComUmArtigo.xml" tem o Pesquisador "Rafael", cpf "12345678911" e só tem o artigo "Implementation sudoku with backtracking" com journal "Journal" e issn "1"
+    When eu tento importar arquivo "CurriculoValidoComUmArtigo.xml"
+    And sistema salva dois diff no pesquisador  de nome "Rafael" e cpf "12345678911" informando que o artigo "Implementation cow confident with BFS" foi removido e o artigo "Implementation sudoku with backtracking" foi adicionado
+    And o pesquisador de cpf "12345678911", nome "Rafael" e só tem o artigo "Implementation sudoku with backtracking" com journal "Journal" e issn "1" está cadastrado

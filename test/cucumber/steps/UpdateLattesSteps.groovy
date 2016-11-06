@@ -42,8 +42,7 @@ Then(~/^sistema salva um diff no pesquisador  de nome "([^"]*)" e cpf "([^"]*)" 
         def researcher = Researcher.findByCpf(cpf)
         assert TestAndOperations.compareResearcherWithCpfAndName(researcher, cpf, name)
         assert researcher.diffs.size() == 1
-        assert researcher.diffs[0].typeDiff == 1
-        assert researcher.diffs[0].attributeOld == title
+        assert TestAndOperations.compareDiff(researcher.diffs[0],title,null,1)
 }
 
 And(~/^o pesquisador de cpf "([^"]*)", nome "([^"]*)" e tem dois artigos "([^"]*)" e  "([^"]*)" ambos com journal "([^"]*)" e issn "([^"]*)" está cadastrado$/) {
@@ -96,8 +95,7 @@ And(~/^sistema salva um diff no pesquisador  de nome "([^"]*)" e cpf "([^"]*)" i
         def researcher = Researcher.findByCpf(cpf)
         assert TestAndOperations.compareResearcherWithCpfAndName(researcher, cpf, name)
         assert researcher.diffs.size() == 1
-        assert researcher.diffs[0].typeDiff == 2
-        assert researcher.diffs[0].attributeOld == title
+        assert TestAndOperations.compareDiff(researcher.diffs[0],title,null,2)
 
 }
 
@@ -114,7 +112,21 @@ And(~/^o pesquisador de cpf "([^"]*)", nome "([^"]*)" e só tem o artigo "([^"]*
         assert TestAndOperations.compareArticle(researcher.articles[0],title,journal,issn)
 }
 
-Then(~/^Sistema não armazena nenhum novo diff no pesquisador de cpf "([^"]*)"\.$/) { String cpf ->
-    def researcher = Researcher.findByCpf(cpf)
-    assert researcher.diffs.size() == 0
+Then(~/^Sistema não armazena nenhum novo diff no pesquisador de cpf "([^"]*)"\.$/) {
+    String cpf ->
+        def researcher = Researcher.findByCpf(cpf)
+        assert researcher.diffs.size() == 0
+}
+
+And(~/^sistema salva dois diff no pesquisador  de nome "([^"]*)" e cpf "([^"]*)" informando que o artigo "([^"]*)" foi removido e o artigo "([^"]*)" foi adicionado$/) {
+    String name, String cpf, String title1, String title2 ->
+        def researcher = Researcher.findByCpf(cpf)
+        assert TestAndOperations.compareResearcherWithCpfAndName(researcher,cpf,name)
+        assert researcher.diffs.size() == 2
+        def diff1 = researcher.diffs[0]
+        def diff2 = researcher.diffs[1]
+        assert (TestAndOperations.compareDiff(diff1, title1, null, 2) &&
+                TestAndOperations.compareDiff(diff2, title2, null, 1))||
+                (TestAndOperations.compareDiff(diff1, title2, null, 1) &&
+                        TestAndOperations.compareDiff(diff2, title1, null, 2))
 }
