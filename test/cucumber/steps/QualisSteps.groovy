@@ -23,6 +23,7 @@ And(~'^o qualis "([^"]*)" tem uma avaliação "([^"]*)" para o veículo "([^"]*)
 }
 
 Given(~'^existe um qualis chamado "([^"]*)" cadastrado no sistema$') { String title ->
+    QualisTestDataAndOperations.createQualis(title, null)
     assert qualisExists(title)
 }
 
