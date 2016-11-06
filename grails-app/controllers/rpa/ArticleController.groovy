@@ -1,0 +1,5 @@
+package rpa
+
+class ArticleController {
+
+}
