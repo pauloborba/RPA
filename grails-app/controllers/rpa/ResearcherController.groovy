@@ -27,30 +27,14 @@ class ResearcherController {
         respond new Researcher(params)
     }
 
-    def selRes() {
-        //def name = Researcher.findById(params.id).getName()
-        //pesquisador = name
-    }
-
-    def selArt() {
-        //def tittle = Article.findById(params.id).getTittle()
-        //artigo = tittle
-    }
-
-    def findCitations() {
-        Researcher res = Researcher.findByName(pesquisador)
-        Article art = Article.findByTittle(artigo)
-        def lista = []
+    public int findCitations() {
+        Researcher res = Researcher.findByName(params['res'])
+        Article art = Article.findByTittle(params['art'])
+        List<Article> lista = new ArrayList<Article>()
         lista.add(art)
+        gs = new GoogleScholarService()
         gs.findCitations(lista)
-    }
-
-    static def findCitationsByName(String art, String res) {
-        def lista = []
-        lista.add(Article.findByTittle(art))
-        gs.findCitations(lista)
-        Article aux = Article.findByTittle(art)
-        return 1
+        return lista.get(0).citationAmount
     }
 
     def citations() {

@@ -7,11 +7,11 @@ class Article {
     static hasMany = [authors:Researcher]
     static belongsTo = Researcher
     int citationAmount
-    String citations
 
     static constraints = {
         tittle(nullable: false, blank: false)
         journal(nullable: false, blank: false)
         issn(unique: true,nullable: false, blank: false)
+        citationAmount(blank: true)
     }
 }

@@ -22,6 +22,7 @@ Feature: Collecting citations
   Scenario: Regular Import
 
     Given I am at the Citations Page
-    When I click "Find Citations"
-    Then I am redirected to the Results Page
-    And the citations to me are displayed by the page
+    When I choose the researcher "Paulo Borba"
+    And I choose the article "Implementing distribution and persistence aspects with AspectJ"
+    And I click "Buscar Citações"
+    Then the result is displayed

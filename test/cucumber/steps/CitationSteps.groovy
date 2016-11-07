@@ -6,8 +6,10 @@ import rpa.Researcher
 import rpa.Article
 
 /**
- * Created by rbb3 on 06/11/16.
+ * Created by rbb3 on 01/11/16.
  */
+
+
 
 this.metaClass.mixin(cucumber.api.groovy.Hooks)
 this.metaClass.mixin(cucumber.api.groovy.EN)
@@ -37,14 +39,17 @@ Given(~/^I am at the Citations Page$/) { ->
     to Citation
     at Citation
 }
-When(~/^I click "([^"]*)"$/) { String arg1 ->
-    assert true
+When(~/^I choose the researcher "([^"]*)"$/) { String arg1 ->
+    page.chooseResearcher(arg1)
 }
-Then(~/^I am redirected to the Results Page$/) { ->
-    assert true
+And(~/^I choose the article "([^"]*)"$/) { String arg1 ->
+    page.chooseArticle(arg1)
 }
-And(~/^the citations to me are displayed by the page$/) { ->
-    assert true
+And(~/^I click "([^"]*)"$/) { String arg1 ->
+    page.select(arg1)
+}
+Then(~/^the result is displayed$/) { ->
+    assert page.getResults() != null
 }
 
 

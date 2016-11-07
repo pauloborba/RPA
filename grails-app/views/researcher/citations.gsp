@@ -26,20 +26,33 @@
             <li class="fieldcontain">
             <span id="Researcher-label" class="property-label"><g:message code="Pesquisador" /></span>
                 <span class="property-value" aria-labelledby="name-label">
-                    <g:select onchange="${remoteFunction(action:'selRes', controller:'researcher', params:'\'ResearcherId=\' + this.value' )}" style="width:250px;font-size: 14px" name="researchers" from="${rpa.Researcher.list()}" multiple="true" optionKey="id" size="6" value="${researcherInstance.id}" optionValue="${{it.name}}" class="many-to-many"/>
+                    <g:textField name="researcher" id="123" />
                 </span>
             </li>
             <li class="fieldcontain">
             <span id="Articles-label" class="property-label"><g:message code="Artigo" /></span>
                 <span class="property-value" aria-labelledby="name-label">
-                    <g:select onchange="${remoteFunction(action:'selArt', controller:'article', params:'\'ArticleId=\' + this.value' )}" style="width:250px;font-size: 14px" name="articles" from="${rpa.Article.list()}" multiple="true" optionKey="id" size="6" value="${researcherInstance.articles*.id}" optionValue="${{it.tittle}}" class="many-to-many"/>
+                    <g:textField name="article" id="321" />
                 </span>
             </li>
             <li class="fieldcontain">
-                <g:link action="findCit"><g:submitButton name="buscar" value="Buscar Citações" /></g:link>
+                <g:submitButton name="buscar" value="Buscar Citações" onclick="getSelectedItem();" />
+            </li>
+            <li class="fieldcontain">
+                <g:textField name="result" id="111" />
             </li>
         </ol>
     </div>
+    <script type="text/javascript">
+
+    function getSelectedItem() {
+        var pesq = document.getElementById("123").value;
+        var artc = document.getElementById("321").value;
+        var bla = ${remoteFunction(controller: 'researcher', action: 'findCitations', params: '\'res=\'pesq+\'&art=\'+artc')}
+        document.getElementById("111").value = bla.toString();
+    }
+
+    </script>
 
 
 </body>
