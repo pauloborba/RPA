@@ -9,6 +9,10 @@ class ResearcherController {
 
     }
 
+    def index(){
+
+    }
+
     def show(){
         def researcherInstance = Researcher.findById(params.id)
         if (!researcherInstance) {
@@ -24,14 +28,12 @@ class ResearcherController {
             r.addToArticles(it)
         }
         r.save()
-        r
     }
 
     def update(){
         Researcher researcherSaved = params['researcherSaved']
         Researcher researcherNew = params['researcherNew']
         researcherSaved.update(researcherNew)
-        researcherSaved
     }
 
     def importFile(){
@@ -40,18 +42,25 @@ class ResearcherController {
             XmlExtractorService xmlExtractor = new XmlExtractorService()
             def researcherXml = xmlExtractor.getResearcher(xml.getInputStream())
             def researcherSaved = Researcher.findByCpf(researcherXml.cpf)
-            if(researcherSaved != null){
+
+            if (researcherSaved != null) {
                 params << [researcherNew: researcherXml, researcherSaved: researcherSaved]
                 researcherSaved = update()
-            }else{
-                params<<[name: researcherXml.name, cpf: researcherXml.cpf, articles: researcherXml.articles]
+            } else {
+                params << [name: researcherXml.name, cpf: researcherXml.cpf, articles: researcherXml.articles]
                 researcherSaved = save()
             }
-            if(researcherSaved){
+
+            if (researcherSaved) {
                 flash.message = message(code: 'researcher.saved')
+                redirect action: 'show', id: researcherSaved.id
+            }else{
+                flash.message = message(code: 'researcher.file.invalid')
+                redirect action: 'create'
             }
-            params<<[researcherSaved: researcherSaved]
-            redirect action: 'show', id: researcherSaved.id
+        }else{
+            flash.message = message(code: 'researcher.file.empty')
+            render(view: "create")
         }
     }
 }
