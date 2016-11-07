@@ -1,8 +1,10 @@
 package steps
 
 import cucumber.api.PendingException
+import pages.ShowReseacherPage
 import rpa.Researcher
 import rpa.Article
+import pages.CreateResearcherPage
 import static cucumber.api.groovy.EN.*
 
 Given(~/^pesquisador  de nome "([^"]*)", cpf  "([^"]*)", só tem o artigo "([^"]*)" do journal "([^"]*)" e issn "([^"]*)" e não tem atualizações está cadastrado no sistema$/) {
@@ -129,4 +131,43 @@ And(~/^sistema salva dois diff no pesquisador  de nome "([^"]*)" e cpf "([^"]*)"
                 TestAndOperations.compareDiff(diff2, title2, null, 1))||
                 (TestAndOperations.compareDiff(diff1, title2, null, 1) &&
                         TestAndOperations.compareDiff(diff2, title1, null, 2))
+}
+
+Given(~/^pesquisador  de nome "([^"]*)", cpf  "([^"]*)", só tem o artigo "([^"]*)" do journal "([^"]*)" e issn "([^"]*)" e não tem atualizações foi cadastrado no sistema com o arquivo "([^"]*)"$/) {
+    String name, String cpf, String title, String journal, String issn, String file ->
+        to CreateResearcherPage
+        at CreateResearcherPage
+        page.createResearcherWithFile(file)
+        at ShowReseacherPage
+        page.compareReseacherWithArticle(name, cpf, title, journal, issn)
+}
+
+And(~/^Estou na página de importação de arquivo de pesquisador$/) { ->
+    to CreateResearcherPage
+    at CreateResearcherPage
+}
+
+When(~/^importo arquivo "([^"]*)"$/) {
+    String filename ->
+        page.createResearcherWithFile(filename)
+}
+
+Then(~/^Eu estou na pagina de visualização$/) { ->
+    at ShowReseacherPage
+}
+
+And(~/^Eu vejo uma mensagem de confirmação$/) { ->
+    at ShowReseacherPage
+    page.findAcceptedMsg()
+}
+And(~/^É posso ver o nome do artigo "([^"]*)" informando que ele foi adicionado\.$/) {
+    String title ->
+        at ShowReseacherPage
+        assert page.findDiff(title, 1)
+}
+
+And(~/^É exibida as informações "([^"]*)", "([^"]*)" e o artigo "([^"]*)" e o artigo "([^"]*)" ambos com journal "([^"]*)" e issn "([^"]*)"$/) {
+    String name, String cpf, String title1, String title2, String journal, String issn ->
+        at ShowReseacherPage
+        page.findReseacherWithTwoArticlesSameJournal(name, cpf, title1, title2, journal, issn)
 }
