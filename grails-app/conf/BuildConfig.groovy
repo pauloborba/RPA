@@ -50,6 +50,12 @@ grails.project.dependency.resolution = {
         test "org.seleniumhq.selenium:selenium-support:2.39.0"
         test "org.seleniumhq.selenium:selenium-chrome-driver:2.39.0"
         test "org.seleniumhq.selenium:selenium-firefox-driver:2.39.0"
+
+        runtime('org.codehaus.groovy.modules.http-builder:http-builder:0.5.1') {
+            excludes 'xalan'
+            excludes 'xml-apis'
+            excludes 'groovy'
+        }
     }
 
     plugins {
