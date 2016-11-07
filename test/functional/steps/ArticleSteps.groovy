@@ -30,6 +30,7 @@ class ArticleSteps {
         }
     }
 
+
     static public void createArticle(String title, String journal, String issn, String citations) {
         def cont = new ArticleController()
         cont.params << findArticle(title) << [tittle: title]
