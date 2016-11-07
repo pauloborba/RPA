@@ -28,20 +28,24 @@ class Researcher {
     }
 
     def update(Researcher newResearcher){
-        //Removendo validacao do cpf
-        def allFields = Researcher.class.declaredFields
-                .collectMany{!it.synthetic ? [it.name] : []}
-        def excludedFields = ['cpf']
-        def allButExcluded = allFields - excludedFields
 
-        if(!newResearcher.validate(allButExcluded)){
-            return
+        if(!newResearcher.validate(validatesWithoutCpf())){
+            return null
         }
 
         this.name = newResearcher.name
         addNewArticle(newResearcher)
         removeUnusedArticle(newResearcher)
         this.save(flush: true)
+    }
+
+    //Removendo validacao do cpf
+    private List validatesWithoutCpf() {
+        def allFields = Researcher.class.declaredFields
+                .collectMany { !it.synthetic ? [it.name] : [] }
+        def excludedFields = ['cpf']
+        def allButExcluded = allFields - excludedFields
+        allButExcluded
     }
 
     private void removeUnusedArticle(Researcher newResearcher) {
