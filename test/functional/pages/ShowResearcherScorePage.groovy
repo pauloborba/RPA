@@ -3,7 +3,7 @@ package pages
 import geb.Page
 
 class ShowResearcherScorePage extends Page {
-    static url = "/RPA/researcherScore/show/1/"
+    static url = "/RPA/researcherScore/show/3/"
 
     static at = {
         title ==~ /Ver ResearcherScore/
@@ -11,5 +11,9 @@ class ShowResearcherScorePage extends Page {
 
     boolean Showing(){
         $("a", text:"Not Avaliated: 1;")
+    }
+
+    boolean Listing(String res){
+        $("a", text:res)
     }
 }

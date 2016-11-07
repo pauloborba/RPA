@@ -17,7 +17,16 @@
       Then The system also creates a list of articles not found containing only "The Future of Computers"
 
     Scenario: article of a researcher not avaliated
-      Given I created the reseacher of cpf "11111111111" with just an article published at "Theoretical Computer Science"
-      And I created the qualis "2013" with just an avaliation for "NTI"
-      When I ask to create the avaliation of the researcher of cpf "11111111111" in qualis "2013"
+      Given I created the reseacher of cpf "11111141111" with just an article published at "Theoretical Computer Science"
+      And I created the qualis "2014" with just an avaliation for "NTI"
+      When I ask to create the avaliation of the researcher of cpf "11111141111" in qualis "2014"
       Then I should see that "1" article wasn't scored
+
+    Scenario: show page of not avaliated articles
+      Given I created the reseacher of cpf "11111151111" with just an article published at "Science"
+      And I created the qualis "2015" with just an avaliation for "Atom"
+      And I created the avaliation of the researcher of cpf "11111151111" in qualis "2015"
+      And I am at the list of avaliations page
+      When I click to show the avaliation of researcher "11111151111"
+      Then I am at the description page for the avaliation
+      And I can see that "Science" journal wasn't scored

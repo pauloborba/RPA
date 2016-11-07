@@ -1,5 +1,6 @@
 package steps
 
+import cucumber.api.PendingException
 import rpa.ResearcherScore
 import rpa.ResearcherScoreController
 import rpa.Researcher
@@ -12,6 +13,7 @@ import pages.CreateResearcherScorePage
 import pages.CreateQualisAvaliationPage
 import pages.CreateQualisPage
 import pages.ShowResearcherScorePage
+import pages.ListResearcherScorePage
 
 this.metaClass.mixin(cucumber.api.groovy.Hooks)
 this.metaClass.mixin(cucumber.api.groovy.EN)
@@ -82,7 +84,6 @@ When(~/^I ask to create the avaliation of the researcher of cpf "([^"]*)" in qua
     page.CreateScore(Researcher.findByCpf(cpf), Qualis.findByYear(year))
 }
 Then(~/^I should see that "([^"]*)" article wasn't scored$/) { String arg1 ->
-    to ShowResearcherScorePage
     at ShowResearcherScorePage
     page.Showing()
 }
@@ -124,4 +125,22 @@ Then(~/^The system also creates a list of articles not found containing only "([
         else hasAnotherArticle = true
     }
     assert (hasArticle && !hasAnotherArticle)
+}
+And(~/^I created the avaliation of the researcher of cpf "([^"]*)" in qualis "([^"]*)"$/) { String cpf, String year ->
+    to CreateResearcherScorePage
+    at CreateResearcherScorePage
+    page.CreateScore(Researcher.findByCpf(cpf), Qualis.findByYear(year))
+}
+And(~/^I am at the list of avaliations page$/) { ->
+    to ListResearcherScorePage
+    at ListResearcherScorePage
+}
+When(~/^I click to show the avaliation of researcher "([^"]*)"$/) { String cpf ->
+    page.Click(Researcher.findByCpf(cpf).name)
+}
+Then(~/^I am at the description page for the avaliation$/) { ->
+    at ShowResearcherScorePage
+}
+And(~/^I can see that "([^"]*)" journal wasn't scored$/) { String arg1 ->
+    page.Listing(arg1)
 }
