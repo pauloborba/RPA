@@ -7,7 +7,7 @@ class CreateResearcherPage extends Page {
     static url = "/RPA/researcher/create/"
 
     static at =  {
-        title ==~ /Importe um xml/
+        title ==~ /Criar Pesquisador/ || title ==~ /Create Researcher/
     }
 
     void createResearcherWithFile(String filename){
