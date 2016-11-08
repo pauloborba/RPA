@@ -8,7 +8,13 @@ import grails.transaction.Transactional
 @Transactional(readOnly = true)
 class ResearchGroupController {
 
-    static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
+    static allowedMethods = [update: "PUT", delete: "DELETE"]
+
+    def createGroup(String name) {
+        def grupo = new ResearchGroup(name: name)
+        grupo.properties = params
+        grupo.save()
+    }
 
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
@@ -24,26 +30,21 @@ class ResearchGroupController {
     }
 
     @Transactional
-    def save(ResearchGroup researchGroupInstance) {
-        if (researchGroupInstance == null) {
-            notFound()
+    def save() {
+        def grupoPesquisadoresInstance = new ResearchGroup(params)
+/*
+        params.list('pesquisador').each{
+            grupoPesquisadoresInstance.addPesq(Pesquisador.findByCpf(it))
+        }
+        grupoPesquisadoresInstance.tamanhoGrupo=grupoPesquisadoresInstance.pesquisadores.size()*/
+
+        if (!grupoPesquisadoresInstance.save(flush: true)) {
+            flash.message = "ERROR"
+            render(view: "create")
             return
         }
 
-        if (researchGroupInstance.hasErrors()) {
-            respond researchGroupInstance.errors, view:'create'
-            return
-        }
-
-        researchGroupInstance.save flush:true
-
-        request.withFormat {
-            form multipartForm {
-                flash.message = message(code: 'default.created.message', args: [message(code: 'researchGroup.label', default: 'ResearchGroup'), researchGroupInstance.id])
-                redirect researchGroupInstance
-            }
-            '*' { respond researchGroupInstance, [status: CREATED] }
-        }
+        redirect(action: "list", params: params)
     }
 
     def edit(ResearchGroup researchGroupInstance) {

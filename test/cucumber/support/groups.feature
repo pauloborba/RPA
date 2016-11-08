@@ -1,18 +1,16 @@
-Feature: Desenvolver cenários de criação de grupos de pesquisadores através da seleção de pesquisadores e/ou outros grupos
+Feature: Desenvolver cenarios de criacao de grupos de pesquisadores atraves da selecao de pesquisadores e ou outros grupos
 
-  #Controle
-Scenario Criar grupo de pesquisa novo
-  Given O sistema não contém o grupo "CIn" cadastrado no seu database.
-  And O grupo "Inteligência Artificial CIn" contém "Teresa Ludermir" e "Paulo Adeodato"
-  When O sistema recebe uma submissão para adicionar o grupo "CIn" com uma lista de  participantes contendo "Paulo Borba", “Fernando Castor” e o grupo de pesquisa “Inteligência Artificial CIn”.
-  Then O sistema cria o grupo "CIn", com "Paulo Borba", "Fernando Castor", "Teresa Ludermir" e "Paulo Adeodato" nele, no seu database.
+Scenario: Criar grupo de pesquisa novo
+  Given O sistema nao contem o grupo "CIn" cadastrado no seu database
+  And O grupo "InteligênciaArtificialCIn" contem "TeresaLudermir" e "PauloAdeodato"
+  When O sistema recebe uma submissao para adicionar o grupo "CIn" com uma lista de  participantes contendo "PauloBorba", "FernandoCastor" e o grupo de pesquisa "InteligênciaArtificialCIn"
+  Then O sistema cria o grupo "CIn", com "PauloBorba", "FernandoCastor", "TeresaLudermir" e "PauloAdeodato" nele, no seu database
 
-  #GUI
 Scenario: Criar grupo de pesquisa a partir de grupos de pesquisa
-  Given Eu estou na página de Criação de Grupos
-  And Eu vejo os grupos "Realidade Aumentada", "Engenharia de Software" e "Biologia Computacional"
-  And O pesquisador "Verônica Teichrieb" pertence ao grupo "Realidade Aumentada"
-  And O pesquisador "Fernando Castor" pertence ao grupo "Engenharia de Software"
-  And O pesquisador "Paulo Soares" pertence ao grupo "Biologia Computacional"
-  When Eu seleciono a opção de criar para o grupo "CIn" com os grupos  "Realidade Aumentada", "Engenharia de Software" e "Biologia Computacional"
-  Then Eu vejo que o grupo "CIn" foi criado com os pesquisadores "Verônica Teichrieb", "Fernando Castor" e "Paulo Soares"
+  Given Eu estou na pagina de Criacao de Grupos
+  And Eu vejo os grupos "RealidadeAumentada", "EngenhariaDeSoftware" e "BiologiaComputacional"
+  And O pesquisador "VeronicaTeichrieb" pertence ao grupo "RealidadeAumentada"
+  And O pesquisador "FernandoCastor" pertence ao grupo "EngenhariaDeSoftware"
+  And O pesquisador "PauloSoares" pertence ao grupo "BiologiaComputacional"
+  When Eu seleciono a opcao de criar para o grupo "CIn" com os grupos  "RealidadeAumentada", "EngenhariaDeSoftware" e "BiologiaComputacional"
+  Then Eu vejo que o grupo "CIn" foi criado com os pesquisadores "VeronicaTeichrieb", "FernandoCastor" e "PauloSoares"

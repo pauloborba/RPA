@@ -10,6 +10,12 @@ class ResearcherController {
 
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
+    def createResearcher(String name, String cpf) {
+        def pesquisador = new Researcher(name: name, cpf: cpf)
+        pesquisador.properties = params
+        pesquisador.save()
+    }
+
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
         respond Researcher.list(params), model:[researcherInstanceCount: Researcher.count()]
