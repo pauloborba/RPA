@@ -1,6 +1,8 @@
 package cucumber.steps
 
 import cucumber.api.PendingException
+import pages.CreateQualisAvaliationPage
+import pages.VisualizationAvaliationPage
 import rpa.Article
 import grails.test.GrailsUnitTestCase
 import rpa.Avaliation
@@ -8,22 +10,47 @@ import rpa.AvaliationController
 import rpa.Qualis
 import rpa.Researcher
 import rpa.QualisAvaliation
+import pages.CreateAvaliationPage
+import pages.CreateArticlePage
+import pages.CreateQualisPage
+import pages.CreateResearcherPage
+import pages.CreateAvaliationPage
 
 this.metaClass.mixin(cucumber.api.groovy.Hooks)
 this.metaClass.mixin(cucumber.api.groovy.EN)
 
 //GUI
-Given(~/^eu estou na pagina de avaliacao de notas$/) { ->
+Given(~/^eu estou na pagina de avaliacao de notas e a pesquisadora "([^"]*)" e o qualis "([^"]*)" estao cadastrados$/) { String researcher, String qualis ->
+    to CreateArticlePage
+    page.CreateArticle("Journal")
 
-    throw new PendingException()
+    to CreateResearcherPage
+    Set<Article> listArticles = new HashSet<Article>();
+    listArticles.add(Article.findByJournal("Journal"))
+    page.CreateResearcher(researcher, listArticles)
+
+    to CreateQualisAvaliationPage
+    page.CreateAvaliation("Journal", "B3")
+
+    to CreateQualisPage
+    QualisAvaliation qAvaliation1 = new QualisAvaliation([journal: "Journal", avaliation: "B3"])
+    Set<QualisAvaliation> listQualisAvaliation = new HashSet<QualisAvaliation>()
+    listQualisAvaliation.add(QualisAvaliation.findByAvaliation("B3"))
+    page.CreateQualis(qualis, listQualisAvaliation)
+
 }
-When(~/^eu seleciono a pesquisadora cadastrada "([^"]*)" e o qualis "([^"]*)"$/) { String arg1, String arg2 ->
+When(~/^eu seleciono a pesquisadora cadastrada "([^"]*)" e o qualis "([^"]*)"$/) { String researcher, String qualis ->
 
-    throw new PendingException()
+    to CreateAvaliationPage
+    at CreateAvaliationPage
+    page.CreateScore(Researcher.findByName(researcher), Qualis.findByYear(qualis))
+
 }
 Then(~/^eh mostrado na tela uma lista com a quantidade de publicacoes que a pesquisadora "([^"]*)" tem por nota no qualis de "([^"]*)"$/) { String arg1, String arg2 ->
 
-    throw new PendingException()
+    at VisualizationAvaliationPage
+    page.Visualization()
+
 }
 
 //CONTROLLER
