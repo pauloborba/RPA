@@ -3,6 +3,7 @@ package support
 import geb.Browser
 import geb.binding.BindingUpdater
 import org.codehaus.groovy.grails.test.support.GrailsTestRequestEnvironmentInterceptor
+import rpa.Researcher
 
 this.metaClass.mixin(cucumber.api.groovy.Hooks)
 
@@ -15,6 +16,9 @@ Before() {
 }
 
 After() {
+    Researcher.list().each {
+        it.delete(flush:true)
+    }
     scenarioInterceptor.destroy()
 
     bindingUpdater.remove()

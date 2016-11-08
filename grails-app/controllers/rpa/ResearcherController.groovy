@@ -1,37 +1,66 @@
 package rpa
 
+import rpa.Researcher
+import rpa.Article
+
 class ResearcherController {
 
-    static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
+    def create(){
 
-    def index = {
-        params.max = Math.min(params.max ? params.int('max') : 10, 100)
-        [researcherInstanceList: Researcher.list(params), researcherInstanceTotal: Researcher.count()]
     }
 
-    def show = {
-        def researcherInstance = researcher.get(params.id)
+    def index(){
+
+    }
+
+    def show(){
+        def researcherInstance = Researcher.findById(params.id)
         if (!researcherInstance) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'researcher.label', default: 'Researcher'), params.id])
-            redirect(action: "index")
+            flash.message = message(code: 'default.not.found.message', args: [message(code: 'researcher.label', default: 'Pesquisador'), params.id])
             return
         }
-
         [researcherInstance: researcherInstance]
     }
 
-    def create = {
-        def researcher = new Researcher(params)
-        [researcherInstance: researcher]
+    def save(){
+        Researcher r = new Researcher(params)
+        r.articles.each {
+            r.addToArticles(it)
+        }
+        r.save()
     }
 
-    def save = {
-        def researcherInstance = new Researcher(params)
-        if (!researcherInstance.save(flush: true)) {
-            render(view: "create", model: [researcherInstance: researcherInstance])
-            return
+    def update(){
+        Researcher researcherSaved = params['researcherSaved']
+        Researcher researcherNew = params['researcherNew']
+        researcherSaved.update(researcherNew)
+    }
+
+    def importFile(){
+        def xml = request.getFile('file')
+        if(!xml.empty){
+            XmlExtractorService xmlExtractor = new XmlExtractorService()
+            def researcherXml = xmlExtractor.getResearcher(xml.getInputStream())
+            def researcherSaved = Researcher.findByCpf(researcherXml.cpf)
+
+            if (researcherSaved != null) {
+                params << [researcherNew: researcherXml, researcherSaved: researcherSaved]
+                researcherSaved = update()
+            } else {
+                params << [name: researcherXml.name, cpf: researcherXml.cpf, articles: researcherXml.articles]
+                researcherSaved = save()
+            }
+
+            if (researcherSaved) {
+                flash.message = message(code: 'researcher.saved')
+                redirect action: 'show', id: researcherSaved.id
+            }else{
+                flash.message = message(code: 'researcher.file.invalid')
+                redirect action: 'create'
+            }
+        }else{
+            flash.message = message(code: 'researcher.file.empty')
+            render(view: "create")
         }
-        flash.message = message(code: 'default.created.message', args: [message(code: 'researcher.label', default: 'Researcher'), researcherInstance.id])
-        redirect(action: "show", id: researcherInstance.id)
     }
 }
