@@ -1,0 +1,5 @@
+
+--Output from Remover vários pesquisadores--
+--Output from Remover pesquisador que faz parte de pelo menos um grupo--
+--Output from Tentar remover pesquisador sem selecionar ninguém--
+--Output from Tentar remover pesquisador informando um CPF inválido--
