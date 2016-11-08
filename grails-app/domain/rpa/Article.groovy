@@ -7,7 +7,7 @@ class Article {
     static hasMany = [authors:Researcher]
     static belongsTo = Researcher
 
-    static constraints = {
+    static constraints = { // a
         tittle(nullable: false, blank: false)
         journal(nullable: false, blank: false)
         issn(unique: true,nullable: false, blank: false)
