@@ -14,3 +14,5 @@ Feature: desenvolver cenários de avaliação de notas de um pesquisador em rela
     When o sistema recebe a solicitação de avaliar o pesquisador "FernandoCastor" pelo qualis "2014" e "2012"
     Then o sistema retorna uma lista com a quantidade de publicações que o pesquisador "FernandoCastor" tem por nota "A1-1,A2-1,B1 - 0 … D - 0, NP - 1"
     And o sistema não é modificado
+
+
