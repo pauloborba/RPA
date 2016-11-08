@@ -6,25 +6,33 @@ import geb.Page
  * Created by rbb3 on 03/11/16.
  */
 class Citation extends Page {
-    static url = "researcher/citations"
+    static url = "/RPA/researcher/citations/"
 
     static at = {
-        title ==~ /Citation/
+        title ==~ /Ver Researcher/
     }
 
-    static void chooseResearcher(String name) {
-        $('textField[name=researcher]').value = name
+    def chooseResearcher(String name) {
+        $("input[name='researcher']").value(name)
     }
 
-    static void chooseArticle(String title) {
-        $('textField[name=article]').value = title
+    def chooseArticle(String title) {
+        $("input[name='article']").value(title)
     }
 
-    static void select(String str) {
-        $('button[name=buscar]').click()
+    def select(str) {
+        $("input[type='submit']")[0].click()
     }
 
-    static int getResults() {
-        return $('textField[name=result]').value.toInteger()
+    public int getResults() {
+        return $("input[name='citations']")[0].value(true).toInteger()
+    }
+
+    def fieldNotNull() {
+        if ($("input[name='citations']")[0].value(true) != "") {
+            return true
+        } else {
+            return false
+        }
     }
 }

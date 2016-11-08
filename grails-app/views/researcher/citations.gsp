@@ -23,36 +23,49 @@
     <div id="show-citations" class="content scaffold-show" role="main">
         <h1><g:message code="Ver Citações" args="[entityName]" /></h1>
         <ol class="property-list citations">
-            <li class="fieldcontain">
-            <span id="Researcher-label" class="property-label"><g:message code="Pesquisador" /></span>
-                <span class="property-value" aria-labelledby="name-label">
-                    <g:textField name="researcher" id="123" />
-                </span>
-            </li>
-            <li class="fieldcontain">
-            <span id="Articles-label" class="property-label"><g:message code="Artigo" /></span>
-                <span class="property-value" aria-labelledby="name-label">
-                    <g:textField name="article" id="321" />
-                </span>
-            </li>
-            <li class="fieldcontain">
-                <g:submitButton name="buscar" value="Buscar Citações" onclick="getSelectedItem();" />
-            </li>
-            <li class="fieldcontain">
-                <g:textField name="result" id="111" />
-            </li>
+            <g:form>
+                <fieldset class="form">
+                    <div class="fieldcontain">
+                        <label for="researcher">
+                            <g:message code="Researcher" default="Researcher" />
+                            <span class="required-indicator">*</span>
+                        </label>
+                        <g:textField name="researcher" id="123" required="" value="${researcher ?: ""}"/>
+                    </div>
+
+                    <div class="fieldcontain">
+                        <label for="article">
+                            <g:message code="Article" default="Article" />
+                            <span class="required-indicator">*</span>
+                        </label>
+                        <g:textField name="article" id="321" required="" value="${article ?: ""}"/>
+                    </div>
+
+                    <div class="fieldcontain">
+                        <label for="results">
+                            <g:message code="Citations" default="Citations" />
+                        </label>
+                        <g:textField name="citations" id="111" value="${citationsCount ?: ""}"/>
+                    </div>
+                </fieldset>
+                <fieldset class="buttons">
+                    <g:actionSubmit action="findCitations" value="Buscar Citações" />
+                </fieldset>
+            </g:form>
         </ol>
     </div>
-    <script type="text/javascript">
+    %{--<script type="text/javascript">--}%
 
-    function getSelectedItem() {
-        var pesq = document.getElementById("123").value;
-        var artc = document.getElementById("321").value;
-        var bla = ${remoteFunction(controller: 'researcher', action: 'findCitations', params: '\'res=\'pesq+\'&art=\'+artc')}
-        document.getElementById("111").value = bla.toString();
-    }
+    %{--function getSelectedItem() {--}%
+        %{--var pesq = document.getElementById("123").value;--}%
+        %{--alert(pesq);--}%
+        %{--var artc = document.getElementById("321").value;--}%
+        %{--alert(artc);--}%
+        %{--var bla = ${remoteFunction(controller: 'researcher', action: 'findCitations', params: '\'res=\'pesq+\'&art=\'+artc')}--}%
+        %{--document.getElementById("111").value = bla.toString();--}%
+    %{--}--}%
 
-    </script>
+    %{--</script>--}%
 
 
 </body>

@@ -1,7 +1,7 @@
 package steps
 
-import cucumber.api.PendingException
 import pages.Citation
+
 import rpa.Researcher
 import rpa.Article
 
@@ -35,21 +35,3 @@ Then(~/^the "([^"]*)" citations from the article "([^"]*)" are stored by the sys
 Then(~/^no citations from the article "([^"]*)" are stored by the system$/) { String arg1 ->
     assert CitationTestSteps.informationStored(arg1, "0")
 }
-Given(~/^I am at the Citations Page$/) { ->
-    to Citation
-    at Citation
-}
-When(~/^I choose the researcher "([^"]*)"$/) { String arg1 ->
-    page.chooseResearcher(arg1)
-}
-And(~/^I choose the article "([^"]*)"$/) { String arg1 ->
-    page.chooseArticle(arg1)
-}
-And(~/^I click "([^"]*)"$/) { String arg1 ->
-    page.select(arg1)
-}
-Then(~/^the result is displayed$/) { ->
-    assert page.getResults() != null
-}
-
-

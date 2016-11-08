@@ -18,11 +18,3 @@ Feature: Collecting citations
     And the article with title "Assessing fine-grained feature dependencies", issn "22222" from the journal "ACM" and with "0" citations at Google Scholar is stored by the system
     When I try to find citations to "Assessing fine-grained feature dependencies" from researcher "Joao da Silva".
     Then no citations from the article "Assessing fine-grained feature dependencies" are stored by the system
-
-  Scenario: Regular Import
-
-    Given I am at the Citations Page
-    When I choose the researcher "Paulo Borba"
-    And I choose the article "Implementing distribution and persistence aspects with AspectJ"
-    And I click "Buscar Citações"
-    Then the result is displayed

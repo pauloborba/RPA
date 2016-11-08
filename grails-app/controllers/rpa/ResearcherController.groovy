@@ -9,10 +9,7 @@ import rpa.GoogleScholarService
 @Transactional(readOnly = true)
 class ResearcherController {
 
-    static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
     static GoogleScholarService gs
-    def pesquisador
-    def artigo
 
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
@@ -27,18 +24,18 @@ class ResearcherController {
         respond new Researcher(params)
     }
 
-    public int findCitations() {
-        Researcher res = Researcher.findByName(params['res'])
-        Article art = Article.findByTittle(params['art'])
+    def findCitations() {
+        Researcher res = Researcher.findByName(params.researcher)
+        Article art = Article.findByTittle(params.article)
         List<Article> lista = new ArrayList<Article>()
         lista.add(art)
         gs = new GoogleScholarService()
         gs.findCitations(lista)
-        return lista.get(0).citationAmount
+        render(view: "citations", model: [citationsCount: lista.get(0).citationAmount, researcher: params.researcher, article: params.article])
     }
 
     def citations() {
-        respond new Researcher(params)
+        render(view: "citations", model: [citationsCount: "", researcher: "", article: ""])
     }
 
     @Transactional
