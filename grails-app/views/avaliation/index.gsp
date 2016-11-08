@@ -28,6 +28,8 @@
 					
 						<th><g:message code="avaliation.researcher.label" default="Researcher" /></th>
 					
+						<g:sortableColumn property="categoryPoints" title="${message(code: 'avaliation.categoryPoints.label', default: 'Category Points')}" />
+					
 					</tr>
 				</thead>
 				<tbody>
@@ -37,6 +39,8 @@
 						<td><g:link action="show" id="${avaliationInstance.id}">${fieldValue(bean: avaliationInstance, field: "qualis")}</g:link></td>
 					
 						<td>${fieldValue(bean: avaliationInstance, field: "researcher")}</td>
+					
+						<td>${fieldValue(bean: avaliationInstance, field: "categoryPoints")}</td>
 					
 					</tr>
 				</g:each>

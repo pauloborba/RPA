@@ -41,6 +41,7 @@ class AvaliationController {
             form multipartForm {
                 flash.message = message(code: 'default.created.message', args: [message(code: 'avaliation.label', default: 'Avaliation'), avaliationInstance.id])
                 redirect avaliationInstance
+                avaliationInstance.categoryPoints = CalculateScore(avaliationInstance)
             }
             '*' { respond avaliationInstance, [status: CREATED] }
         }
@@ -101,4 +102,27 @@ class AvaliationController {
             '*'{ render status: NOT_FOUND }
         }
     }
+
+    String CalculateScore(Avaliation avaliation){
+        Set<Article> researcherArticles = avaliation.researcher.articles;
+        Set<QualisAvaliation> qualisAvaliations = avaliation.qualis.avaliations;
+        def categoryPoints = [:];
+        for(int i = 0; i < researcherArticles.size(); ++i){
+            for(int j = 0; j < qualisAvaliations.size(); ++j){
+                if(researcherArticles[i].journal == qualisAvaliations[j].journal){
+                    if(categoryPoints.containsKey(qualisAvaliations[j].avaliation))
+                        categoryPoints[qualisAvaliations[j].avaliation]++;
+                    else
+                        categoryPoints.put(qualisAvaliations[j].avaliation, 1);
+                }
+            }
+        }
+        String score = "";
+        categoryPoints.each{
+            cp -> score += cp.key + ": " + cp.value + "; ";
+        }
+        score
+    }
+
+
 }

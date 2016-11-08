@@ -41,6 +41,15 @@
 				</li>
 				</g:if>
 			
+				<g:if test="${avaliationInstance?.categoryPoints}">
+				<li class="fieldcontain">
+					<span id="categoryPoints-label" class="property-label"><g:message code="avaliation.categoryPoints.label" default="Category Points" /></span>
+					
+						<span class="property-value" aria-labelledby="categoryPoints-label"><g:fieldValue bean="${avaliationInstance}" field="categoryPoints"/></span>
+					
+				</li>
+				</g:if>
+			
 			</ol>
 			<g:form url="[resource:avaliationInstance, action:'delete']" method="DELETE">
 				<fieldset class="buttons">
