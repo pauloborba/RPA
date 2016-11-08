@@ -6,6 +6,6 @@ class Qualis {
     static hasMany = [qualisAvaliations: QualisAvaliation]
 
     static constraints = {
-        title(nullable: false, blank: false)
+        title(nullable: false, blank: false, unique: true)
     }
 }
