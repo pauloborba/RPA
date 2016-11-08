@@ -479,6 +479,16 @@ th:hover, tr:hover {
 	background: #E1F2B6;
 }
 
+.green{
+	color: lawngreen;
+}
+.red{
+	color: red;
+}
+.blue{
+	color: blue;
+}
+
 /* PAGINATION */
 
 .pagination {
