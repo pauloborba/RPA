@@ -33,7 +33,7 @@ class ResearcherController {
     def update(){
         Researcher researcherSaved = params['researcherSaved']
         Researcher researcherNew = params['researcherNew']
-        researcherSaved.update(researcherNew)
+        researcherSaved.save flush:true
     }
 
     def importFile(){
