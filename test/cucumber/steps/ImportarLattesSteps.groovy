@@ -26,7 +26,6 @@ When(~/^Eu tento importar um arquivo de currículo de nome "([^"]*)"\.$/) { Stri
 }
 //Funciona :)
 Then(~/^O pesquisador de nome "([^"]*)" e CPF "([^"]*)" é cadastrado no sistema$/) { String nome, String cpf ->
-    println(Researcher.findByCpf(cpf).name)
     assert compareResearcherWithCpfAndName(Researcher.findByCpf(cpf), cpf, nome)
 }
 //Funciona :)
