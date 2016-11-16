@@ -9,8 +9,9 @@ class ResearcherController {
 
     }
 
-    def index(){
-
+    def index(Integer max) {
+        params.max = Math.min(max ?: 10, 100)
+        respond Researcher.list(params), model:[researcherInstanceCount: Researcher.count()]
     }
 
     def show(){

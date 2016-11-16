@@ -25,20 +25,20 @@
 		<g:if test="${researcherInstance?.name}">
 			<li class="fieldcontain">
 				<span id="name-label" class="property-label"><g:message code="researcher.name.label" default="Name" /></span>
-				<span class="property-value" aria-labelledby="name-label"><g:fieldValue bean="${researcherInstance}" field="name"/></span>
+				<span id="name-value" class="property-value"><g:fieldValue bean="${researcherInstance}" field="name"/></span>
 			</li>
 		</g:if>
 		<g:if test="${researcherInstance?.cpf}">
 			<li class="fieldcontain">
 				<span id="cpf-label" class="property-label"><g:message code="researcher.cpf.label" default="Cpf" /></span>
-				<span class="property-value" aria-labelledby="cpf-label"><g:fieldValue bean="${researcherInstance}" field="cpf"/></span>
+				<span id="cpf-value" class="property-value"><g:fieldValue bean="${researcherInstance}" field="cpf"/></span>
 			</li>
 		</g:if>
 		<g:if test="${researcherInstance?.articles}">
 			<li class="fieldcontain">
 				<span id="articles-label" class="property-label"><g:message code="researcher.articles.label" default="Articles" /></span>
 				<g:each in="${researcherInstance.articles}" var="a">
-					<span class="property-value" aria-labelledby="articles-label"><g:link controller="article" action="show" id="${a.id}">${a?.encodeAsHTML()}</g:link></span>
+					<span id="articles-value" class="property-value"><g:link controller="article" action="show" id="${a.id}">${a?.encodeAsHTML()}</g:link></span>
 				</g:each>
 			</li>
 		</g:if>
