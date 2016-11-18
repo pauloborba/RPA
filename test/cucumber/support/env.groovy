@@ -19,6 +19,9 @@ After() {
     Researcher.list().each {
         it.delete(flush:true)
     }
+    Article.list().each {
+        it.delete(flush:true)
+    }
     scenarioInterceptor.destroy()
 
     bindingUpdater.remove()

@@ -34,11 +34,19 @@
 				<span id="cpf-value" class="property-value"><g:fieldValue bean="${researcherInstance}" field="cpf"/></span>
 			</li>
 		</g:if>
-		<g:if test="${researcherInstance?.articles}">
-			<li class="fieldcontain">
-				<span id="articles-label" class="property-label"><g:message code="researcher.articles.label" default="Articles" /></span>
-				<g:each in="${researcherInstance.articles}" var="a">
-					<span id="articles-value" class="property-value"><g:link controller="article" action="show" id="${a.id}">${a?.encodeAsHTML()}</g:link></span>
+		<g:if test="${researcherInstance?.articles && researcherInstance.articles.size() >= 1}">
+			<li class="fieldcontain "><span class="property-label"><g:message code="articles.label" default="Artigos"/></span><br/>
+				<g:each status="i" var="it" in="${researcherInstance?.articles}">
+					<ol class="list articles">
+						<li class="fieldcontain" >
+							<span id="title-label${i}" class="property-label"><g:message code="article.title.label" default="Titulo" /></span>
+							<span id="title-value${i}" class="title property-value" ><g:fieldValue bean="${it}" field="tittle"/></span>
+							<span id="journal-label${i}" class="property-label"><g:message code="article.journal.label" default="Periodico" /></span>
+							<span id="journal-value${i}" class="journal property-value" ><g:fieldValue bean="${it}" field="journal"/></span>
+							<span id="issn-label${i}" class="property-label"><g:message code="article.issn.label" default="Issn" /></span>
+							<span id="issn-value${i}" class="issn property-value" ><g:fieldValue bean="${it}" field="issn"/></span>
+						</li>
+					</ol>
 				</g:each>
 			</li>
 		</g:if>

@@ -22,7 +22,7 @@ And(~/^O pesquisador de CPF "([^"]*)" não está cadastrado$/) { String cpf ->
 And(~/^O arquivo "([^"]*)" contém o artigo "([^"]*)"\.$/) { String arquivo, String artigo ->
     assert searchArticleByTitle(buildResearcherWithFile(arquivo), artigo)
 }
-//Funcinona :)
+//Funciona :)
 Given(~/^Estou na página de cadastrar pesquisadores$/) { ->
     to CreateResearcherPage
     at CreateResearcherPage
@@ -64,6 +64,11 @@ And(~/^É exibido um aviso de que um pesquisador foi cadastrado$/) { ->
 And(~/^São exibidos o nome do pesquisador "([^"]*)" e o CPF "([^"]*)".$/) { String nome, String cpf ->
     at ShowResearcherPage
     assert (page.checkName(nome) && page.checkCpf(cpf))
+}
+//Testando
+And(~/^É exibido o artigo de título "([^"]*)", da revista "([^"]*)" e issn "([^"]*)".$/) { String titulo, String revista, String issn ->
+    at ShowResearcherPage
+    assert page.checkArticle(titulo, revista, issn)
 }
 //Funciona :)
 And(~/^O pesquisador de CPF "([^"]*)" não possui artigos$/) { String cpf ->

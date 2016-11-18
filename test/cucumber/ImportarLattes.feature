@@ -14,6 +14,20 @@ Then  O pesquisador de nome "Rafael" e CPF "12345678911" é cadastrado no sistem
 And   O artigo "Implementation cow confident with BFS" é adicionado ao currículo do pesquisador de CPF "12345678911".
 And   O artigo "Implementation sudoku with backtracking" é adicionado ao currículo do pesquisador de CPF "12345678911".
 
+#GUI
+Scenario: Cadastrar um pesquisador com vários artigos com sucesso
+Given Estou na página de cadastrar pesquisadores
+And   O arquivo "CurriculoValidoComDoisArtigos.xml" contém um pesquisador de CPF "12345678911" e nome "Rafael".
+And   O arquivo "CurriculoValidoComDoisArtigos.xml" contém o artigo "Implementation cow confident with BFS".
+And   O arquivo "CurriculoValidoComDoisArtigos.xml" contém o artigo "Implementation sudoku with backtracking".
+And   O pesquisador de CPF "12345678911" não está cadastrado
+When  Eu tento importar um arquivo de currículo de nome "CurriculoValidoComDoisArtigos.xml".
+Then  Estou na página de exibir pesquisadores
+And   É exibido um aviso de que um pesquisador foi cadastrado
+And   São exibidos o nome do pesquisador "Rafael" e o CPF "12345678911".
+And   É exibido o artigo de título "Implementation cow confident with BFS", da revista "Journal" e issn "1".
+And   É exibido o artigo de título "Implementation sudoku with backtracking", da revista "Journal" e issn "1".
+
 #Controller
 Scenario: Cadastrar um pesquisador sem artigos com sucesso
 Given O arquivo "CurriculoValidoSemArtigos.xml" contém um pesquisador de CPF "01234567890" e nome "Fulano".

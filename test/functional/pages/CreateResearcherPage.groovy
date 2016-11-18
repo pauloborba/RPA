@@ -7,7 +7,7 @@ class CreateResearcherPage extends Page {
     static url = "/RPA/researcher/create/"
 
     static at = {
-        title ==~ /Criar Pesquisador/ || title ==~ /Create Researcher/
+        title ==~ /Create Researcher/
     }
 
     def createResearcherWithFile(String filename){
