@@ -1,0 +1,3 @@
+
+--Output from Criar grupo de pesquisa novo--
+--Output from Criar grupo de pesquisa a partir de pesquisadores em outros grupos--
