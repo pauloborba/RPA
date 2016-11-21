@@ -23,11 +23,11 @@
 			</g:if>
 			<ol class="property-list qualis">
 			
-				<g:if test="${qualisInstance?.year}">
+				<g:if test="${qualisInstance?.description}">
 				<li class="fieldcontain">
-					<span id="year-label" class="property-label"><g:message code="qualis.year.label" default="Year" /></span>
+					<span id="description-label" class="property-label"><g:message code="qualis.description.label" default="Year" /></span>
 					
-						<span class="property-value" aria-labelledby="year-label"><g:fieldValue bean="${qualisInstance}" field="year"/></span>
+						<span class="property-value" aria-labelledby="description-label"><g:fieldValue bean="${qualisInstance}" field="description"/></span>
 					
 				</li>
 				</g:if>
@@ -37,7 +37,7 @@
 					<span id="avaliations-label" class="property-label"><g:message code="qualis.avaliations.label" default="Avaliations" /></span>
 					
 						<g:each in="${qualisInstance.avaliations}" var="a">
-						<span class="property-value" aria-labelledby="avaliations-label"><g:link controller="qualisAvaliation" action="show" id="${a.id}">${a?.encodeAsHTML()}</g:link></span>
+						<span class="property-value" aria-labelledby="avaliations-label"><g:link controller="qualisEvaluation" action="show" id="${a.id}">${a?.encodeAsHTML()}</g:link></span>
 						</g:each>
 					
 				</li>

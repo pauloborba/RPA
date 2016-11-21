@@ -2,12 +2,12 @@
 
 
 
-<div class="fieldcontain ${hasErrors(bean: qualisInstance, field: 'year', 'error')} required">
-	<label for="year">
-		<g:message code="qualis.year.label" default="Year" />
+<div class="fieldcontain ${hasErrors(bean: qualisInstance, field: 'description', 'error')} required">
+	<label for="description">
+		<g:message code="qualis.description.label" default="Year" />
 		<span class="required-indicator">*</span>
 	</label>
-	<g:textField name="year" required="" value="${qualisInstance?.year}"/>
+	<g:textField name="description" required="" value="${qualisInstance?.description}"/>
 
 </div>
 

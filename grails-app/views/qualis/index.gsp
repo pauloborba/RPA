@@ -24,7 +24,7 @@
 			<thead>
 					<tr>
 					
-						<g:sortableColumn property="year" title="${message(code: 'qualis.year.label', default: 'Year')}" />
+						<g:sortableColumn property="description" title="${message(code: 'qualis.description.label', default: 'Year')}" />
 					
 					</tr>
 				</thead>
@@ -32,7 +32,7 @@
 				<g:each in="${qualisInstanceList}" status="i" var="qualisInstance">
 					<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
 					
-						<td><g:link action="show" id="${qualisInstance.id}">${fieldValue(bean: qualisInstance, field: "year")}</g:link></td>
+						<td><g:link action="show" id="${qualisInstance.id}">${fieldValue(bean: qualisInstance, field: "description")}</g:link></td>
 					
 					</tr>
 				</g:each>

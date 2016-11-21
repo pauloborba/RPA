@@ -48,7 +48,7 @@ And(~/^the researcher of cpf "([^"]*)" has only two articles: "([^"]*)" publishe
 }
 When(~/^I ask for the score of cpf "([^"]*)" in the qualis "([^"]*)"$/) { String cpf, String year ->
     Researcher researcher = Researcher.findByCpf(cpf)
-    Qualis qualis = Qualis.findByYear(year)
+    Qualis qualis = Qualis.findByDescription(year)
     score = new ResearcherScore(researcher, qualis)
     ResearcherScoreController scoreController = new ResearcherScoreController()
     score.score = scoreController.CalculateScore(score)
@@ -82,7 +82,7 @@ And(~/^I created the qualis "([^"]*)" with just an avaliation for "([^"]*)"$/) {
 When(~/^I ask to create the avaliation of the researcher of cpf "([^"]*)" in qualis "([^"]*)"$/) { String cpf, String year ->
     to CreateResearcherScorePage
     at CreateResearcherScorePage
-    page.CreateScore(Researcher.findByCpf(cpf), Qualis.findByYear(year))
+    page.CreateScore(Researcher.findByCpf(cpf), Qualis.findByDescription(year))
 }
 Then(~/^I should see that "([^"]*)" article wasn't scored$/) { String arg1 ->
     at ShowResearcherScorePage
@@ -112,7 +112,7 @@ And(~/^The researcher of cpf "([^"]*)" has only one article: "([^"]*)" published
 }
 When(~/^The system create a score for the reseacher of cpf "([^"]*)" in the qualis "([^"]*)"$/) { String cpf, String year ->
     Researcher researcher = Researcher.findByCpf(cpf)
-    Qualis qualis = Qualis.findByYear(year)
+    Qualis qualis = Qualis.findByDescription(year)
     score = new ResearcherScore(researcher, qualis)
     ResearcherScoreController scoreController = new ResearcherScoreController()
     score.articlesNotFound = scoreController.NotAvaliated(researcher.articles, qualis.avaliations)
@@ -130,7 +130,7 @@ Then(~/^The system also creates a list of articles not found containing only "([
 And(~/^I created the avaliation of the researcher of cpf "([^"]*)" in qualis "([^"]*)"$/) { String cpf, String year ->
     to CreateResearcherScorePage
     at CreateResearcherScorePage
-    page.CreateScore(Researcher.findByCpf(cpf), Qualis.findByYear(year))
+    page.CreateScore(Researcher.findByCpf(cpf), Qualis.findByDescription(year))
 }
 And(~/^I am at the list of avaliations page$/) { ->
     to ListResearcherScorePage

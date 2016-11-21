@@ -38,7 +38,7 @@
 					
 						<td><g:link action="show" id="${researcherScoreInstance.id}">${fieldValue(bean: researcherScoreInstance, field: "researcher.name")}</g:link></td>
 					
-						<td>${fieldValue(bean: researcherScoreInstance, field: "qualis.year")}</td>
+						<td>${fieldValue(bean: researcherScoreInstance, field: "qualis.description")}</td>
 
 						<td>${fieldValue(bean: researcherScoreInstance, field: "score")}</td>
 					

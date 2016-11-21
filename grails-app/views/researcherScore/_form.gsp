@@ -16,7 +16,7 @@
 		<g:message code="researcherScore.qualis.label" default="Qualis" />
 		<span class="required-indicator">*</span>
 	</label>
-	<g:select id="qualis" name="qualis" from="${rpa.Qualis.list()}" optionKey="id" required="" value="${researcherScoreInstance?.qualis?.year}" class="many-to-one"/>
+	<g:select id="qualis" name="qualis" from="${rpa.Qualis.list()}" optionKey="id" required="" value="${researcherScoreInstance?.qualis?.description}" class="many-to-one"/>
 
 </div>
 

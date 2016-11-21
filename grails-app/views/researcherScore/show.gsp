@@ -36,7 +36,7 @@
 				<li class="fieldcontain">
 					<span id="qualis-label" class="property-label"><g:message code="researcherScore.qualis.label" default="Qualis" /></span>
 					
-						<span class="property-value" aria-labelledby="qualis-label"><g:link controller="qualis" action="show" id="${researcherScoreInstance?.qualis?.id}">${researcherScoreInstance?.qualis?.year.encodeAsHTML()}</g:link></span>
+						<span class="property-value" aria-labelledby="qualis-label"><g:link controller="qualis" action="show" id="${researcherScoreInstance?.qualis?.id}">${researcherScoreInstance?.qualis?.description.encodeAsHTML()}</g:link></span>
 					
 				</li>
 				</g:if>
