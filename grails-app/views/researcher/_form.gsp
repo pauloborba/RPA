@@ -15,6 +15,3 @@
     </label>
     <g:textField name="cpf"  required="" value="${ResearcherInstance?.cpf}"/>
 </div>
-
-
-

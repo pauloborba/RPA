@@ -5,17 +5,10 @@ Feature: Remove Researcher
 
   #CONTROLLER
   Scenario: Remover vários pesquisadores
-  Given Os pesquisadores de CPF "01234567890" e "98765432100" estão cadastrados
-  When Eu seleciono na lista os pesquisadores de CPF "01234567890" e "98765432100"
-  And Seleciono para remover
+  Given Os pesquisadores de CPF "01234567890" e nome "Antonio" e CPF "98765432100" e nome "Augusto" estão cadastrados
+  When Eu recebo a solicitação para remover os pesquisadores de CPF "01234567890" e "98765432100"
   Then Os pesquisadores de CPF "01234567890" e "98765432100" são removidos da lista de pesquisadores
-
-  #CONTROLLER
-  Scenario: Remover pesquisador que faz parte de pelo menos um grupo
-  Given O pesquisador de CPF "12345678900" está cadastrado e pertence apenas aos grupos "CIN" e "CC"
-  When Eu marco o CPF "12345678900" e seleciono a opção de remover
-  Then A remoção é concluída e o CPF "12345678900" também é removido do grupo "CIN" e do grupo "CC".
-
+    
   #GUI
   Scenario: Tentar remover pesquisador sem selecionar ninguém
   Given Estou na tela de remoção de pesquisador

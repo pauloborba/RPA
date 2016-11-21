@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Bruno
-  Date: 25/10/2016
-  Time: 08:05
---%>
-
 <%@ page contentType="text/html;charset=UTF-8" %>
 
 <%@ page import="rpa.Researcher" %>

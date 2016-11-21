@@ -5,7 +5,7 @@ class ResearcherController {
     def index() {redirect(action: "list", params: params) }
 
     def create() {
-        [ResearcherInstance: new Researcher(params)]//  [grupoPesquisadoresInstance: new GrupoPesquisadores(params)]
+        [ResearcherInstance: new Researcher(params)]
     }
 
     def save() {
@@ -66,25 +66,6 @@ class ResearcherController {
             }
         }
 
-
-
-        /*else if (!ResearcherInstance) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'researcher.label', default: 'Researcher'), params.id])
-            redirect(action: "list")
-            return
-        }
-
-        //try {
-        else if (ResearcherInstance.delete(flush: true)) {
-            params.remove(ResearcherInstance)
-            flash.message = message(code: 'default.deleted.message', args: [message(code: 'researcher.label', default: 'Researcher'), params.id])
-            redirect(action: "list")
-        }*/
-        //}
-        //catch (DataIntegrityViolationException e) {
-           // flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'researcher.label', default: 'Researcher'), params.id])
-            //redirect(action: "show", id: params.id)
-        //}
     }
 
     def removeStep1(){

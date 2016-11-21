@@ -1,6 +1,7 @@
 package pages
 
 import geb.Page
+import rpa.*
 
 /**
  * Created by ajgan on 05/11/16.
@@ -16,14 +17,14 @@ class removePage extends Page {
     }
 
     def selectRemove() {
-        $("form").ResearcherRemove.click()
+        $("input", type: "submit").click()
     }
 
     def fillSearch(String text) {
         $("form").typed = text
     }
 
-    def hasError() {
+    def hasErrors() {
         $("div.message").text()
     }
 }
