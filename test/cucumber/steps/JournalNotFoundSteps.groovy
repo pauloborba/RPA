@@ -54,7 +54,7 @@ When(~/^I ask for the score of cpf "([^"]*)" in the qualis "([^"]*)"$/) { String
     score.score = scoreController.CalculateScore(score)
     score.save flush:true
 }
-Then(~/^The system creates a string saying that "([^"]*)" article wasn't scored because it's jornal wasn't found$/) { String number ->
+Then(~/^The system creates a string saying that "([^"]*)" article wasn't scored because its jornal wasn't found$/) { String number ->
     String cmp1 = "Not Avaliated: " + number + ";"
     assert score.score.contains(cmp1)
 }
@@ -88,7 +88,7 @@ Then(~/^I should see that "([^"]*)" article wasn't scored$/) { String arg1 ->
     at ShowResearcherScorePage
     page.Showing()
 }
-Given(~/^The qualis "([^"]*)" has avaliations no avaliation for the journal "([^"]*)"$/) { String year, String journal ->
+Given(~/^The qualis "([^"]*)" has no evaluations for the journal "([^"]*)"$/) { String year, String journal ->
     QualisEvaluation av1 = new QualisEvaluation("Just Another Journal", "A1")
     Set<QualisEvaluation> avs = new HashSet<QualisEvaluation>()
     avs.add(av1)
