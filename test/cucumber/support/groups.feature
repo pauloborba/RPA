@@ -2,8 +2,8 @@ Feature: Desenvolver cenarios de criacao de grupos de pesquisadores atraves da s
 
 Scenario: Criar grupo de pesquisa novo
   Given O sistema nao contem o grupo "CIn" cadastrado no seu database
-  And O grupo "InteligênciaArtificialCIn" contem "TeresaLudermir" e "PauloAdeodato"
-  When O sistema recebe uma submissao para adicionar o grupo "CIn" com uma lista de  participantes contendo "PauloBorba", "FernandoCastor" e o grupo de pesquisa "InteligênciaArtificialCIn"
+  And O grupo "InteligenciaArtificialCIn" contem "TeresaLudermir" e "PauloAdeodato"
+  When O sistema recebe uma submissao para adicionar o grupo "CIn" com uma lista de  participantes contendo "PauloBorba", "FernandoCastor" e o grupo de pesquisa "InteligenciaArtificialCIn"
   Then O sistema cria o grupo "CIn", com "PauloBorba", "FernandoCastor", "TeresaLudermir" e "PauloAdeodato" nele, no seu database
 
 Scenario: Criar grupo de pesquisa a partir de grupos de pesquisa

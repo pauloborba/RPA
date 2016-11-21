@@ -35,7 +35,7 @@
 </nav>
 </div>
 <div class="clear"></div>
-<div class="testsuite failure">
+<div class="testsuite success">
 <div class="header">
 <h2>Desenvolver cenarios de criacao de grupos de pesquisadores atraves da selecao de pesquisadores e ou outros grupos</h2>
 <h3>
@@ -43,40 +43,17 @@
                         2
                         tests
                     
-                        with
-                        one failure
-                        .
+                        without a single error or failure!
                     </h3>
 </div>
-<div class="testcase clearfix failure grid_8 alpha omega" data-name="Criar grupo de pesquisa novo">
+<div class="testcase clearfix success grid_8 alpha omega" data-name="Criar grupo de pesquisa novo">
 <div class="grid_3 alpha">
 <p>
-<span class="icon failure"></span><b class="testname message failure">Criar grupo de pesquisa novo</b>
+<span class="icon success"></span><b class="testname message success">Criar grupo de pesquisa novo</b>
 </p>
-<p class="summary">Executed in 0.942 seconds.</p>
+<p class="summary">Executed in 1.046 seconds.</p>
 </div>
-<div class="grid_5 omega outputinfo">
-<div class="details">
-<p>
-<b class="message">assert createResearcherGroup(arg1, controladorGrupo, pesquisadores)
-       |                     |     |                 |
-       null                  |     |                 [rpa.Researcher : 1, rpa.Researcher : 2]
-                             |     rpa.ResearchGroupController@c52137d
-                             Intelig&ecirc;nciaArtificialCIn</b>
-</p>
-<pre>Assertion failed: 
-
-assert createResearcherGroup(arg1, controladorGrupo, pesquisadores)
-       |                     |     |                 |
-       null                  |     |                 [rpa.Researcher : 1, rpa.Researcher : 2]
-                             |     rpa.ResearchGroupController@c52137d
-                             Intelig&ecirc;nciaArtificialCIn
-
-	at cucumber.steps.GroupsSteps$_run_closure2.doCall(GroupsSteps.groovy:28)
-	at ✽.And O grupo "Intelig&ecirc;nciaArtificialCIn" contem "TeresaLudermir" e "PauloAdeodato"(support/groups.feature:5)
-</pre>
-</div>
-</div>
+<div class="grid_5 omega outputinfo"></div>
 <div class="clear"></div>
 </div>
 <div class="testcase clearfix success grid_8 alpha omega" data-name="Criar grupo de pesquisa a partir de grupos de pesquisa">
@@ -84,7 +61,7 @@ assert createResearcherGroup(arg1, controladorGrupo, pesquisadores)
 <p>
 <span class="icon success"></span><b class="testname message success">Criar grupo de pesquisa a partir de grupos de pesquisa</b>
 </p>
-<p class="summary">Executed in 0.011 seconds.</p>
+<p class="summary">Executed in 10.866 seconds.</p>
 </div>
 <div class="grid_5 omega outputinfo"></div>
 <div class="clear"></div>
@@ -98,29 +75,18 @@ assert createResearcherGroup(arg1, controladorGrupo, pesquisadores)
 --Output from Criar grupo de pesquisa a partir de grupos de pesquisa--
   Scenario: Criar grupo de pesquisa novo                                                                                                                                                       # support/groups.feature:3
     Given O sistema nao contem o grupo "CIn" cadastrado no seu database                                                                                                                        # GroupsSteps.groovy:16
-    And O grupo "Intelig&ecirc;nciaArtificialCIn" contem "TeresaLudermir" e "PauloAdeodato"                                                                                                          # GroupsSteps.groovy:20
-      Assertion failed: 
-      
-      assert createResearcherGroup(arg1, controladorGrupo, pesquisadores)
-             |                     |     |                 |
-             null                  |     |                 [rpa.Researcher : 1, rpa.Researcher : 2]
-                                   |     rpa.ResearchGroupController@c52137d
-                                   Intelig&ecirc;nciaArtificialCIn
-      
-      	at cucumber.steps.GroupsSteps$_run_closure2.doCall(GroupsSteps.groovy:28)
-      	at ✽.And O grupo "Intelig&ecirc;nciaArtificialCIn" contem "TeresaLudermir" e "PauloAdeodato"(support/groups.feature:5)
-
-    When O sistema recebe uma submissao para adicionar o grupo "CIn" com uma lista de  participantes contendo "PauloBorba", "FernandoCastor" e o grupo de pesquisa "Intelig&ecirc;nciaArtificialCIn" # GroupsSteps.groovy:32
-    Then O sistema cria o grupo "CIn", com "PauloBorba", "FernandoCastor", "TeresaLudermir" e "PauloAdeodato" nele, no seu database                                                            # GroupsSteps.groovy:36
+    And O grupo "InteligenciaArtificialCIn" contem "TeresaLudermir" e "PauloAdeodato"                                                                                                          # GroupsSteps.groovy:20
+    When O sistema recebe uma submissao para adicionar o grupo "CIn" com uma lista de  participantes contendo "PauloBorba", "FernandoCastor" e o grupo de pesquisa "InteligenciaArtificialCIn" # GroupsSteps.groovy:31
+    Then O sistema cria o grupo "CIn", com "PauloBorba", "FernandoCastor", "TeresaLudermir" e "PauloAdeodato" nele, no seu database                                                            # GroupsSteps.groovy:43
 
   Scenario: Criar grupo de pesquisa a partir de grupos de pesquisa                                                                              # support/groups.feature:9
-    Given Eu estou na pagina de Criacao de Grupos                                                                                               # GroupsSteps.groovy:41
-    And Eu vejo os grupos "RealidadeAumentada", "EngenhariaDeSoftware" e "BiologiaComputacional"                                                # GroupsSteps.groovy:44
-    And O pesquisador "VeronicaTeichrieb" pertence ao grupo "RealidadeAumentada"                                                                # GroupsSteps.groovy:48
-    And O pesquisador "FernandoCastor" pertence ao grupo "EngenhariaDeSoftware"                                                                 # GroupsSteps.groovy:48
-    And O pesquisador "PauloSoares" pertence ao grupo "BiologiaComputacional"                                                                   # GroupsSteps.groovy:48
-    When Eu seleciono a opcao de criar para o grupo "CIn" com os grupos  "RealidadeAumentada", "EngenhariaDeSoftware" e "BiologiaComputacional" # GroupsSteps.groovy:52
-    Then Eu vejo que o grupo "CIn" foi criado com os pesquisadores "VeronicaTeichrieb", "FernandoCastor" e "PauloSoares"                        # GroupsSteps.groovy:56
+    Given Eu estou na pagina de Criacao de Grupos                                                                                               # GroupsSteps.groovy:51
+    And Eu vejo os grupos "RealidadeAumentada", "EngenhariaDeSoftware" e "BiologiaComputacional"                                                # GroupsSteps.groovy:56
+    And O pesquisador "VeronicaTeichrieb" pertence ao grupo "RealidadeAumentada"                                                                # GroupsSteps.groovy:60
+    And O pesquisador "FernandoCastor" pertence ao grupo "EngenhariaDeSoftware"                                                                 # GroupsSteps.groovy:60
+    And O pesquisador "PauloSoares" pertence ao grupo "BiologiaComputacional"                                                                   # GroupsSteps.groovy:60
+    When Eu seleciono a opcao de criar para o grupo "CIn" com os grupos  "RealidadeAumentada", "EngenhariaDeSoftware" e "BiologiaComputacional" # GroupsSteps.groovy:64
+    Then Eu vejo que o grupo "CIn" foi criado com os pesquisadores "VeronicaTeichrieb", "FernandoCastor" e "PauloSoares"                        # GroupsSteps.groovy:68
 </pre>
 </div>
 <div class="syserr">

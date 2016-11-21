@@ -1,7 +1,11 @@
 package pages
 
-/**
- * Created by lss on 06/11/16.
- */
-class GroupListPage {
+import geb.Page
+
+class GroupListPage extends Page{
+    static url = "/RPA/researchGroup/index"
+
+    static at = {
+        title ==~ /ResearchGroup List/
+    }
 }

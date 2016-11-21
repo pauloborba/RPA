@@ -1,7 +1,15 @@
 package pages
 
-/**
- * Created by lss on 06/11/16.
- */
-class CreateGroupPage {
+import geb.Page
+
+class CreateGroupPage extends Page{
+    static url = "/RPA/researchGroup/create"
+
+    static at = {
+        title ==~ /Create ResearchGroup/
+    }
+
+    boolean CreateNewGroup(String name) {
+        
+    }
 }
