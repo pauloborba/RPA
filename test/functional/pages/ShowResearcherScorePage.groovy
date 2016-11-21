@@ -9,7 +9,7 @@ class ShowResearcherScorePage extends Page {
         title ==~ /Ver ResearcherScore/
     }
 
-    boolean Showing(){
+    boolean ShowingNotAvaliatedArticle(){
         $("a", text:"Not Avaliated: 1;")
     }
 

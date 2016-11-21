@@ -109,7 +109,7 @@ When(~/^I ask to create the avaliation of the researcher of cpf "([^"]*)" in qua
 }
 Then(~/^I should see that "([^"]*)" article wasn't scored$/) { String arg1 ->
     at ShowResearcherScorePage
-    page.Showing()
+    page.ShowingNotAvaliatedArticle()
 }
 Given(~/^The qualis "([^"]*)" has no evaluations for the journal "([^"]*)"$/) { String year, String journal ->
     def evaluations = new QualisEvaluation[1]
