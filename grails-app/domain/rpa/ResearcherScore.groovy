@@ -13,8 +13,4 @@ class ResearcherScore {
         articlesNotFound(nullable: true, blank: true)
     }
 
-    ResearcherScore(Researcher researcher, Qualis qualis){
-        this.researcher = researcher
-        this.qualis = qualis
-    }
 }

@@ -8,8 +8,4 @@ class Qualis {
         description(nullable: false, blank: false)
     }
 
-    Qualis(String description, Set<QualisEvaluation> avaliations){
-        this.description = description
-        this.avaliations = avaliations
-    }
 }

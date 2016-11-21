@@ -9,8 +9,4 @@ class QualisEvaluation {
         avaliation(nullable: false, blank: false)
     }
 
-    QualisEvaluation(String journal, String avaliation){
-        this.journal = journal
-        this.avaliation = avaliation
-    }
 }

@@ -71,7 +71,7 @@ And(~/^the researcher of cpf "([^"]*)" has only two articles: "([^"]*)" publishe
 When(~/^I ask for the score of cpf "([^"]*)" in the qualis "([^"]*)"$/) { String cpf, String year ->
     def researcher = Researcher.findByCpf(cpf)
     def qualis = Qualis.findByDescription(year)
-    score = new ResearcherScore(researcher, qualis)
+    score = new ResearcherScore([researcher: researcher, qualis: qualis])
     def scoreController = new ResearcherScoreController()
     score.score = scoreController.CalculateScore(score)
     scoreController.save(score)
@@ -134,7 +134,7 @@ And(~/^The researcher of cpf "([^"]*)" has only one article: "([^"]*)" published
 When(~/^I ask the system for the score of the researcher of cpf "([^"]*)" in the qualis "([^"]*)"$/) { String cpf, String year ->
     def researcher = Researcher.findByCpf(cpf)
     def qualis = Qualis.findByDescription(year)
-    score = new ResearcherScore(researcher, qualis)
+    score = new ResearcherScore([reseacher: researcher, qualis: qualis])
     def scoreController = new ResearcherScoreController()
     score.articlesNotFound = scoreController.NotAvaliated(researcher.articles, qualis.avaliations)
     scoreController.save(score)
