@@ -108,47 +108,44 @@ class ResearcherScoreController {
         }
     }
 
-    /*
-    *   Receives a ReseacherScore from the .gsp view containing a Reseacher and a Qualis
-    *   and scanf throught every Article in the Researcher, counting the score their journal
-    *   has in the Qualis. Returns a String for the view to show the final score.
-    */
-    String CalculateScore(ResearcherScore researcherScoreInstance){
-        Set<Article> researcherArticles = researcherScoreInstance.researcher.articles;
-        Set<QualisAvaliation> qualisAvaliations =  researcherScoreInstance.qualis.avaliations;
-        def categoryPoints = [:];
-        for(int i = 0; i < researcherArticles.size(); ++i){
-            for(int j = 0; j < qualisAvaliations.size(); ++j){
-                if(researcherArticles[i].journal == qualisAvaliations[j].journal){
-                    if(categoryPoints.containsKey(qualisAvaliations[j].avaliation))
-                        categoryPoints[qualisAvaliations[j].avaliation]++;
+    def PointsPerCategory(def articles, def avaliations){
+        for(int i = 0; i < articles.size(); ++i){
+            for(int j = 0; j < avaliations.size(); ++j){
+                if(articles[i].journal == avaliations[j].journal){
+                    if(points.containsKey(avaliations[j].avaliation))
                     else
-                        categoryPoints.put(qualisAvaliations[j].avaliation, 1);
                 }
             }
         }
-        String score = "";
+        points
+    }
+
+    def CalculateScore(ResearcherScore researcherScoreInstance){
+        def researcherArticles = researcherScoreInstance.researcher.articles
+        def qualisAvaliations =  researcherScoreInstance.qualis.avaliations
+        def categoryPoints = PointsPerCategory(researcherArticles, qualisAvaliations)
+        def score = ""
         categoryPoints.each{
-            cp -> score += cp.key + ": " + cp.value + "; ";
+            cp -> score += cp.key + ": " + cp.value + "; "
         }
-        Set<Article> notAvaliated = NotAvaliated(researcherArticles, qualisAvaliations)
-        score += "Not Avaliated: " + notAvaliated.size() + ";";
+        def notAvaliated = NotAvaliated(researcherArticles, qualisAvaliations)
+        score += "Not Avaliated: " + notAvaliated.size() + ";"
         score
     }
 
-    Set<Article> NotAvaliated(Set<Article> researcherArticles, Set<QualisAvaliation> qualisAvaliations){
-        Boolean[] avaliated = new Boolean[researcherArticles.size()];
-        Set<Article> notAvaliated = new HashSet<Article>()
-        for(int i = 0; i < researcherArticles.size(); ++i){
-            for(int j = 0; j < qualisAvaliations.size(); ++j){
-                if(researcherArticles[i].journal == qualisAvaliations[j].journal){
-                    avaliated[i] = true;
+    def NotAvaliated(def articles, def avaliations){
+        def avaliated = new Boolean[articles.size()]
+        def notAvaliated = new HashSet<Article>()
+        for(int i = 0; i < articles.size(); ++i){
+            for(int j = 0; j < avaliations.size(); ++j){
+                if(articles[i].journal == avaliations[j].journal){
+                    avaliated[i] = true
                 }
             }
         }
-        for(int i = 0; i < researcherArticles.size(); ++i) {
+        for(int i = 0; i < articles.size(); ++i) {
             if (!avaliated[i]) {
-                notAvaliated.add(researcherArticles[i]);
+                notAvaliated.add(articles[i])
             }
         }
         notAvaliated
