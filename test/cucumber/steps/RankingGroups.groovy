@@ -4,16 +4,17 @@ import rpa.RankingGroupController
 import rpa.ResearchGroup
 import rpa.Researcher
 
+import cucumber.api.PendingException
+
 this.metaClass.mixin(cucumber.api.groovy.Hooks)
 this.metaClass.mixin(cucumber.api.groovy.EN)
-//import static cucumber.api.groovy.EN.*
 
-def group
+ResearchGroup group
 def ranking
 
 Given(~/^O grupo "([^"]*)" existe/){
     String groupName ->
-        ResearchGroup group = new ResearchGroup(groupName, [])
+        group = new ResearchGroup(groupName, [])
         group.save flush: true
 }
 
@@ -58,7 +59,7 @@ Given(~/^O grupo "([^"]*)" nao existe./) {
 }
 
 def error
-When(~/^E solicitado a listagem do grupo "([^"]*)"/) {
+When(~/^ solicitado a listagem do grupo "([^"]*)"/) {
     String groupName ->
         try {
             def controller = new RankingGroupController()
@@ -72,4 +73,25 @@ When(~/^E solicitado a listagem do grupo "([^"]*)"/) {
 Then(~/^E lancada uma excecao "([^"]*)"/) {
     String errorText
     assert error == errorText
+}
+
+
+Given(~/^Nao ha grupos cadastrados na base/) {
+
+}
+
+When(~/^E solicitado a listagem do ranking de grupos/) {
+
+}
+
+Then(~/^Aparece na tela uma mensagem de error/) {
+
+}
+
+When(~/^E solicitado a listagem do ranking do grupo "([^"]*)"/) {
+
+}
+
+Then(~/^Aparece na tela uma lista com o ranking dos pesquisadores/) {
+
 }
