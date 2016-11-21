@@ -27,6 +27,6 @@
       And I created the qualis "2015" with just an avaliation for "Atom"
       And I created the avaliation of the researcher of cpf "11111151111" in qualis "2015"
       And I am at the list of avaliations page
-      When I click to show the avaliation of researcher "11111151111"
+      When I ask to show the avaliation of researcher "11111151111"
       Then I am at the description page for the avaliation
       And I can see that "Science" journal wasn't scored

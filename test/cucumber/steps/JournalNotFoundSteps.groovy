@@ -136,7 +136,7 @@ And(~/^I am at the list of avaliations page$/) { ->
     to ListResearcherScorePage
     at ListResearcherScorePage
 }
-When(~/^I click to show the avaliation of researcher "([^"]*)"$/) { String cpf ->
+When(~/^I ask to show the avaliation of researcher "([^"]*)"$/) { String cpf ->
     page.Click(Researcher.findByCpf(cpf).name)
 }
 Then(~/^I am at the description page for the avaliation$/) { ->
