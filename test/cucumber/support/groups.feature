@@ -6,11 +6,11 @@ Scenario: Criar grupo de pesquisa novo
   When O sistema recebe uma submissao para adicionar o grupo "CIn" com uma lista de  participantes contendo "PauloBorba", "FernandoCastor" e o grupo de pesquisa "InteligenciaArtificialCIn"
   Then O sistema cria o grupo "CIn", com "PauloBorba", "FernandoCastor", "TeresaLudermir" e "PauloAdeodato" nele, no seu database
 
-Scenario: Criar grupo de pesquisa a partir de grupos de pesquisa
+Scenario: Criar grupo de pesquisa a partir de pesquisadores em outros grupos
   Given Eu estou na pagina de Criacao de Grupos
-  And Eu vejo os grupos "RealidadeAumentada", "EngenhariaDeSoftware" e "BiologiaComputacional"
-  And O pesquisador "VeronicaTeichrieb" pertence ao grupo "RealidadeAumentada"
-  And O pesquisador "FernandoCastor" pertence ao grupo "EngenhariaDeSoftware"
-  And O pesquisador "PauloSoares" pertence ao grupo "BiologiaComputacional"
-  When Eu seleciono a opcao de criar para o grupo "CIn" com os grupos  "RealidadeAumentada", "EngenhariaDeSoftware" e "BiologiaComputacional"
-  Then Eu vejo que o grupo "CIn" foi criado com os pesquisadores "VeronicaTeichrieb", "FernandoCastor" e "PauloSoares"
+  And O pesquisador "VeronicaTeichrieb" com o cpf "51111111111" pertence ao grupo "RealidadeAumentada"
+  And O pesquisador "FernandoCastor" com o cpf "51111111112" pertence ao grupo "EngenhariaDeSoftware"
+  And O pesquisador "PauloSoares" com o cpf "51111111113" pertence ao grupo "BiologiaComputacional"
+  And Eu vejo os pesquisadores "VeronicaTeichrieb", "FernandoCastor" e "PauloSoares"
+  When Eu seleciono a opcao de criar para o grupo "CInUFPE" com os pesquisadores  "VeronicaTeichrieb", "FernandoCastor" e "PauloSoares"
+  Then Eu vejo que o grupo "CInUFPE" foi criado com os pesquisadores "VeronicaTeichrieb", "FernandoCastor" e "PauloSoares"

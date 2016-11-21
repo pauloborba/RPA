@@ -1,6 +1,8 @@
 package cucumber.steps
 
 import pages.CreateGroupPage
+import pages.CreateResearcherPage
+import pages.GroupListPage
 import rpa.ResearchGroup
 import rpa.ResearchGroupController
 import rpa.Researcher
@@ -53,20 +55,44 @@ Given(~/^Eu estou na pagina de Criacao de Grupos$/) { ->
     at CreateGroupPage
 }
 
-And(~/^Eu vejo os grupos "([^"]*)", "([^"]*)" e "([^"]*)"$/) { String arg1, String arg2, String arg3 ->
+
+And(~/^O pesquisador "([^"]*)" com o cpf "([^"]*)" pertence ao grupo "([^"]*)"$/) { String arg1, String arg2, String arg3 ->
+    to CreateResearcherPage
+    at CreateResearcherPage
+    page.CreateNewResearcher(arg1, arg2)
+    def pesq = new Researcher[1]
+    pesq[0] = Researcher.findByName(arg1)
+    to CreateGroupPage
     at CreateGroupPage
-
-    //assert
+    assert page.CreateNewGroup(arg3, pesq)
+    assert ResearchGroup.findByName(arg3).researchers.contains(Researcher.findByName(arg1))
 }
 
-And(~/^O pesquisador "([^"]*)" pertence ao grupo "([^"]*)"$/) { String arg1, String arg2 ->
-    // Write code here that turns the phrase above into concrete actions
+And(~/^Eu vejo os pesquisadores "([^"]*)", "([^"]*)" e "([^"]*)"$/) { String arg1, String arg2, String arg3 ->
+    to CreateGroupPage
+    at CreateGroupPage
+    def p1 = Researcher.findByName(arg1)
+    def p2 = Researcher.findByName(arg2)
+    def p3 = Researcher.findByName(arg3)
+    assert page.ViewResearcher(arg1, p1.id)
+    assert page.ViewResearcher(arg2, p2.id)
+    assert page.ViewResearcher(arg3, p3.id)
 }
 
-When(~/^Eu seleciono a opcao de criar para o grupo "([^"]*)" com os grupos  "([^"]*)", "([^"]*)" e "([^"]*)"$/) { String arg1, String arg2, String arg3, String arg4 ->
-    // Write code here that turns the phrase above into concrete actions
+When(~/^Eu seleciono a opcao de criar para o grupo "([^"]*)" com os pesquisadores  "([^"]*)", "([^"]*)" e "([^"]*)"$/) { String arg1, String arg2, String arg3, String arg4 ->
+    def pesqs = new Researcher[3]
+    pesqs[0] = Researcher.findByName(arg2)
+    pesqs[1] = Researcher.findByName(arg3)
+    pesqs[2] = Researcher.findByName(arg4)
+    to CreateGroupPage
+    at CreateGroupPage
+    assert page.CreateNewGroup(arg1, pesqs)
 }
 
 Then(~/^Eu vejo que o grupo "([^"]*)" foi criado com os pesquisadores "([^"]*)", "([^"]*)" e "([^"]*)"$/) { String arg1, String arg2, String arg3, String arg4 ->
-    // Write code here that turns the phrase above into concrete actions
+    to GroupListPage
+    at GroupListPage
+    assert ResearchGroup.findByName(arg1).researchers.contains(Researcher.findByName(arg2))
+    assert ResearchGroup.findByName(arg1).researchers.contains(Researcher.findByName(arg3))
+    assert ResearchGroup.findByName(arg1).researchers.contains(Researcher.findByName(arg4))
 }

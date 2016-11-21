@@ -1,35 +1,35 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <testsuites>
-  <testsuite errors="0" failures="0" hostname="Valhalla" id="0" name="Desenvolver cenarios de criacao de grupos de pesquisadores atraves da selecao de pesquisadores e ou outros grupos" package="" tests="2" time="12.56" timestamp="2016-11-21T02:08:00">
+  <testsuite errors="0" failures="0" hostname="Valhalla" id="0" name="Desenvolver cenarios de criacao de grupos de pesquisadores atraves da selecao de pesquisadores e ou outros grupos" package="" tests="2" time="20.923" timestamp="2016-11-21T04:14:45">
       <properties />
 
-      <testcase classname="grails.plugin.cucumber.CucumberTest" name="Criar grupo de pesquisa novo" time="1.046" />
+      <testcase classname="grails.plugin.cucumber.CucumberTest" name="Criar grupo de pesquisa novo" time="0.937" />
 
-      <testcase classname="grails.plugin.cucumber.CucumberTest" name="Criar grupo de pesquisa a partir de grupos de pesquisa" time="10.866" />
+      <testcase classname="grails.plugin.cucumber.CucumberTest" name="Criar grupo de pesquisa a partir de pesquisadores em outros grupos" time="19.496" />
 
       <system-out><![CDATA[Feature: Desenvolver cenarios de criacao de grupos de pesquisadores atraves da selecao de pesquisadores e ou outros grupos
 
 --Output from Criar grupo de pesquisa novo--
---Output from Criar grupo de pesquisa a partir de grupos de pesquisa--
+--Output from Criar grupo de pesquisa a partir de pesquisadores em outros grupos--
   Scenario: Criar grupo de pesquisa novo                                                                                                                                                       # support/groups.feature:3
-    Given O sistema nao contem o grupo "CIn" cadastrado no seu database                                                                                                                        # GroupsSteps.groovy:16
-    And O grupo "InteligenciaArtificialCIn" contem "TeresaLudermir" e "PauloAdeodato"                                                                                                          # GroupsSteps.groovy:20
-    When O sistema recebe uma submissao para adicionar o grupo "CIn" com uma lista de  participantes contendo "PauloBorba", "FernandoCastor" e o grupo de pesquisa "InteligenciaArtificialCIn" # GroupsSteps.groovy:31
-    Then O sistema cria o grupo "CIn", com "PauloBorba", "FernandoCastor", "TeresaLudermir" e "PauloAdeodato" nele, no seu database                                                            # GroupsSteps.groovy:43
+    Given O sistema nao contem o grupo "CIn" cadastrado no seu database                                                                                                                        # GroupsSteps.groovy:18
+    And O grupo "InteligenciaArtificialCIn" contem "TeresaLudermir" e "PauloAdeodato"                                                                                                          # GroupsSteps.groovy:22
+    When O sistema recebe uma submissao para adicionar o grupo "CIn" com uma lista de  participantes contendo "PauloBorba", "FernandoCastor" e o grupo de pesquisa "InteligenciaArtificialCIn" # GroupsSteps.groovy:33
+    Then O sistema cria o grupo "CIn", com "PauloBorba", "FernandoCastor", "TeresaLudermir" e "PauloAdeodato" nele, no seu database                                                            # GroupsSteps.groovy:45
 
-  Scenario: Criar grupo de pesquisa a partir de grupos de pesquisa                                                                              # support/groups.feature:9
-    Given Eu estou na pagina de Criacao de Grupos                                                                                               # GroupsSteps.groovy:51
-    And Eu vejo os grupos "RealidadeAumentada", "EngenhariaDeSoftware" e "BiologiaComputacional"                                                # GroupsSteps.groovy:56
-    And O pesquisador "VeronicaTeichrieb" pertence ao grupo "RealidadeAumentada"                                                                # GroupsSteps.groovy:60
-    And O pesquisador "FernandoCastor" pertence ao grupo "EngenhariaDeSoftware"                                                                 # GroupsSteps.groovy:60
-    And O pesquisador "PauloSoares" pertence ao grupo "BiologiaComputacional"                                                                   # GroupsSteps.groovy:60
-    When Eu seleciono a opcao de criar para o grupo "CIn" com os grupos  "RealidadeAumentada", "EngenhariaDeSoftware" e "BiologiaComputacional" # GroupsSteps.groovy:64
-    Then Eu vejo que o grupo "CIn" foi criado com os pesquisadores "VeronicaTeichrieb", "FernandoCastor" e "PauloSoares"                        # GroupsSteps.groovy:68
+  Scenario: Criar grupo de pesquisa a partir de pesquisadores em outros grupos                                                            # support/groups.feature:9
+    Given Eu estou na pagina de Criacao de Grupos                                                                                         # GroupsSteps.groovy:53
+    And O pesquisador "VeronicaTeichrieb" com o cpf "51111111111" pertence ao grupo "RealidadeAumentada"                                  # GroupsSteps.groovy:59
+    And O pesquisador "FernandoCastor" com o cpf "51111111112" pertence ao grupo "EngenhariaDeSoftware"                                   # GroupsSteps.groovy:59
+    And O pesquisador "PauloSoares" com o cpf "51111111113" pertence ao grupo "BiologiaComputacional"                                     # GroupsSteps.groovy:59
+    And Eu vejo os pesquisadores "VeronicaTeichrieb", "FernandoCastor" e "PauloSoares"                                                    # GroupsSteps.groovy:71
+    When Eu seleciono a opcao de criar para o grupo "CInUFPE" com os pesquisadores  "VeronicaTeichrieb", "FernandoCastor" e "PauloSoares" # GroupsSteps.groovy:82
+    Then Eu vejo que o grupo "CInUFPE" foi criado com os pesquisadores "VeronicaTeichrieb", "FernandoCastor" e "PauloSoares"              # GroupsSteps.groovy:92
 ]]></system-out>
 
       <system-err><![CDATA[
 --Output from Criar grupo de pesquisa novo--
---Output from Criar grupo de pesquisa a partir de grupos de pesquisa--]]></system-err>
+--Output from Criar grupo de pesquisa a partir de pesquisadores em outros grupos--]]></system-err>
 
   </testsuite>
 </testsuites>
