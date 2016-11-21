@@ -5,19 +5,64 @@ import pages.CreateQualisAvaliationPage
 import pages.VisualizationAvaliationPage
 import rpa.Article
 import grails.test.GrailsUnitTestCase
+import rpa.ArticleController
 import rpa.Avaliation
 import rpa.AvaliationController
 import rpa.Qualis
+import rpa.QualisAvaliationController
+import rpa.QualisController
 import rpa.Researcher
 import rpa.QualisAvaliation
+import rpa.ResearcherController
 import pages.CreateAvaliationPage
 import pages.CreateArticlePage
 import pages.CreateQualisPage
 import pages.CreateResearcherPage
 import pages.CreateAvaliationPage
 
+
 this.metaClass.mixin(cucumber.api.groovy.Hooks)
 this.metaClass.mixin(cucumber.api.groovy.EN)
+
+def createArticle(title, journal, issn, controller){
+
+    Article a = new Article([tittle: title, journal: journal, issn: issn])
+    controller.save(a)
+    controller.response.reset()
+
+    a
+
+}
+
+def createQualisAvaliation(journal, avaliation, controller){
+
+    QualisAvaliation qualisAvaliation = new QualisAvaliation([journal: journal, avaliation: avaliation])
+    controller.save(qualisAvaliation)
+    controller.response.reset()
+
+    qualisAvaliation
+
+}
+
+def createQualis(year, avaliations, controller){
+
+    Qualis qualis = new Qualis([year: year, avaliations: avaliations])
+    controller.save(qualis)
+    controller.response.reset()
+
+    qualis
+
+}
+
+def createAvaliation(researcher, qualis, controller){
+
+    Avaliation avaliation = new Avaliation([researcher: researcher, qualis:qualis])
+    controller.save(avaliation)
+    controller.response.reset()
+
+    avaliation
+}
+
 
 //GUI
 Given(~/^eu estou na pagina de avaliacao de notas e a pesquisadora "([^"]*)" e o qualis "([^"]*)" estao cadastrados$/) { String researcher, String qualis ->
@@ -56,62 +101,62 @@ Then(~/^eh mostrado na tela uma lista com a quantidade de publicacoes que a pesq
 //CONTROLLER
 
 Given(~/^o pesquisador cadastrado "([^"]*)" possui publicacoes "([^"]*)", "([^"]*)" e "([^"]*)" nos periodicos "([^"]*)", "([^"]*)" e "([^"]*)" respectivamente$/) { String researcher, String publication1, String publication2, String publication3, String journal1, String journal2, String journal3 ->
-    Article a1 = new Article([tittle: publication1, journal: journal1, issn: "10"])
-    Article a2 = new Article([tittle: publication2, journal: journal2, issn: "11"])
-    Article a3 = new Article([tittle: publication3, journal: journal3, issn: "12"])
+    def Articles = new Article[3]
+    def ArticleController = new ArticleController()
 
-    Set<Article> listArticles = new HashSet<Article>();
-    listArticles.add(a1)
-    listArticles.add(a2)
-    listArticles.add(a3)
+    Articles[0] = createArticle(publication1, journal1, "10", ArticleController)
+    Articles[1] = createArticle(publication2, journal2, "11", ArticleController)
+    Articles[2] = createArticle(publication3, journal3, "12", ArticleController)
 
-    a1.save flush: true
-    a2.save flush: true
-    a3.save flush: true
+    Researcher r = new Researcher([name: researcher, cpf: "00011122233", articles: Articles])
 
-    Researcher r = new Researcher([name: researcher, cpf: "00011122233", articles: listArticles])
-    r.save flush: true
+    def ResearcherController = new ResearcherController()
+    ResearcherController.save(r)
+    ResearcherController.response.reset()
 
 }
 And(~/^o sistema contem o qualis "([^"]*)" com a nota "([^"]*)" para a publicacao "([^"]*)" e o qualis "([^"]*)" com a nota "([^"]*)" para as publicacoes "([^"]*)" e "([^"]*)"$/) { String qualis1, String score1, String publication1, String qualis2, String score2, String publication2, String publication3 ->
-    QualisAvaliation qAvaliation1 = new QualisAvaliation([journal: publication1, avaliation: score1])
-    QualisAvaliation qAvaliation2 = new QualisAvaliation([journal: publication2, avaliation: score2])
-    QualisAvaliation qAvaliation3 = new QualisAvaliation([journal: publication3, avaliation: score2])
+    def qualisAvaliation = new QualisAvaliation[1]
+    def qualisAvaliation2 = new QualisAvaliation[2]
+    def qualisAvaliationController = new QualisAvaliationController()
 
-    Set<QualisAvaliation> listQualisAvaliation = new HashSet<QualisAvaliation>()
-    listQualisAvaliation.add(qAvaliation1)
+//    Set<QualisAvaliation> listQualisAvaliation = new HashSet<QualisAvaliation>()
+//    listQualisAvaliation.add(qAvaliation1)
+//
+//    Set<QualisAvaliation> list2QualisAvaliation = new HashSet<QualisAvaliation>()
+//    list2QualisAvaliation.add(qAvaliation2)
+//    list2QualisAvaliation.add(qAvaliation3)
 
-    Set<QualisAvaliation> list2QualisAvaliation = new HashSet<QualisAvaliation>()
-    list2QualisAvaliation.add(qAvaliation2)
-    list2QualisAvaliation.add(qAvaliation3)
+    qualisAvaliation[0] = createQualisAvaliation(publication1, score1, qualisAvaliationController)
+    qualisAvaliation2[0] = createQualisAvaliation(publication2, score2, qualisAvaliationController)
+    qualisAvaliation2[1] = createQualisAvaliation(publication3, score2, qualisAvaliationController)
 
-    qAvaliation1.save flush: true
-    qAvaliation2.save flush: true
-    qAvaliation3.save flush: true
 
-    Qualis q1 = new Qualis([year: qualis1, avaliations: listQualisAvaliation])
-    Qualis q2 = new Qualis([year: qualis2, avaliations: list2QualisAvaliation])
+    def qualisController = new QualisController()
+    createQualis(qualis1, qualisAvaliation, qualisController)
+    createQualis(qualis2, qualisAvaliation2, qualisController)
 
-    q1.save flush: true
-    q2.save flush: true
+//    Qualis q1 = new Qualis([year: qualis1, avaliations: listQualisAvaliation])
+//    Qualis q2 = new Qualis([year: qualis2, avaliations: list2QualisAvaliation])
+//
+//    q1.save flush: true
+//    q2.save flush: true
 
 }
 When(~/^o sistema recebe a solicitacao de avaliar o pesquisador "([^"]*)" pelo qualis "([^"]*)" e "([^"]*)"$/) { String researcher, String qualis1, String qualis2 ->
 
-    Avaliation av1 = new Avaliation([researcher: Researcher.findByName(researcher), qualis: Qualis.findByYear(qualis1)])
-    Avaliation av2 = new Avaliation([researcher: Researcher.findByName(researcher), qualis: Qualis.findByYear(qualis2)])
+    def AvaliationController = new AvaliationController()
 
-    AvaliationController controller = new AvaliationController()
-    av1.categoryPoints = controller.CalculateScore(av1)
-    av2.categoryPoints = controller.CalculateScore(av2)
+    Avaliation av1 = createAvaliation(Researcher.findByName(researcher), Qualis.findByYear(qualis1), AvaliationController)
+    Avaliation av2 = createAvaliation(Researcher.findByName(researcher), Qualis.findByYear(qualis2), AvaliationController)
 
-    av1.save flush: true
-    av2.save flush: true
+    av1.categoryPoints = AvaliationController.CalculateScore(av1)
+    av2.categoryPoints = AvaliationController.CalculateScore(av2)
+    
 }
 
 Then(~/^o sistema retorna uma lista com a quantidade de publicacoes que o pesquisador "([^"]*)" tem por nota "([^"]*)" no qualis "([^"]*)"$/) { String researcher, String list, String qualis ->
     Avaliation av1 = Avaliation.findByResearcherAndQualis(Researcher.findByName(researcher), Qualis.findByYear(qualis))
-
     assert(av1.categoryPoints.equalsIgnoreCase(list))
 }
 
