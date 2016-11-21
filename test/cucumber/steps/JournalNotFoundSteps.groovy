@@ -13,46 +13,69 @@ import pages.CreateQualisEvaluationPage
 import pages.CreateQualisPage
 import pages.ShowResearcherScorePage
 import pages.ListResearcherScorePage
+import rpa.QualisEvaluationController
+import rpa.QualisController
+import rpa.ArticleController
+import rpa.ResearcherController
 
 this.metaClass.mixin(cucumber.api.groovy.Hooks)
 this.metaClass.mixin(cucumber.api.groovy.EN)
 
 ResearcherScore score
 
+def CreateQualisEvaluation(controller, journal, evaluation){
+    def qe = new QualisEvaluation([journal: journal, avaliation: evaluation])
+    controller.save(qe)
+    controller.response.reset()
+    qe
+}
 
+def CreateQualis(controller, year, evaluations){
+    def qualis = new Qualis([description: year, avaliations: evaluations])
+    controller.save(qualis)
+    controller.response.reset()
+    qualis
+}
+
+def CreateArticle(controller, name, journal, issn){
+    def article = new Article([tittle: name , journal: journal, issn: issn])
+    controller.save(article)
+    controller.response.reset()
+    article
+}
+
+def CreateResearcher(controller, name, cpf, articles){
+    def researcher = new Researcher([name: name, cpf: cpf, articles: articles])
+    controller.save(researcher)
+    controller.response.reset()
+    researcher
+}
 
 Given(~/^the qualis "([^"]*)" has avaliations for the journals entitled "([^"]*)", "([^"]*)" and "([^"]*)"$/) { String year, String journal1, String journal2, String journal3 ->
-    QualisEvaluation av1 = new QualisEvaluation(journal1, "A1")
-    QualisEvaluation av2 = new QualisEvaluation(journal2, "B2")
-    QualisEvaluation av3 = new QualisEvaluation(journal3, "D1")
-    Set<QualisEvaluation> avs = new HashSet<QualisEvaluation>()
-    avs.add(av1)
-    avs.add(av2)
-    avs.add(av3)
-    av1.save flush:true
-    av2.save flush:true
-    av3.save flush:true
-    Qualis qualis = new Qualis(year, avs)
-    qualis.save flush:true
+    def evaluations = new QualisEvaluation[3]
+    def qeController = new QualisEvaluationController()
+    evaluations[0] = CreateQualisEvaluation(qeController, journal1, "A1")
+    evaluations[1] = CreateQualisEvaluation(qeController, journal2, "B2")
+    evaluations[2] = CreateQualisEvaluation(qeController, journal3, "D1")
+    def qController = new QualisController()
+    CreateQualis(qController, year, evaluations)
 }
 And(~/^the researcher of cpf "([^"]*)" has only two articles: "([^"]*)" published at "([^"]*)" and "([^"]*)" published at "([^"]*)"$/) { String cpf, String article1, String journal1, String article2, String journal2 ->
-    Article a1 = new Article(article1, journal1, "TesteISSN")
-    Article a2 = new Article(article2, journal2, "TesteISSN")
-    Set<Article> aSet = new HashSet<Article>();
-    aSet.add(a1)
-    aSet.add(a2)
-    a1.save flush:true
-    a2.save flush:true
-    Researcher researcher = new Researcher("Higor Botelho", cpf, aSet)
-    researcher.save flush:true
+    def articles = new Article[2]
+    def aController = new ArticleController()
+    articles[0] = CreateArticle(aController, article1, journal1, "TesteISSN1")
+    articles[1] = CreateArticle(aController, article2, journal2, "TesteISSN2")
+    def rController = new ResearcherController()
+    CreateResearcher(rController, "Higor Botelho", cpf, articles)
 }
 When(~/^I ask for the score of cpf "([^"]*)" in the qualis "([^"]*)"$/) { String cpf, String year ->
-    Researcher researcher = Researcher.findByCpf(cpf)
-    Qualis qualis = Qualis.findByDescription(year)
+    def researcher = Researcher.findByCpf(cpf)
+    def qualis = Qualis.findByDescription(year)
     score = new ResearcherScore(researcher, qualis)
-    ResearcherScoreController scoreController = new ResearcherScoreController()
+    def scoreController = new ResearcherScoreController()
     score.score = scoreController.CalculateScore(score)
-    score.save flush:true
+    scoreController.save(score)
+    scoreController.response.reset()
 }
 Then(~/^The system creates a string saying that "([^"]*)" article wasn't scored because its jornal wasn't found$/) { String number ->
     String cmp1 = "Not Avaliated: " + number + ";"
@@ -89,34 +112,33 @@ Then(~/^I should see that "([^"]*)" article wasn't scored$/) { String arg1 ->
     page.Showing()
 }
 Given(~/^The qualis "([^"]*)" has no evaluations for the journal "([^"]*)"$/) { String year, String journal ->
-    QualisEvaluation av1 = new QualisEvaluation("Just Another Journal", "A1")
-    Set<QualisEvaluation> avs = new HashSet<QualisEvaluation>()
-    avs.add(av1)
-    av1.save flush:true
-    Qualis qualis = new Qualis(year, avs)
-    qualis.save flush:true
+    def evaluations = new QualisEvaluation[1]
+    def qeController = new QualisEvaluationController()
+    evaluations[0] = CreateQualisEvaluation(qeController, "Just Another Journal", "A1")
+    def qController = new QualisController()
+    def qualis = CreateQualis(qController, year, evaluations)
     boolean hasJournal = false;
     qualis.avaliations.each{ if(it.journal == journal) hasJournal = true}
     assert !hasJournal
 }
 And(~/^The researcher of cpf "([^"]*)" has only one article: "([^"]*)" published at "([^"]*)"$/) { String cpf, String article, String journal ->
-    Article a1 = new Article(article, journal, "TesteISSN")
-    Set<Article> aSet = new HashSet<Article>();
-    aSet.add(a1)
-    a1.save flush:true
-    Researcher researcher = new Researcher("Higor Botelho", cpf, aSet)
-    researcher.save flush:true
+    def articles = new Article[1]
+    def aController = new ArticleController()
+    articles[0] = CreateArticle(aController, article, journal, "TesteISSN")
+    def rController = new ResearcherController()
+    def researcher = CreateResearcher(rController, "Higor Botelho", cpf, articles)
     boolean hasAnotherArticle = false;
     researcher.articles.each {if(it.tittle != article) hasAnotherArticle = true}
     assert !hasAnotherArticle
 }
 When(~/^I ask the system for the score of the researcher of cpf "([^"]*)" in the qualis "([^"]*)"$/) { String cpf, String year ->
-    Researcher researcher = Researcher.findByCpf(cpf)
-    Qualis qualis = Qualis.findByDescription(year)
+    def researcher = Researcher.findByCpf(cpf)
+    def qualis = Qualis.findByDescription(year)
     score = new ResearcherScore(researcher, qualis)
-    ResearcherScoreController scoreController = new ResearcherScoreController()
+    def scoreController = new ResearcherScoreController()
     score.articlesNotFound = scoreController.NotAvaliated(researcher.articles, qualis.avaliations)
-    score.save flush:true
+    scoreController.save(score)
+    scoreController.response.reset()
 }
 Then(~/^The system also creates a list of articles not found containing only "([^"]*)"$/) { String article ->
     boolean hasArticle = false;
