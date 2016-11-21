@@ -13,7 +13,7 @@
     Scenario: to list the journal of a researcher article that wasn't found in qualis
       Given The qualis "2013" has no evaluations for the journal "Nature"
       And The researcher of cpf "11111111111" has only one article: "The Future of Computers" published at "Nature"
-      When The system create a score for the reseacher of cpf "11111111111" in the qualis "2013"
+      When I ask the system for the score of the researcher of cpf "11111111111" in the qualis "2013"
       Then The system also creates a list of articles not found containing only "The Future of Computers"
 
     Scenario: article of a researcher not avaliated

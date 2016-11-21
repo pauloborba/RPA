@@ -110,7 +110,7 @@ And(~/^The researcher of cpf "([^"]*)" has only one article: "([^"]*)" published
     researcher.articles.each {if(it.tittle != article) hasAnotherArticle = true}
     assert !hasAnotherArticle
 }
-When(~/^The system create a score for the reseacher of cpf "([^"]*)" in the qualis "([^"]*)"$/) { String cpf, String year ->
+When(~/^I ask the system for the score of the researcher of cpf "([^"]*)" in the qualis "([^"]*)"$/) { String cpf, String year ->
     Researcher researcher = Researcher.findByCpf(cpf)
     Qualis qualis = Qualis.findByDescription(year)
     score = new ResearcherScore(researcher, qualis)
