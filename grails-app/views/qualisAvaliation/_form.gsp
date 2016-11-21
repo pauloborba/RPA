@@ -1,4 +1,4 @@
-<%@ page import="rpa.QualisAvaliation" %>
+<%@ page import="rpa.QualisEvaluation" %>
 
 
 

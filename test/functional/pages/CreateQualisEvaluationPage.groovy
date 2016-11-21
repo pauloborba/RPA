@@ -2,11 +2,11 @@ package pages
 
 import geb.Page
 
-class CreateQualisAvaliationPage extends Page{
+class CreateQualisEvaluationPage extends Page{
     static url ="/RPA/qualisAvaliation/create/"
 
     static at = {
-        title ==~ /Criar QualisAvaliation/
+        title ==~ /Criar QualisEvaluation/
     }
 
     boolean CreateAvaliation(String journalName, String av){

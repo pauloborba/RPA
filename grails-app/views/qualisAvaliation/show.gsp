@@ -1,10 +1,10 @@
 
-<%@ page import="rpa.QualisAvaliation" %>
+<%@ page import="rpa.QualisEvaluation" %>
 <!DOCTYPE html>
 <html>
 	<head>
 		<meta name="layout" content="main">
-		<g:set var="entityName" value="${message(code: 'qualisAvaliation.label', default: 'QualisAvaliation')}" />
+		<g:set var="entityName" value="${message(code: 'qualisAvaliation.label', default: 'QualisEvaluation')}" />
 		<title><g:message code="default.show.label" args="[entityName]" /></title>
 	</head>
 	<body>

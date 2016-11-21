@@ -1,16 +1,15 @@
 package steps
 
-import cucumber.api.PendingException
 import rpa.ResearcherScore
 import rpa.ResearcherScoreController
 import rpa.Researcher
 import rpa.Qualis
-import rpa.QualisAvaliation
+import rpa.QualisEvaluation
 import rpa.Article
 import pages.CreateArticlePage
 import pages.CreateResearcherPage
 import pages.CreateResearcherScorePage
-import pages.CreateQualisAvaliationPage
+import pages.CreateQualisEvaluationPage
 import pages.CreateQualisPage
 import pages.ShowResearcherScorePage
 import pages.ListResearcherScorePage
@@ -20,11 +19,13 @@ this.metaClass.mixin(cucumber.api.groovy.EN)
 
 ResearcherScore score
 
+
+
 Given(~/^the qualis "([^"]*)" has avaliations for the journals entitled "([^"]*)", "([^"]*)" and "([^"]*)"$/) { String year, String journal1, String journal2, String journal3 ->
-    QualisAvaliation av1 = new QualisAvaliation(journal1, "A1")
-    QualisAvaliation av2 = new QualisAvaliation(journal2, "B2")
-    QualisAvaliation av3 = new QualisAvaliation(journal3, "D1")
-    Set<QualisAvaliation> avs = new HashSet<QualisAvaliation>()
+    QualisEvaluation av1 = new QualisEvaluation(journal1, "A1")
+    QualisEvaluation av2 = new QualisEvaluation(journal2, "B2")
+    QualisEvaluation av3 = new QualisEvaluation(journal3, "D1")
+    Set<QualisEvaluation> avs = new HashSet<QualisEvaluation>()
     avs.add(av1)
     avs.add(av2)
     avs.add(av3)
@@ -69,13 +70,13 @@ Given(~/^I created the reseacher of cpf "([^"]*)" with just an article published
     page.CreateResearcher(cpf, h)
 }
 And(~/^I created the qualis "([^"]*)" with just an avaliation for "([^"]*)"$/) { String year, String journal ->
-    to CreateQualisAvaliationPage
-    at CreateQualisAvaliationPage
+    to CreateQualisEvaluationPage
+    at CreateQualisEvaluationPage
     page.CreateAvaliation(journal, "B2")
     to CreateQualisPage
     at CreateQualisPage
-    Set<QualisAvaliation> h = new HashSet<QualisAvaliation>()
-    h.add(QualisAvaliation.findByJournal(journal))
+    Set<QualisEvaluation> h = new HashSet<QualisEvaluation>()
+    h.add(QualisEvaluation.findByJournal(journal))
     page.CreateQualis(year, h)
 }
 When(~/^I ask to create the avaliation of the researcher of cpf "([^"]*)" in qualis "([^"]*)"$/) { String cpf, String year ->
@@ -88,8 +89,8 @@ Then(~/^I should see that "([^"]*)" article wasn't scored$/) { String arg1 ->
     page.Showing()
 }
 Given(~/^The qualis "([^"]*)" has avaliations no avaliation for the journal "([^"]*)"$/) { String year, String journal ->
-    QualisAvaliation av1 = new QualisAvaliation("Just Another Journal", "A1")
-    Set<QualisAvaliation> avs = new HashSet<QualisAvaliation>()
+    QualisEvaluation av1 = new QualisEvaluation("Just Another Journal", "A1")
+    Set<QualisEvaluation> avs = new HashSet<QualisEvaluation>()
     avs.add(av1)
     av1.save flush:true
     Qualis qualis = new Qualis(year, avs)

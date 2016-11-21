@@ -1,6 +1,6 @@
 package rpa
 
-class QualisAvaliation {
+class QualisEvaluation {
     String journal
     String avaliation
 
@@ -9,7 +9,7 @@ class QualisAvaliation {
         avaliation(nullable: false, blank: false)
     }
 
-    QualisAvaliation(String journal, String avaliation){
+    QualisEvaluation(String journal, String avaliation){
         this.journal = journal
         this.avaliation = avaliation
     }

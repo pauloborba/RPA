@@ -16,7 +16,7 @@
 		<g:message code="qualis.avaliations.label" default="Avaliations" />
 		
 	</label>
-	<g:select name="avaliations" from="${rpa.QualisAvaliation.list()}" multiple="multiple" optionKey="id" size="5" value="${qualisInstance?.avaliations*.id}" class="many-to-many"/>
+	<g:select name="avaliations" from="${rpa.QualisEvaluation.list()}" multiple="multiple" optionKey="id" size="5" value="${qualisInstance?.avaliations*.id}" class="many-to-many"/>
 
 </div>
 

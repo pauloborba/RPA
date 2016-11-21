@@ -12,19 +12,19 @@ class QualisAvaliationController {
 
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
-        respond QualisAvaliation.list(params), model:[qualisAvaliationInstanceCount: QualisAvaliation.count()]
+        respond QualisEvaluation.list(params), model:[qualisAvaliationInstanceCount: QualisEvaluation.count()]
     }
 
-    def show(QualisAvaliation qualisAvaliationInstance) {
+    def show(QualisEvaluation qualisAvaliationInstance) {
         respond qualisAvaliationInstance
     }
 
     def create() {
-        respond new QualisAvaliation(params)
+        respond new QualisEvaluation(params)
     }
 
     @Transactional
-    def save(QualisAvaliation qualisAvaliationInstance) {
+    def save(QualisEvaluation qualisAvaliationInstance) {
         if (qualisAvaliationInstance == null) {
             notFound()
             return
@@ -39,19 +39,19 @@ class QualisAvaliationController {
 
         request.withFormat {
             form multipartForm {
-                flash.message = message(code: 'default.created.message', args: [message(code: 'qualisAvaliation.label', default: 'QualisAvaliation'), qualisAvaliationInstance.id])
+                flash.message = message(code: 'default.created.message', args: [message(code: 'qualisAvaliation.label', default: 'QualisEvaluation'), qualisAvaliationInstance.id])
                 redirect qualisAvaliationInstance
             }
             '*' { respond qualisAvaliationInstance, [status: CREATED] }
         }
     }
 
-    def edit(QualisAvaliation qualisAvaliationInstance) {
+    def edit(QualisEvaluation qualisAvaliationInstance) {
         respond qualisAvaliationInstance
     }
 
     @Transactional
-    def update(QualisAvaliation qualisAvaliationInstance) {
+    def update(QualisEvaluation qualisAvaliationInstance) {
         if (qualisAvaliationInstance == null) {
             notFound()
             return
@@ -66,7 +66,7 @@ class QualisAvaliationController {
 
         request.withFormat {
             form multipartForm {
-                flash.message = message(code: 'default.updated.message', args: [message(code: 'QualisAvaliation.label', default: 'QualisAvaliation'), qualisAvaliationInstance.id])
+                flash.message = message(code: 'default.updated.message', args: [message(code: 'QualisEvaluation.label', default: 'QualisEvaluation'), qualisAvaliationInstance.id])
                 redirect qualisAvaliationInstance
             }
             '*'{ respond qualisAvaliationInstance, [status: OK] }
@@ -74,7 +74,7 @@ class QualisAvaliationController {
     }
 
     @Transactional
-    def delete(QualisAvaliation qualisAvaliationInstance) {
+    def delete(QualisEvaluation qualisAvaliationInstance) {
 
         if (qualisAvaliationInstance == null) {
             notFound()
@@ -85,7 +85,7 @@ class QualisAvaliationController {
 
         request.withFormat {
             form multipartForm {
-                flash.message = message(code: 'default.deleted.message', args: [message(code: 'QualisAvaliation.label', default: 'QualisAvaliation'), qualisAvaliationInstance.id])
+                flash.message = message(code: 'default.deleted.message', args: [message(code: 'QualisEvaluation.label', default: 'QualisEvaluation'), qualisAvaliationInstance.id])
                 redirect action:"index", method:"GET"
             }
             '*'{ render status: NO_CONTENT }
@@ -95,7 +95,7 @@ class QualisAvaliationController {
     protected void notFound() {
         request.withFormat {
             form multipartForm {
-                flash.message = message(code: 'default.not.found.message', args: [message(code: 'qualisAvaliation.label', default: 'QualisAvaliation'), params.id])
+                flash.message = message(code: 'default.not.found.message', args: [message(code: 'qualisAvaliation.label', default: 'QualisEvaluation'), params.id])
                 redirect action: "index", method: "GET"
             }
             '*'{ render status: NOT_FOUND }

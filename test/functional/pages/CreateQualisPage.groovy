@@ -1,7 +1,7 @@
 package pages
 
 import geb.Page
-import rpa.QualisAvaliation
+import rpa.QualisEvaluation
 
 class CreateQualisPage extends Page{
     static url = "/RPA/qualis/create/"
@@ -10,7 +10,7 @@ class CreateQualisPage extends Page{
         title ==~ /Criar Qualis/
     }
 
-    boolean CreateQualis(String qualisYear, Set<QualisAvaliation> avs){
+    boolean CreateQualis(String qualisYear, Set<QualisEvaluation> avs){
         $("form").year = qualisYear
         $("form").avaliations = avs
         $("input", name:"create").click()

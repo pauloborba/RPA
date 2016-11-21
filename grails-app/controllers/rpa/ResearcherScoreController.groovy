@@ -109,11 +109,14 @@ class ResearcherScoreController {
     }
 
     def PointsPerCategory(def articles, def avaliations){
+        def points = [:]
         for(int i = 0; i < articles.size(); ++i){
             for(int j = 0; j < avaliations.size(); ++j){
                 if(articles[i].journal == avaliations[j].journal){
                     if(points.containsKey(avaliations[j].avaliation))
+                        points[avaliations[j].avaliation]++
                     else
+                        points.put(avaliations[j].avaliation, 1)
                 }
             }
         }
