@@ -1,8 +1,8 @@
 package pages
 
-import com.sun.org.apache.xml.internal.security.utils.I18n
 import geb.Page
 import org.openqa.selenium.WebElement
+import rpa.UpdateType
 
 class ShowReseacherPage extends Page {
     static url = "/RPA/researcher/show/"
@@ -39,22 +39,22 @@ class ShowReseacherPage extends Page {
                 $("div", class: "message").text() == "The researcher was successfully saved"
     }
 
-    def findDiff(String title, int type){
-        def listDiff = $("span", class:"diff").allElements()
-        for(diff in listDiff){
-            if(type == 1){
-                if(diff.getText() == "O artigo "+title+" foi adicionado" ||
-                        diff.getText() == "The article "+title+" was added" ){
+    def findUpdateLattes(String title, UpdateType type){
+        def listUpdateLattes = $("span", class:"updateLattes").allElements()
+        for(updateLattes in listUpdateLattes){
+            if(type == UpdateType.ADD_ARTICLE){
+                if(updateLattes.getText() == "O artigo "+title+" foi adicionado" ||
+                        updateLattes.getText() == "The article "+title+" was added" ){
                     return true
                 }
-            }else if(type == 2){
-                if(diff.getText() == "O artigo "+title+" foi removido" ||
-                        diff.getText() == "The article "+title+" was removed" ){
+            }else if(type == UpdateType.REMOVE_ARTICLE){
+                if(updateLattes.getText() == "O artigo "+title+" foi removido" ||
+                        updateLattes.getText() == "The article "+title+" was removed" ){
                     return true
                 }
             }else{
-                if(diff.getText() == "O nome do pesquisador foi atualizado" ||
-                        diff.getText() == "The name of reseacher was updated" ){
+                if(updateLattes.getText() == "O nome do pesquisador foi atualizado" ||
+                        updateLattes.getText() == "The name of reseacher was updated" ){
                     return true
                 }
             }

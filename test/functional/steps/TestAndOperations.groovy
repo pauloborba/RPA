@@ -2,9 +2,10 @@ package steps
 
 import rpa.Article
 import rpa.ResearcherController
+import rpa.UpdateType
 import rpa.XmlExtractorService
 import rpa.Researcher
-import rpa.Diff
+import rpa.UpdateLattes
 
 import org.codehaus.groovy.grails.plugins.testing.GrailsMockMultipartFile
 
@@ -63,7 +64,7 @@ class TestAndOperations {
         return a.title == title && a.journal == journal && a.issn == issn
     }
 
-    static public boolean compareDiff(Diff d, String attributeOld, String attributeNew, int typeDiff){
-        return d.attributeOld == attributeOld && d.typeDiff == typeDiff && d.attributeNew == attributeNew
+    static public boolean compareUpdateLattes(UpdateLattes d, String attribute, UpdateType typeUpdate){
+        return d.attribute == attribute && d.typeUpdate == typeUpdate
     }
 }

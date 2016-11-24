@@ -3,23 +3,11 @@ package rpa
 class Researcher {
     String name
     String cpf
-    static hasMany = [articles:Article, diffs:Diff]
-
-    def beforeUpdate() {
-        //Esse callback nao estava funcionando para os articles
-        if(isDirty('name')){
-            Diff diff = new Diff()
-            diff.attributeNew = this.name
-            diff.attributeOld = this.getPersistentValue('name')
-            diff.typeDiff = 3
-            this.addToDiffs(diff)
-        }
-        return true
-    }
+    static hasMany = [articles:Article, updates:UpdateLattes]
 
     Researcher(){
         articles = []
-        diffs = []
+        updates = []
     }
 
     static constraints = {
@@ -28,14 +16,12 @@ class Researcher {
     }
 
     def update(Researcher newResearcher){
-
         if(!newResearcher.validate(validatesWithoutCpf())){
             return null
         }
 
-        this.name = newResearcher.name
-        addNewArticle(newResearcher)
-        removeUnusedArticle(newResearcher)
+        addNewArticleFromUpdate(newResearcher)
+        removeArticleFromUpdate(newResearcher)
         this.save(flush: true)
     }
 
@@ -48,7 +34,7 @@ class Researcher {
         allButExcluded
     }
 
-    private void removeUnusedArticle(Researcher newResearcher) {
+    private void removeArticleFromUpdate(Researcher newResearcher) {
         def articlesToRemove = []
         for (oldArticle in this.articles) {
             boolean isSame = false
@@ -59,7 +45,7 @@ class Researcher {
                 }
             }
             if (!isSame) {
-                this.addToDiffs(new Diff(oldArticle.tittle, null,2 ,this))
+                this.addToUpdates(new UpdateLattes(oldArticle.title,UpdateType.REMOVE_ARTICLE ,this))
                 articlesToRemove << oldArticle
             }
         }
@@ -69,7 +55,7 @@ class Researcher {
         }
     }
 
-    private void addNewArticle(Researcher newResearcher) {
+    private void addNewArticleFromUpdate(Researcher newResearcher) {
         for (nArticle in newResearcher.articles) {
             boolean isSame = false
             for (oldArticle in this.articles) {
@@ -80,7 +66,7 @@ class Researcher {
             }
             if (!isSame) {
                 this.addToArticles(nArticle)
-                this.addToDiffs(new Diff(nArticle.tittle, null, 1, this))
+                this.addToUpdates(new UpdateLattes(nArticle.title, UpdateType.ADD_ARTICLE, this))
             }
         }
     }

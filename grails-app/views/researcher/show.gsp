@@ -1,4 +1,4 @@
-
+<%@ page import="rpa.UpdateType" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
@@ -49,19 +49,16 @@
                     </g:each>
                 </li>
             </g:if>
-            <g:if test="${researcherInstance?.diffs && researcherInstance.diffs.size() >= 1}">
-                <li class="fieldcontain"><span class="property-label"><g:message code="diffs.label" default="Diffs"/></span><br/>
-                    <ol class="list diffs">
-                        <g:each status="i" var="it" in="${researcherInstance?.diffs}">
+            <g:if test="${researcherInstance?.updates && researcherInstance.updates.size() >= 1}">
+                <li class="fieldcontain"><span class="property-label"><g:message code="updatesLattes.label" default="Atualizações"/></span><br/>
+                    <ol class="list updatesLattes">
+                        <g:each status="i" var="it" in="${researcherInstance?.updates}">
                             <li class="fieldcontain">
-                                <g:if test="${it.typeDiff == 1}">
-                                    <span id="diff-value${i}" class="diff property-value" ><g:message code="diff.added" args="${[it.attributeOld]}" default="O artigo ${it.attributeOld} foi adicionado"/></span>
+                                <g:if test="${it.typeUpdate == UpdateType.ADD_ARTICLE}">
+                                    <span id="updateLattes-value${i}" class="updateLattes property-value" ><g:message code="updateLattes.added" args="${[it.attribute]}" default="O artigo ${it.attribute} foi adicionado"/></span>
                                 </g:if>
-                                <g:if test="${it.typeDiff == 2}">
-                                    <span id="diff-value${i}" class="diff diff property-value" ><g:message code="diff.removed" args="${[it.attributeOld]}" default="O artigo ${it.attributeOld} foi removido"/></span>
-                                </g:if>
-                                <g:if test="${it.typeDiff == 3}">
-                                    <span id="diff-value${i}" class="diff diff property-value" ><g:message code="diff.name.updated"  default="O nome do pesquisador foi atualizado"/></span>
+                                <g:if test="${it.typeUpdate == UpdateType.REMOVE_ARTICLE}">
+                                    <span id="updateLattes-value${i}" class="updateLattes property-value" ><g:message code="updateLattes.removed" args="${[it.attribute]}" default="O artigo ${it.attribute} foi removido"/></span>
                                 </g:if>
                             </li>
                         </g:each>

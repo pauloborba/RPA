@@ -4,6 +4,8 @@ import pages.ShowReseacherPage
 import rpa.Researcher
 import rpa.Article
 import pages.CreateResearcherPage
+import rpa.UpdateType
+
 import static cucumber.api.groovy.EN.*
 
 Given(~/^pesquisador  de nome "([^"]*)", cpf  "([^"]*)", só tem o artigo "([^"]*)" do journal "([^"]*)" e issn "([^"]*)" e não tem atualizações está cadastrado no sistema$/) {
@@ -16,7 +18,7 @@ Given(~/^pesquisador  de nome "([^"]*)", cpf  "([^"]*)", só tem o artigo "([^"]
         assert researcher.articles.size() == 1
         def article = researcher.articles[0]
         TestAndOperations.compareArticle(article, title, journal, issn)
-        assert researcher.diffs.size() == 0
+        assert researcher.updates.size() == 0
 }
 
 And(~/^o arquivo "([^"]*)" tem o Pesquisador "([^"]*)" com cpf "([^"]*)" e tem dois artigos "([^"]*)" e  "([^"]*)" ambos com journal "([^"]*)"e issn "([^"]*)"$/) {
@@ -38,12 +40,12 @@ When(~/^eu tento importar arquivo "([^"]*)"$/) {
         TestAndOperations.importFile(filename)
 }
 
-Then(~/^sistema salva um diff no pesquisador  de nome "([^"]*)" e cpf "([^"]*)" informando que o artigo "([^"]*)" foi adicionado$/) {
+Then(~/^sistema salva uma atualização no pesquisador de nome "([^"]*)" e cpf "([^"]*)" informando que o artigo "([^"]*)" foi adicionado$/) {
     String name, String cpf, String title ->
         def researcher = Researcher.findByCpf(cpf)
         assert TestAndOperations.compareResearcherWithCpfAndName(researcher, cpf, name)
-        assert researcher.diffs.size() == 1
-        assert TestAndOperations.compareDiff(researcher.diffs[0],title,null,1)
+        assert researcher.updates.size() == 1
+        assert TestAndOperations.compareUpdateLattes(researcher.updates[0],title,UpdateType.ADD_ARTICLE)
 }
 
 And(~/^o pesquisador de cpf "([^"]*)", nome "([^"]*)" e tem dois artigos "([^"]*)" e  "([^"]*)" ambos com journal "([^"]*)" e issn "([^"]*)" está cadastrado$/) {
@@ -63,7 +65,7 @@ Given(~/^o sistema não tem nenhum artigo com o titulo "([^"]*)" cadastrado$/) {
     assert Article.findByTitle(title) == null
 }
 
-And(~/^pesquisador  de nome "([^"]*)", cpf "([^"]*)", tem dois artigos "([^"]*)" e "([^"]*)" ambos com journal "([^"]*)" e issn "([^"]*)" e não tem diff está cadastrado no sistema$/) {
+And(~/^pesquisador  de nome "([^"]*)", cpf "([^"]*)", tem dois artigos "([^"]*)" e "([^"]*)" ambos com journal "([^"]*)" e issn "([^"]*)" e não tem atualizações está cadastrado no sistema$/) {
     String name, String cpf, String title1, String title2, String journal, String issn ->
         def researcher = TestAndOperations.buildResearcher(name,cpf)
         def article1 = TestAndOperations.buildArticle(title1,journal,issn)
@@ -91,12 +93,12 @@ And(~/^o arquivo "([^"]*)" tem o Pesquisador "([^"]*)", cpf "([^"]*)" e só tem 
         assert TestAndOperations.compareArticle(article,title,journal,issn)
 }
 
-And(~/^sistema salva um diff no pesquisador  de nome "([^"]*)" e cpf "([^"]*)" informando que o artigo "([^"]*)" foi removido$/) {
+And(~/^sistema salva uma atualização no pesquisador de nome "([^"]*)" e cpf "([^"]*)" informando que o artigo "([^"]*)" foi removido$/) {
     String name, String cpf, String title ->
         def researcher = Researcher.findByCpf(cpf)
         assert TestAndOperations.compareResearcherWithCpfAndName(researcher, cpf, name)
-        assert researcher.diffs.size() == 1
-        assert TestAndOperations.compareDiff(researcher.diffs[0],title,null,2)
+        assert researcher.updates.size() == 1
+        assert TestAndOperations.compareUpdateLattes(researcher.updates[0],title, UpdateType.REMOVE_ARTICLE)
 
 }
 
@@ -113,23 +115,23 @@ And(~/^o pesquisador de cpf "([^"]*)", nome "([^"]*)" e só tem o artigo "([^"]*
         assert TestAndOperations.compareArticle(researcher.articles[0],title,journal,issn)
 }
 
-Then(~/^Sistema não armazena nenhum novo diff no pesquisador de cpf "([^"]*)"\.$/) {
+Then(~/^Sistema não armazena nenhuma nova atualização no pesquisador de cpf "([^"]*)"\.$/) {
     String cpf ->
         def researcher = Researcher.findByCpf(cpf)
-        assert researcher.diffs.size() == 0
+        assert researcher.updates.size() == 0
 }
 
-And(~/^sistema salva dois diff no pesquisador  de nome "([^"]*)" e cpf "([^"]*)" informando que o artigo "([^"]*)" foi removido e o artigo "([^"]*)" foi adicionado$/) {
+And(~/^sistema salva duas atualizações no pesquisador de nome "([^"]*)" e cpf "([^"]*)" informando que o artigo "([^"]*)" foi removido e o artigo "([^"]*)" foi adicionado$/) {
     String name, String cpf, String title1, String title2 ->
         def researcher = Researcher.findByCpf(cpf)
         assert TestAndOperations.compareResearcherWithCpfAndName(researcher,cpf,name)
-        assert researcher.diffs.size() == 2
-        def diff1 = researcher.diffs[0]
-        def diff2 = researcher.diffs[1]
-        assert (TestAndOperations.compareDiff(diff1, title1, null, 2) &&
-                TestAndOperations.compareDiff(diff2, title2, null, 1))||
-                (TestAndOperations.compareDiff(diff1, title2, null, 1) &&
-                        TestAndOperations.compareDiff(diff2, title1, null, 2))
+        assert researcher.updates.size() == 2
+        def updateLattes1 = researcher.updates[0]
+        def updateLattes2 = researcher.updates[1]
+        assert (TestAndOperations.compareUpdateLattes(updateLattes1, title1, UpdateType.REMOVE_ARTICLE) &&
+                TestAndOperations.compareUpdateLattes(updateLattes2, title2, UpdateType.ADD_ARTICLE))||
+                (TestAndOperations.compareUpdateLattes(updateLattes1, title2, UpdateType.ADD_ARTICLE) &&
+                        TestAndOperations.compareUpdateLattes(updateLattes2, title1, UpdateType.REMOVE_ARTICLE))
 }
 
 Given(~/^pesquisador  de nome "([^"]*)", cpf  "([^"]*)", só tem o artigo "([^"]*)" do journal "([^"]*)" e issn "([^"]*)" e não tem atualizações foi cadastrado no sistema com o arquivo "([^"]*)"$/) {
@@ -162,7 +164,7 @@ And(~/^Eu vejo uma mensagem de confirmação$/) { ->
 And(~/^É possível ver o nome do artigo "([^"]*)" informando que ele foi adicionado\.$/) {
     String title ->
         at ShowReseacherPage
-        assert page.findDiff(title, 1)
+        assert page.findUpdateLattes(title, UpdateType.ADD_ARTICLE)
 }
 
 And(~/^São exibida as informações "([^"]*)", "([^"]*)" e o artigo "([^"]*)" e o artigo "([^"]*)" ambos com journal "([^"]*)" e issn "([^"]*)"$/) {
