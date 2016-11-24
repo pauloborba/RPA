@@ -28,7 +28,7 @@ class TestAndOperations {
 
     static public Article buildArticle(String title, String journal, String issn){
         def article = new Article()
-        article.tittle = title
+        article.title = title
         article.journal = journal
         article.issn = issn
         article
@@ -41,7 +41,7 @@ class TestAndOperations {
 
     static public void createResearcher(Researcher r){
         def cont = new ResearcherController()
-        cont.params << [name: r.name, cpf: r.cpf, articles: r.articles]
+        cont.params << [newResearcher: r]
         cont.save()
         cont.response.reset()
     }
@@ -52,7 +52,6 @@ class TestAndOperations {
         def multipartFile = new GrailsMockMultipartFile('file', xmlInputStream)
         cont.request.addFile(multipartFile)
         cont.importFile()
-        Researcher.all
         cont.response.reset()
     }
 
@@ -61,7 +60,7 @@ class TestAndOperations {
     }
 
     static public boolean compareArticle(Article a, String title, String journal, String issn){
-        return a.tittle == title && a.journal == journal && a.issn == issn
+        return a.title == title && a.journal == journal && a.issn == issn
     }
 
     static public boolean compareDiff(Diff d, String attributeOld, String attributeNew, int typeDiff){

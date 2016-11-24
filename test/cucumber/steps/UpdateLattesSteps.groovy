@@ -1,6 +1,5 @@
 package steps
 
-import cucumber.api.PendingException
 import pages.ShowReseacherPage
 import rpa.Researcher
 import rpa.Article
@@ -61,7 +60,7 @@ And(~/^o pesquisador de cpf "([^"]*)", nome "([^"]*)" e tem dois artigos "([^"]*
 }
 
 Given(~/^o sistema não tem nenhum artigo com o titulo "([^"]*)" cadastrado$/) { String title ->
-    assert Article.findByTittle(title) == null
+    assert Article.findByTitle(title) == null
 }
 
 And(~/^pesquisador  de nome "([^"]*)", cpf "([^"]*)", tem dois artigos "([^"]*)" e "([^"]*)" ambos com journal "([^"]*)" e issn "([^"]*)" e não tem diff está cadastrado no sistema$/) {
@@ -103,7 +102,7 @@ And(~/^sistema salva um diff no pesquisador  de nome "([^"]*)" e cpf "([^"]*)" i
 
 And(~/^o artigo "([^"]*)" foi removido do sistema$/) {
     String title ->
-        assert Article.findByTittle(title) == null
+        assert Article.findByTitle(title) == null
 }
 
 And(~/^o pesquisador de cpf "([^"]*)", nome "([^"]*)" e só tem o artigo "([^"]*)" com journal "([^"]*)" e issn "([^"]*)" está cadastrado$/) {
@@ -160,13 +159,13 @@ And(~/^Eu vejo uma mensagem de confirmação$/) { ->
     at ShowReseacherPage
     page.findAcceptedMsg()
 }
-And(~/^É posso ver o nome do artigo "([^"]*)" informando que ele foi adicionado\.$/) {
+And(~/^É possível ver o nome do artigo "([^"]*)" informando que ele foi adicionado\.$/) {
     String title ->
         at ShowReseacherPage
         assert page.findDiff(title, 1)
 }
 
-And(~/^É exibida as informações "([^"]*)", "([^"]*)" e o artigo "([^"]*)" e o artigo "([^"]*)" ambos com journal "([^"]*)" e issn "([^"]*)"$/) {
+And(~/^São exibida as informações "([^"]*)", "([^"]*)" e o artigo "([^"]*)" e o artigo "([^"]*)" ambos com journal "([^"]*)" e issn "([^"]*)"$/) {
     String name, String cpf, String title1, String title2, String journal, String issn ->
         at ShowReseacherPage
         page.findReseacherWithTwoArticlesSameJournal(name, cpf, title1, title2, journal, issn)

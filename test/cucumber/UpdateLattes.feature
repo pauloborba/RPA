@@ -19,7 +19,7 @@ Feature: Atualizar currículo lattes e mostrar diff
     And pesquisador  de nome "Rafael", cpf "12345678911", tem dois artigos "Implementation cow confident with BFS" e "Implementation sudoku with backtracking" ambos com journal "Journal" e issn "1" e não tem diff está cadastrado no sistema
     And  o arquivo "CurriculoValidoComUmArtigo.xml" tem o Pesquisador "Rafael", cpf "12345678911" e só tem o artigo "Implementation sudoku with backtracking" com journal "Journal" e issn "1"
     When eu tento importar arquivo "CurriculoValidoComUmArtigo.xml"
-    And sistema salva um diff no pesquisador  de nome "Rafael" e cpf "12345678911" informando que o artigo "Implementation cow confident with BFS" foi removido
+    Then sistema salva um diff no pesquisador  de nome "Rafael" e cpf "12345678911" informando que o artigo "Implementation cow confident with BFS" foi removido
     And o artigo "Implementation cow confident with BFS" foi removido do sistema
     And o pesquisador de cpf "12345678911", nome "Rafael" e só tem o artigo "Implementation sudoku with backtracking" com journal "Journal" e issn "1" está cadastrado
 
@@ -42,7 +42,6 @@ Feature: Atualizar currículo lattes e mostrar diff
     And o pesquisador de cpf "12345678911", nome "Rafael" e só tem o artigo "Implementation sudoku with backtracking" com journal "Journal" e issn "1" está cadastrado
 
   #Cenario5
-  #controller
   #GUI
   Scenario: Adicionar um novo artigo ao pequisador e ver gui
     Given  pesquisador  de nome "Rafael", cpf  "12345678911", só tem o artigo "Implementation sudoku with backtracking" do journal "Journal" e issn "1" e não tem atualizações foi cadastrado no sistema com o arquivo "CurriculoValidoComUmArtigo.xml"
@@ -50,5 +49,5 @@ Feature: Atualizar currículo lattes e mostrar diff
     When importo arquivo "CurriculoValidoComDoisArtigos.xml"
     Then Eu estou na pagina de visualização
     And Eu vejo uma mensagem de confirmação
-    And É posso ver o nome do artigo "Implementation cow confident with BFS" informando que ele foi adicionado.
-    And É exibida as informações "Rafael", "12345678911" e o artigo "Implementation cow confident with BFS" e o artigo "Implementation sudoku with backtracking" ambos com journal "Journal" e issn "1"
+    And É possível ver o nome do artigo "Implementation cow confident with BFS" informando que ele foi adicionado.
+    And São exibida as informações "Rafael", "12345678911" e o artigo "Implementation cow confident with BFS" e o artigo "Implementation sudoku with backtracking" ambos com journal "Journal" e issn "1"

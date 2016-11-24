@@ -32,14 +32,11 @@ class ShowReseacherPage extends Page {
         assert containsText(title, allTitles)
         assert containsText(journal, allJournal)
         assert containsText(issn, allIssn)
-        boolean matchTitle = false;
-        boolean matchJournal = false;
-        boolean matchIssn = false;
     }
 
     def findAcceptedMsg(){
         assert $("div", class: "message").text() == "O pesquisador foi salvo com sucesso" ||
-                $("div", class: "message").text() == "The researcher was successful saved"
+                $("div", class: "message").text() == "The researcher was successfully saved"
     }
 
     def findDiff(String title, int type){

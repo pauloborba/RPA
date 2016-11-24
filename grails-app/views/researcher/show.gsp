@@ -39,7 +39,7 @@
                          <ol class="list articles">
                             <li class="fieldcontain" >
                                 <span id="title-label${i}" class="property-label"><g:message code="article.title.label" default="Titulo" /></span>
-                                <span id="title-value${i}" class="title property-value" ><g:fieldValue bean="${it}" field="tittle"/></span>
+                                <span id="title-value${i}" class="title property-value" ><g:fieldValue bean="${it}" field="title"/></span>
                                 <span id="journal-label${i}" class="property-label"><g:message code="article.journal.label" default="Periodico" /></span>
                                 <span id="journal-value${i}" class="journal property-value" ><g:fieldValue bean="${it}" field="journal"/></span>
                                 <span id="issn-label${i}" class="property-label"><g:message code="article.issn.label" default="Issn" /></span>
