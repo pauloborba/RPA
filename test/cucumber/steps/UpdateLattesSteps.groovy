@@ -4,15 +4,14 @@ import pages.ShowReseacherPage
 import rpa.Researcher
 import rpa.Article
 import pages.CreateResearcherPage
+import rpa.ResearcherController
 import rpa.UpdateType
 
 import static cucumber.api.groovy.EN.*
 
-Given(~/^pesquisador  de nome "([^"]*)", cpf  "([^"]*)", só tem o artigo "([^"]*)" do journal "([^"]*)" e issn "([^"]*)" e não tem atualizações está cadastrado no sistema$/) {
-    String name, String cpf, String title, String journal, String issn ->
-        TestAndOperations.createResearcher(
-                TestAndOperations.addArticleToResearcher(TestAndOperations.buildResearcher(name,cpf),
-                        TestAndOperations.buildArticle(title,journal,issn)))
+Given(~/^pesquisador  de nome "([^"]*)", cpf  "([^"]*)", só tem o artigo "([^"]*)" do journal "([^"]*)" e issn "([^"]*)" e não tem atualizações está cadastrado no sistema importando o arquivo "([^"]*)"$/) {
+    String name, String cpf, String title, String journal, String issn, String filename ->
+        TestAndOperations.importFile(filename)
         def researcher = Researcher.findByCpf(cpf)
         TestAndOperations.compareResearcherWithCpfAndName(researcher, cpf, name)
         assert researcher.articles.size() == 1
@@ -37,7 +36,9 @@ And(~/^o arquivo "([^"]*)" tem o Pesquisador "([^"]*)" com cpf "([^"]*)" e tem d
 
 When(~/^eu tento importar arquivo "([^"]*)"$/) {
     String filename ->
+        Researcher.all
         TestAndOperations.importFile(filename)
+        Researcher.all
 }
 
 Then(~/^sistema salva uma atualização no pesquisador de nome "([^"]*)" e cpf "([^"]*)" informando que o artigo "([^"]*)" foi adicionado$/) {
@@ -65,14 +66,10 @@ Given(~/^o sistema não tem nenhum artigo com o titulo "([^"]*)" cadastrado$/) {
     assert Article.findByTitle(title) == null
 }
 
-And(~/^pesquisador  de nome "([^"]*)", cpf "([^"]*)", tem dois artigos "([^"]*)" e "([^"]*)" ambos com journal "([^"]*)" e issn "([^"]*)" e não tem atualizações está cadastrado no sistema$/) {
-    String name, String cpf, String title1, String title2, String journal, String issn ->
-        def researcher = TestAndOperations.buildResearcher(name,cpf)
-        def article1 = TestAndOperations.buildArticle(title1,journal,issn)
-        def article2 = TestAndOperations.buildArticle(title2,journal,issn)
-        researcher = TestAndOperations.addArticleToResearcher(researcher, article1)
-        researcher = TestAndOperations.addArticleToResearcher(researcher, article2)
-        TestAndOperations.createResearcher(researcher)
+And(~/^pesquisador  de nome "([^"]*)", cpf "([^"]*)", tem dois artigos "([^"]*)" e "([^"]*)" ambos com journal "([^"]*)" e issn "([^"]*)" e não tem atualizações está cadastrado no sistema importando o arquivo "([^"]*)"$/) {
+    String name, String cpf, String title1, String title2, String journal, String issn, String filename ->
+
+        TestAndOperations.importFile(filename)
         researcher = Researcher.findByCpf(cpf)
         TestAndOperations.compareResearcherWithCpfAndName(researcher, cpf, name)
         assert researcher.articles.size() == 2

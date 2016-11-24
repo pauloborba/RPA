@@ -20,33 +20,6 @@ class TestAndOperations {
         researcher
     }
 
-    static public Researcher buildResearcher(String name, String cpf){
-        def researcher = new Researcher()
-        researcher.name = name
-        researcher.cpf = cpf
-        researcher
-    }
-
-    static public Article buildArticle(String title, String journal, String issn){
-        def article = new Article()
-        article.title = title
-        article.journal = journal
-        article.issn = issn
-        article
-    }
-
-    static public Researcher addArticleToResearcher(Researcher r, Article a){
-        r.addToArticles(a)
-        r
-    }
-
-    static public void createResearcher(Researcher r){
-        def cont = new ResearcherController()
-        cont.params << [newResearcher: r]
-        cont.save()
-        cont.response.reset()
-    }
-
     static public void importFile(String filename){
         def cont = new ResearcherController()
         def xmlInputStream = new FileInputStream(new File(dirFiles+filename));
@@ -54,6 +27,8 @@ class TestAndOperations {
         cont.request.addFile(multipartFile)
         cont.importFile()
         cont.response.reset()
+        cont.request.multipartFiles.clear()
+
     }
 
     static public boolean compareResearcherWithCpfAndName(Researcher r, String cpf, String name){

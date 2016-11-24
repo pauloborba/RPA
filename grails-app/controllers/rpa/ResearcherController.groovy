@@ -22,36 +22,12 @@ class ResearcherController {
         [researcherInstance: researcherInstance]
     }
 
-    def save(){
-        Researcher r = new Researcher(params)
-        r.articles.each {
-            r.addToArticles(it)
-        }
-        r.save()
-    }
-
-    def update(){
-        Researcher researcherSaved = params['researcherSaved']
-        Researcher researcherNew = params['researcherNew']
-        researcherSaved.update(researcherNew)
-    }
-
     def importFile(){
         def xml = request.getFile('file')
         if(!xml.empty){
             XmlExtractorService xmlExtractor = new XmlExtractorService()
-            def researcherXml = xmlExtractor.getResearcher(xml.getInputStream())
-            def researcherSaved = Researcher.findByCpf(researcherXml.cpf)
-
-            if (researcherSaved != null) {
-                params << [researcherNew: researcherXml, researcherSaved: researcherSaved]
-                researcherSaved = update()
-            } else {
-                params << [name: researcherXml.name, cpf: researcherXml.cpf, articles: researcherXml.articles]
-                researcherSaved = save()
-            }
-
-            if (researcherSaved) {
+            Researcher researcherSaved = saveOrUpdateResearcher(xmlExtractor, xml)
+            if (researcherSaved.validate()) {
                 flash.message = message(code: 'researcher.saved')
                 redirect action: 'show', id: researcherSaved.id
             }else{
@@ -62,5 +38,18 @@ class ResearcherController {
             flash.message = message(code: 'researcher.file.empty')
             render(view: "create")
         }
+    }
+
+    private Researcher saveOrUpdateResearcher(XmlExtractorService xmlExtractor, xml) {
+        def researcherFromXml = xmlExtractor.getResearcher(xml.getInputStream())
+        def researcherSaved = Researcher.findByCpf(researcherFromXml.cpf)
+
+        if (researcherSaved != null) {
+            researcherSaved.update(researcherFromXml)
+        } else {
+            researcherSaved = researcherFromXml
+            researcherSaved.save()
+        }
+        researcherSaved
     }
 }

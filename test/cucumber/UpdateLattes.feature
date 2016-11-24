@@ -6,7 +6,7 @@ Feature: Atualizar currículo lattes e mostrar diff
   #Cenario1
   #controller
   Scenario: Adicionar um novo artigo ao pequisador
-    Given pesquisador  de nome "Rafael", cpf  "12345678911", só tem o artigo "Implementation cow confident with BFS" do journal "Journal" e issn "1" e não tem atualizações está cadastrado no sistema
+    Given pesquisador  de nome "Rafael", cpf  "12345678911", só tem o artigo "Implementation cow confident with BFS" do journal "Journal" e issn "1" e não tem atualizações está cadastrado no sistema importando o arquivo "CurriculoValidoComUmArtigoCow.xml"
     And  o arquivo "CurriculoValidoComDoisArtigos.xml" tem o Pesquisador "Rafael" com cpf "12345678911" e tem dois artigos "Implementation cow confident with BFS" e  "Implementation sudoku with backtracking" ambos com journal "Journal"e issn "1"
     When eu tento importar arquivo "CurriculoValidoComDoisArtigos.xml"
     Then sistema salva uma atualização no pesquisador de nome "Rafael" e cpf "12345678911" informando que o artigo "Implementation sudoku with backtracking" foi adicionado
@@ -14,9 +14,9 @@ Feature: Atualizar currículo lattes e mostrar diff
 
   #Cenario2
   #controller
-  Scenario: Remover artigos do pesquisadorfdi
+  Scenario: Remover artigos do pesquisador
     Given o sistema não tem nenhum artigo com o titulo "Implementation cow confident with BFS" cadastrado
-    And pesquisador  de nome "Rafael", cpf "12345678911", tem dois artigos "Implementation cow confident with BFS" e "Implementation sudoku with backtracking" ambos com journal "Journal" e issn "1" e não tem atualizações está cadastrado no sistema
+    And pesquisador  de nome "Rafael", cpf "12345678911", tem dois artigos "Implementation cow confident with BFS" e "Implementation sudoku with backtracking" ambos com journal "Journal" e issn "1" e não tem atualizações está cadastrado no sistema importando o arquivo "CurriculoValidoComDoisArtigos.xml"
     And  o arquivo "CurriculoValidoComUmArtigo.xml" tem o Pesquisador "Rafael", cpf "12345678911" e só tem o artigo "Implementation sudoku with backtracking" com journal "Journal" e issn "1"
     When eu tento importar arquivo "CurriculoValidoComUmArtigo.xml"
     Then sistema salva uma atualização no pesquisador de nome "Rafael" e cpf "12345678911" informando que o artigo "Implementation cow confident with BFS" foi removido
@@ -26,7 +26,7 @@ Feature: Atualizar currículo lattes e mostrar diff
   #Cenario3
   #controller
   Scenario: Tentar adicionar artigo com dados inválidos
-    Given pesquisador  de nome "Rafael", cpf  "12345678911", só tem o artigo "Implementation sudoku with backtracking" do journal "Journal" e issn "1" e não tem atualizações está cadastrado no sistema
+    Given pesquisador  de nome "Rafael", cpf  "12345678911", só tem o artigo "Implementation sudoku with backtracking" do journal "Journal" e issn "1" e não tem atualizações está cadastrado no sistema importando o arquivo "CurriculoValidoComUmArtigo.xml"
     And  o arquivo "CurriculoInvalido.xml" tem o Pesquisador "", cpf "12345678911" e só tem o artigo "Implementation sudoku with backtracking" com journal "Journal" e issn "1"
     When eu tento importar arquivo "CurriculoInvalido.xml"
     Then Sistema não armazena nenhuma nova atualização no pesquisador de cpf "12345678911".
@@ -35,7 +35,7 @@ Feature: Atualizar currículo lattes e mostrar diff
   #Cenario4
   #controller
   Scenario: Tentar adicionar e remover um artigo
-    Given pesquisador  de nome "Rafael", cpf  "12345678911", só tem o artigo "Implementation cow confident with BFS" do journal "Journal" e issn "1" e não tem atualizações está cadastrado no sistema
+    Given pesquisador  de nome "Rafael", cpf  "12345678911", só tem o artigo "Implementation cow confident with BFS" do journal "Journal" e issn "1" e não tem atualizações está cadastrado no sistema importando o arquivo "CurriculoValidoComUmArtigoCow.xml"
     And o arquivo "CurriculoValidoComUmArtigo.xml" tem o Pesquisador "Rafael", cpf "12345678911" e só tem o artigo "Implementation sudoku with backtracking" com journal "Journal" e issn "1"
     When eu tento importar arquivo "CurriculoValidoComUmArtigo.xml"
     And sistema salva duas atualizações no pesquisador de nome "Rafael" e cpf "12345678911" informando que o artigo "Implementation cow confident with BFS" foi removido e o artigo "Implementation sudoku with backtracking" foi adicionado
