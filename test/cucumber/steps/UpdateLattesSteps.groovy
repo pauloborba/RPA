@@ -36,9 +36,7 @@ And(~/^o arquivo "([^"]*)" tem o Pesquisador "([^"]*)" com cpf "([^"]*)" e tem d
 
 When(~/^eu tento importar arquivo "([^"]*)"$/) {
     String filename ->
-        Researcher.all
         TestAndOperations.importFile(filename)
-        Researcher.all
 }
 
 Then(~/^sistema salva uma atualização no pesquisador de nome "([^"]*)" e cpf "([^"]*)" informando que o artigo "([^"]*)" foi adicionado$/) {

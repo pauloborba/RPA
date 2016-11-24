@@ -4,11 +4,14 @@ import geb.Page
 import org.openqa.selenium.WebElement
 import rpa.UpdateType
 
-class ShowReseacherPage extends Page {
+class ShowReseacherPage extends PageWithI18nSupport {
     static url = "/RPA/researcher/show/"
 
     static at =  {
-        title ==~ /Ver Pesquisador/ || title ==~ /Show Researcher/
+        //getMessage é um método da super classe
+        def researcherlabel = getMessage('researcher.label')
+        def titlemsg = getMessage('default.show.label', researcherlabel)
+        title == titlemsg
     }
 
     boolean containsText(String t, Collection<WebElement> allT){
@@ -35,26 +38,19 @@ class ShowReseacherPage extends Page {
     }
 
     def findAcceptedMsg(){
-        assert $("div", class: "message").text() == "O pesquisador foi salvo com sucesso" ||
-                $("div", class: "message").text() == "The researcher was successfully saved"
+        def savedmsg = getMessage('researcher.saved')
+        assert $("div", class: "message").text() == savedmsg
     }
 
     def findUpdateLattes(String title, UpdateType type){
         def listUpdateLattes = $("span", class:"updateLattes").allElements()
         for(updateLattes in listUpdateLattes){
             if(type == UpdateType.ADD_ARTICLE){
-                if(updateLattes.getText() == "O artigo "+title+" foi adicionado" ||
-                        updateLattes.getText() == "The article "+title+" was added" ){
+                if(updateLattes.getText() == getMessage('updateLattes.added',title)){
                     return true
                 }
             }else if(type == UpdateType.REMOVE_ARTICLE){
-                if(updateLattes.getText() == "O artigo "+title+" foi removido" ||
-                        updateLattes.getText() == "The article "+title+" was removed" ){
-                    return true
-                }
-            }else{
-                if(updateLattes.getText() == "O nome do pesquisador foi atualizado" ||
-                        updateLattes.getText() == "The name of reseacher was updated" ){
+                if(updateLattes.getText() == getMessage('updateLattes.removed',title)){
                     return true
                 }
             }
