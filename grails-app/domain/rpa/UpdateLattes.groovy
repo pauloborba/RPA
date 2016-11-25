@@ -1,5 +1,8 @@
 package rpa
 
+import groovy.transform.EqualsAndHashCode
+
+@EqualsAndHashCode(includes='attribute,typeUpdate')
 class UpdateLattes {
     String attribute
     UpdateType typeUpdate

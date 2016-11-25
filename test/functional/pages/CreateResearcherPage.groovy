@@ -7,10 +7,8 @@ class CreateResearcherPage extends PageWithI18nSupport {
     static url = "/RPA/researcher/create/"
 
     static at =  {
-        //getMessage é um método da super classe
-        def researcherlabel = getMessage('researcher.label')
-        def titlemsg = getMessage('default.create.label', researcherlabel)
-        title == titlemsg
+        def researcherlabel = helperMsg.getMessage('researcher.label')
+        title == helperMsg.getMessage('default.create.label', researcherlabel)
     }
 
     void createResearcherWithFile(String filename){
