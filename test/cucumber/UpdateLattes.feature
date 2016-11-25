@@ -50,4 +50,23 @@ Feature: Atualizar currículo lattes e mostrar diff
     Then Eu estou na pagina de visualização
     And Eu vejo uma mensagem de confirmação
     And É possível ver o nome do artigo "Implementation cow confident with BFS" informando que ele foi adicionado.
-    And São exibida as informações "Rafael", "12345678911" e o artigo "Implementation cow confident with BFS" e o artigo "Implementation sudoku with backtracking" ambos com journal "Journal" e issn "1"
+    And São exibidas as informações do pesquisador "Rafael" e cpf "12345678911",
+    And É exibido o artigo "Implementation cow confident with BFS" com journal "Journal" e issn "1"
+    And É exibido o artigo "Implementation sudoku with backtracking" com journal "Journal" e issn "1"
+
+  #Cenario5
+  #GUI
+  Scenario: Adicionar 4 novos artigo ao pequisador, ver diff e atualizações
+    Given  pesquisador  de nome "Rafael", cpf  "12345678911", só tem o artigo "Implementation sudoku with backtracking" do journal "Journal" e issn "1" e não tem atualizações foi cadastrado no sistema com o arquivo "CurriculoValidoComUmArtigo.xml"
+    And  Estou na página de importação de arquivo de pesquisador
+    When importo arquivo "CurriculoValidoComQuatroArtigos.xml"
+    Then Eu estou na pagina de visualização
+    And Eu vejo uma mensagem de confirmação
+    And É possível ver o nome do artigo "Implementation cow confident with BFS" informando que ele foi adicionado.
+    And É possível ver o nome do artigo "Abordagem de LVQ para dados simbólicos" informando que ele foi adicionado.
+    And É possível ver o nome do artigo "Curvas de bezier interativas" informando que ele foi adicionado.
+    And São exibidas as informações do pesquisador "Rafael" e cpf "12345678911",
+    And É exibido o artigo "Implementation cow confident with BFS" com journal "Journal" e issn "1"
+    And É exibido o artigo "Implementation sudoku with backtracking" com journal "Journal" e issn "1"
+    And É exibido o artigo "Abordagem de LVQ para dados simbólicos" com journal "Journal" e issn "1"
+    And É exibido o artigo "Curvas de bezier interativas" com journal "Journal" e issn "1"

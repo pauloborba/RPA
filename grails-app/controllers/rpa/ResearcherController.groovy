@@ -42,7 +42,10 @@ class ResearcherController {
 
     private Researcher saveOrUpdateResearcher(XmlExtractorService xmlExtractor, xml) {
         def researcherFromXml = xmlExtractor.getResearcher(xml.getInputStream())
-        def researcherSaved = Researcher.findByCpf(researcherFromXml.cpf)
+        if(researcherFromXml == null){
+            researcherFromXml = new Researcher()
+        }
+        def researcherSaved = Researcher.findByCpf(researcherFromXml?.cpf)
 
         if (researcherSaved != null) {
             researcherSaved.update(researcherFromXml)

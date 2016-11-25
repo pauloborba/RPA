@@ -13,6 +13,9 @@ class XmlExtractorService {
     def getResearcher(InputStream file){
         Researcher researcher = new Researcher()
         Document document = buildDocument(file)
+        if(document == null){
+            return document
+        }
         if (document.getDocumentElement().getNodeName().equals("CURRICULO-VITAE")){
             NodeList nodeList = document.getDocumentElement().getChildNodes();
             for (int i = 0; i < nodeList.getLength(); i++) {
@@ -34,9 +37,14 @@ class XmlExtractorService {
     }
 
     private Document buildDocument(InputStream file) {
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder = factory.newDocumentBuilder();
-        Document document = builder.parse(file);
+        Document document = null
+        try{
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            document = builder.parse(file);
+        }catch(ParserConfigurationException | SAXException | IOException e) {
+            e.printStackTrace();
+        }
         document
     }
 
