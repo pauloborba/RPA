@@ -2,15 +2,16 @@ package pages
 
 import geb.Page
 
-class CreateResearcherPage extends Page {
+class CreateResearcherPage extends PageWithI18nSupport {
     private static final dirFiles = "test/functional/steps/"
     static url = "/RPA/researcher/create/"
 
     static at =  {
-        title ==~ /Criar Pesquisador/ || title ==~ /Create Researcher/
+        def researcherlabel = helperMsg.getMessage('researcher.label')
+        title == helperMsg.getMessage('default.create.label', researcherlabel)
     }
 
-    void createResearcherWithFile(String filename){
+    void saveOrUpdateResearcherWithFile(String filename){
         def file = new File(dirFiles+filename)
         $("form").file = file.getAbsolutePath()
         $("form").create().click()

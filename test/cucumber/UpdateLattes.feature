@@ -6,49 +6,160 @@ Feature: Atualizar currículo lattes e mostrar diff
   #Cenario1
   #controller
   Scenario: Adicionar um novo artigo ao pequisador
-    Given pesquisador  de nome "Rafael", cpf  "12345678911", só tem o artigo "Implementation cow confident with BFS" do journal "Journal" e issn "1" e não tem atualizações está cadastrado no sistema
+    Given pesquisador  de nome "Rafael", cpf  "12345678911" está cadastrado no sistema importando o arquivo "CurriculoValidoComUmArtigoCow.xml"
+    And o pesquisador de cpf "12345678911" tem "1" artigos
+    And o pesquisador de cpf "12345678911" tem o artigo "Implementation cow confident with BFS" do journal "Journal", issn "1" e dois autores "Rafael" e "Bruno"
+    And o pesquisador de cpf "12345678911" não tem nenhuma atualização
     And  o arquivo "CurriculoValidoComDoisArtigos.xml" tem o Pesquisador "Rafael" com cpf "12345678911" e tem dois artigos "Implementation cow confident with BFS" e  "Implementation sudoku with backtracking" ambos com journal "Journal"e issn "1"
     When eu tento importar arquivo "CurriculoValidoComDoisArtigos.xml"
-    Then sistema salva um diff no pesquisador  de nome "Rafael" e cpf "12345678911" informando que o artigo "Implementation sudoku with backtracking" foi adicionado
-    And o pesquisador de cpf "12345678911", nome "Rafael" e tem dois artigos "Implementation cow confident with BFS" e  "Implementation sudoku with backtracking" ambos com journal "Journal" e issn "1" está cadastrado
+    Then sistema salva "1" atualizações no pesquisador de cpf "12345678911"
+    And O pesquisador de cpf "12345678911" tem uma atualização informando que o artigo "Implementation sudoku with backtracking" foi adicionado
+    And o pesquisador de cpf "12345678911", nome "Rafael" tem "2" artigos
+    And o pesquisador de cpf "12345678911" tem o artigo "Implementation cow confident with BFS" do journal "Journal", issn "1" e dois autores "Rafael" e "Bruno"
+    And o pesquisador de cpf "12345678911" tem o artigo "Implementation sudoku with backtracking" do journal "Journal", issn "1" e dois autores "Rafael" e "Bruno"
 
   #Cenario2
   #controller
   Scenario: Remover artigos do pesquisador
     Given o sistema não tem nenhum artigo com o titulo "Implementation cow confident with BFS" cadastrado
-    And pesquisador  de nome "Rafael", cpf "12345678911", tem dois artigos "Implementation cow confident with BFS" e "Implementation sudoku with backtracking" ambos com journal "Journal" e issn "1" e não tem diff está cadastrado no sistema
+    And pesquisador  de nome "Rafael", cpf  "12345678911" está cadastrado no sistema importando o arquivo "CurriculoValidoComDoisArtigos.xml"
+    And o pesquisador de cpf "12345678911" tem "2" artigos
+    And o pesquisador de cpf "12345678911" tem o artigo "Implementation cow confident with BFS" do journal "Journal", issn "1" e dois autores "Rafael" e "Bruno"
+    And o pesquisador de cpf "12345678911" tem o artigo "Implementation sudoku with backtracking" do journal "Journal", issn "1" e dois autores "Rafael" e "Bruno"
+    And o pesquisador de cpf "12345678911" não tem nenhuma atualização
     And  o arquivo "CurriculoValidoComUmArtigo.xml" tem o Pesquisador "Rafael", cpf "12345678911" e só tem o artigo "Implementation sudoku with backtracking" com journal "Journal" e issn "1"
     When eu tento importar arquivo "CurriculoValidoComUmArtigo.xml"
-    And sistema salva um diff no pesquisador  de nome "Rafael" e cpf "12345678911" informando que o artigo "Implementation cow confident with BFS" foi removido
+    Then sistema salva "1" atualizações no pesquisador de cpf "12345678911"
+    And O pesquisador de cpf "12345678911" tem uma atualização informando que o artigo "Implementation cow confident with BFS" foi removido
+    And o pesquisador de cpf "12345678911", nome "Rafael" tem "1" artigos
+    And o pesquisador de cpf "12345678911" tem o artigo "Implementation sudoku with backtracking" do journal "Journal", issn "1" e dois autores "Rafael" e "Bruno"
     And o artigo "Implementation cow confident with BFS" foi removido do sistema
-    And o pesquisador de cpf "12345678911", nome "Rafael" e só tem o artigo "Implementation sudoku with backtracking" com journal "Journal" e issn "1" está cadastrado
 
   #Cenario3
   #controller
   Scenario: Tentar adicionar artigo com dados inválidos
-    Given pesquisador  de nome "Rafael", cpf  "12345678911", só tem o artigo "Implementation sudoku with backtracking" do journal "Journal" e issn "1" e não tem atualizações está cadastrado no sistema
+    Given pesquisador  de nome "Rafael", cpf  "12345678911" está cadastrado no sistema importando o arquivo "CurriculoValidoComUmArtigo.xml"
+    And o pesquisador de cpf "12345678911" tem "1" artigos
+    And o pesquisador de cpf "12345678911" tem o artigo "Implementation sudoku with backtracking" do journal "Journal", issn "1" e dois autores "Rafael" e "Bruno"
+    And o pesquisador de cpf "12345678911" não tem nenhuma atualização
     And  o arquivo "CurriculoInvalido.xml" tem o Pesquisador "", cpf "12345678911" e só tem o artigo "Implementation sudoku with backtracking" com journal "Journal" e issn "1"
     When eu tento importar arquivo "CurriculoInvalido.xml"
-    Then Sistema não armazena nenhum novo diff no pesquisador de cpf "12345678911".
-    And o pesquisador de cpf "12345678911", nome "Rafael" e só tem o artigo "Implementation sudoku with backtracking" com journal "Journal" e issn "1" está cadastrado
+    Then Sistema não armazena nenhuma nova atualização no pesquisador de cpf "12345678911".
+    And o pesquisador de cpf "12345678911", nome "Rafael" tem "1" artigos
+    And o pesquisador de cpf "12345678911" tem o artigo "Implementation sudoku with backtracking" do journal "Journal", issn "1" e dois autores "Rafael" e "Bruno"
 
   #Cenario4
   #controller
   Scenario: Tentar adicionar e remover um artigo
-    Given pesquisador  de nome "Rafael", cpf  "12345678911", só tem o artigo "Implementation cow confident with BFS" do journal "Journal" e issn "1" e não tem atualizações está cadastrado no sistema
+
+    Given pesquisador  de nome "Rafael", cpf  "12345678911" está cadastrado no sistema importando o arquivo "CurriculoValidoComUmArtigoCow.xml"
+    And o pesquisador de cpf "12345678911" tem "1" artigos
+    And o pesquisador de cpf "12345678911" tem o artigo "Implementation cow confident with BFS" do journal "Journal", issn "1" e dois autores "Rafael" e "Bruno"
+    And o pesquisador de cpf "12345678911" não tem nenhuma atualização
     And o arquivo "CurriculoValidoComUmArtigo.xml" tem o Pesquisador "Rafael", cpf "12345678911" e só tem o artigo "Implementation sudoku with backtracking" com journal "Journal" e issn "1"
     When eu tento importar arquivo "CurriculoValidoComUmArtigo.xml"
-    And sistema salva dois diff no pesquisador  de nome "Rafael" e cpf "12345678911" informando que o artigo "Implementation cow confident with BFS" foi removido e o artigo "Implementation sudoku with backtracking" foi adicionado
-    And o pesquisador de cpf "12345678911", nome "Rafael" e só tem o artigo "Implementation sudoku with backtracking" com journal "Journal" e issn "1" está cadastrado
+    Then sistema salva "2" atualizações no pesquisador de cpf "12345678911"
+    And O pesquisador de cpf "12345678911" tem uma atualização informando que o artigo "Implementation cow confident with BFS" foi removido
+    And O pesquisador de cpf "12345678911" tem uma atualização informando que o artigo "Implementation sudoku with backtracking" foi adicionado
+    And o pesquisador de cpf "12345678911", nome "Rafael" tem "1" artigos
+    And o pesquisador de cpf "12345678911" tem o artigo "Implementation sudoku with backtracking" do journal "Journal", issn "1" e dois autores "Rafael" e "Bruno"
+
 
   #Cenario5
-  #controller
   #GUI
   Scenario: Adicionar um novo artigo ao pequisador e ver gui
-    Given  pesquisador  de nome "Rafael", cpf  "12345678911", só tem o artigo "Implementation sudoku with backtracking" do journal "Journal" e issn "1" e não tem atualizações foi cadastrado no sistema com o arquivo "CurriculoValidoComUmArtigo.xml"
+    Given  pesquisador  de nome "Rafael", cpf "12345678911" foi cadastrado no sistema com o arquivo "CurriculoValidoComUmArtigo.xml"
+    And Eu posso ver que o pesquisador de cpf "12345678911" e nome "Rafael" tem "1" artigos
+    And Eu posso ver que o pesquisador de cpf "12345678911" e nome "Rafael" tem o artigo "Implementation sudoku with backtracking" do journal "Journal", issn "1" e dois autores "Rafael" e "Bruno"
+    And Eu posso ver que o pesquisador de cpf "12345678911" e nome "Rafael" não tem atualizações
     And  Estou na página de importação de arquivo de pesquisador
     When importo arquivo "CurriculoValidoComDoisArtigos.xml"
     Then Eu estou na pagina de visualização
     And Eu vejo uma mensagem de confirmação
-    And É posso ver o nome do artigo "Implementation cow confident with BFS" informando que ele foi adicionado.
-    And É exibida as informações "Rafael", "12345678911" e o artigo "Implementation cow confident with BFS" e o artigo "Implementation sudoku with backtracking" ambos com journal "Journal" e issn "1"
+    And Eu vejo uma mensagem de alerta sobre o que foi alterado
+    And A mensagem de alerta informa "1" artigos foram alterados
+    And A mensagem de alerta informa que o artigo "Implementation cow confident with BFS" foi adicionado
+    And É possível ver "1" atualizações
+    And É possível ver o nome do artigo "Implementation cow confident with BFS" informando que ele foi adicionado.
+    And São exibidas as informações do pesquisador "Rafael" e cpf "12345678911"
+    And São exibidos "2" artigos
+    And É exibido o artigo "Implementation cow confident with BFS" com journal "Journal", issn "1" e dois autores "Rafael" e "Bruno"
+    And É exibido o artigo "Implementation sudoku with backtracking" com journal "Journal", issn "1" e dois autores "Rafael" e "Bruno"
+
+  #Cenario6
+  #GUI
+  Scenario: Adicionar 4 novos artigos ao pequisador, ver diff e atualizações
+    Given  pesquisador  de nome "Rafael", cpf "12345678911" foi cadastrado no sistema com o arquivo "CurriculoValidoComUmArtigo.xml"
+    And Eu posso ver que o pesquisador de cpf "12345678911" e nome "Rafael" tem "1" artigos
+    And Eu posso ver que o pesquisador de cpf "12345678911" e nome "Rafael" tem o artigo "Implementation sudoku with backtracking" do journal "Journal", issn "1" e dois autores "Rafael" e "Bruno"
+    And Eu posso ver que o pesquisador de cpf "12345678911" e nome "Rafael" não tem atualizações
+    And  Estou na página de importação de arquivo de pesquisador
+    When importo arquivo "CurriculoValidoComQuatroArtigos.xml"
+    Then Eu estou na pagina de visualização
+    And Eu vejo uma mensagem de confirmação
+    And Eu vejo uma mensagem de alerta sobre o que foi alterado
+    And A mensagem de alerta informa "3" artigos foram alterados
+    And A mensagem de alerta informa que o artigo "Implementation cow confident with BFS" foi adicionado
+    And A mensagem de alerta informa que o artigo "Abordagem de LVQ para dados simbólicos" foi adicionado
+    And A mensagem de alerta informa que o artigo "Curvas de bezier interativas" foi adicionado
+    And É possível ver "3" atualizações
+    And É possível ver o nome do artigo "Implementation cow confident with BFS" informando que ele foi adicionado.
+    And É possível ver o nome do artigo "Abordagem de LVQ para dados simbólicos" informando que ele foi adicionado.
+    And É possível ver o nome do artigo "Curvas de bezier interativas" informando que ele foi adicionado.
+    And São exibidas as informações do pesquisador "Rafael" e cpf "12345678911"
+    And São exibidos "4" artigos
+    And É exibido o artigo "Implementation cow confident with BFS" com journal "Journal", issn "1" e dois autores "Rafael" e "Bruno"
+    And É exibido o artigo "Implementation sudoku with backtracking" com journal "Journal", issn "1" e dois autores "Rafael" e "Bruno"
+    And É exibido o artigo "Abordagem de LVQ para dados simbólicos" com journal "Journal", issn "1" e dois autores "Rafael" e "Bruno"
+    And É exibido o artigo "Curvas de bezier interativas" com journal "Journal", issn "1" e dois autores "Rafael" e "Bruno"
+
+  #Cenario7
+  #GUI
+  Scenario: Atualizar o journal de um artigo
+    Given  pesquisador  de nome "Rafael", cpf "12345678911" foi cadastrado no sistema com o arquivo "CurriculoValidoComUmArtigo.xml"
+    And Eu posso ver que o pesquisador de cpf "12345678911" e nome "Rafael" tem "1" artigos
+    And Eu posso ver que o pesquisador de cpf "12345678911" e nome "Rafael" tem o artigo "Implementation sudoku with backtracking" do journal "Journal", issn "1" e dois autores "Rafael" e "Bruno"
+    And Eu posso ver que o pesquisador de cpf "12345678911" e nome "Rafael" não tem atualizações
+    And  Estou na página de importação de arquivo de pesquisador
+    When importo arquivo "CurriculoValidoComUmArtigoWithOtherJournal.xml"
+    Then Eu estou na pagina de visualização
+    And Eu vejo uma mensagem de confirmação
+    And Eu vejo uma mensagem de alerta sobre o que foi alterado
+    And A mensagem de alerta informa "2" artigos foram alterados
+    And A mensagem de alerta informa que o artigo "Implementation sudoku with backtracking" foi adicionado
+    And A mensagem de alerta informa que o artigo "Implementation sudoku with backtracking" foi removido
+    And É possível ver "2" atualizações
+    And É possível ver o nome do artigo "Implementation sudoku with backtracking" informando que ele foi removido.
+    And É possível ver o nome do artigo "Implementation sudoku with backtracking" informando que ele foi adicionado.
+    And São exibidas as informações do pesquisador "Rafael" e cpf "12345678911"
+    And São exibidos "1" artigos
+    And É exibido o artigo "Implementation sudoku with backtracking" com journal "SBC Journal", issn "1" e dois autores "Rafael" e "Bruno"
+
+  #Cenario8
+  #GUI
+  Scenario: Atualizar pesquisador com atualizações existentes
+    Given  pesquisador  de nome "Rafael", cpf "12345678911" foi cadastrado no sistema com o arquivo "CurriculoValidoComUmArtigo.xml"
+    And pesquisador  de nome "Rafael", cpf "12345678911" foi atualizado o arquivo "CurriculoValidoComDoisArtigos.xml"
+    And Eu posso ver que o pesquisador de cpf "12345678911" e nome "Rafael" tem "2" artigos
+    And Eu posso ver que o pesquisador de cpf "12345678911" e nome "Rafael" tem o artigo "Implementation sudoku with backtracking" do journal "Journal", issn "1" e dois autores "Rafael" e "Bruno"
+    And Eu posso ver que o pesquisador de cpf "12345678911" e nome "Rafael" tem o artigo "Implementation cow confident with BFS" do journal "Journal", issn "1" e dois autores "Rafael" e "Bruno"
+    And Eu posso ver que o pesquisador de cpf "12345678911" e nome "Rafael" tem "1" atualização
+    And Eu posso ver que o pesquisador de cpf "12345678911" e nome "Rafael" tem uma atualização informando que o artigo "Implementation cow confident with BFS" foi adicionado
+    And  Estou na página de importação de arquivo de pesquisador
+    When importo arquivo "CurriculoValidoComQuatroArtigos.xml"
+    Then Eu estou na pagina de visualização
+    And Eu vejo uma mensagem de confirmação
+    And Eu vejo uma mensagem de alerta sobre o que foi alterado
+    And A mensagem de alerta informa "2" artigos foram alterados
+    And A mensagem de alerta informa que o artigo "Abordagem de LVQ para dados simbólicos" foi adicionado
+    And A mensagem de alerta informa que o artigo "Curvas de bezier interativas" foi adicionado
+    And É possível ver "3" atualizações
+    And É possível ver o nome do artigo "Implementation cow confident with BFS" informando que ele foi adicionado.
+    And É possível ver o nome do artigo "Abordagem de LVQ para dados simbólicos" informando que ele foi adicionado.
+    And É possível ver o nome do artigo "Curvas de bezier interativas" informando que ele foi adicionado.
+    And São exibidas as informações do pesquisador "Rafael" e cpf "12345678911"
+    And São exibidos "4" artigos
+    And É exibido o artigo "Implementation sudoku with backtracking" com journal "Journal", issn "1" e dois autores "Rafael" e "Bruno"
+    And É exibido o artigo "Implementation cow confident with BFS" com journal "Journal", issn "1" e dois autores "Rafael" e "Bruno"
+    And É exibido o artigo "Abordagem de LVQ para dados simbólicos" com journal "Journal", issn "1" e dois autores "Rafael" e "Bruno"
+    And É exibido o artigo "Curvas de bezier interativas" com journal "Journal", issn "1" e dois autores "Rafael" e "Bruno"
