@@ -40,7 +40,7 @@ class QualisController {
     def edit() {
         def qualisInstance = Qualis.findById(params.id)
         if(qualisInstance == null) {
-            flash.messge = 'Qualis inexistente'
+            flash.message = 'Qualis inexistente'
             redirect(controller: 'Qualis', action: 'index')
             return
         }
