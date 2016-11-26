@@ -223,9 +223,8 @@ class QualisController {
             def qualisAvaliationInstance = new QualisAvaliation(values)
             // então adicionamos a instância a relação one-to-many com Qualis
             qualis.addToQualisAvaliations(qualisAvaliationInstance)
-            qualisAvaliationInstance.save()
-            qualis.save()
         }
+        qualis.save()
         // por fim, encerramos o arquivo
         workbook.close()
     }
