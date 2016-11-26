@@ -1,5 +1,6 @@
 package steps
 
+import cucumber.api.PendingException
 import pages.ShowResearcherPage
 import rpa.Researcher
 import rpa.Article
@@ -110,7 +111,7 @@ Given(~/^pesquisador  de nome "([^"]*)", cpf "([^"]*)" foi cadastrado no sistema
     String name, String cpf, String filename ->
         to CreateResearcherPage
         at CreateResearcherPage
-        page.createResearcherWithFile(filename)
+        page.saveOrUpdateResearcherWithFile(filename)
         at ShowResearcherPage
         page.findResearcher(cpf, name)
 }
@@ -143,7 +144,7 @@ And(~/^Estou na página de importação de arquivo de pesquisador$/) { ->
 
 When(~/^importo arquivo "([^"]*)"$/) {
     String filename ->
-        page.createResearcherWithFile(filename)
+        page.saveOrUpdateResearcherWithFile(filename)
 }
 
 Then(~/^Eu estou na pagina de visualização$/) { ->
@@ -189,4 +190,46 @@ And(~/^É possível ver o nome do artigo "([^"]*)" informando que ele foi removi
     String title ->
         at ShowResearcherPage
         assert page.findUpdateLattes(title, UpdateType.REMOVE_ARTICLE)
+}
+And(~/^Eu vejo uma mensagem de alerta sobre o que foi alterado$/) { ->
+    at ShowResearcherPage
+        page.findAlertMsg()
+}
+
+And(~/^A mensagem de alerta informa "([0-9]*)" artigos foram alterados$/) {
+    int amount ->
+        at ShowResearcherPage
+        page.findAmountAlertMsg(amount)
+}
+
+And(~/^A mensagem de alerta informa que o artigo "([^"]*)" foi adicionado$/) {
+    String title ->
+        at ShowResearcherPage
+        page.findUpdateOnAlert(title, UpdateType.ADD_ARTICLE)
+}
+
+And(~/^A mensagem de alerta informa que o artigo "([^"]*)" foi removido$/) {
+    String title ->
+        at ShowResearcherPage
+        page.findUpdateOnAlert(title, UpdateType.REMOVE_ARTICLE)
+}
+And(~/^pesquisador  de nome "([^"]*)", cpf "([^"]*)" foi atualizado o arquivo "([^"]*)"$/) {
+    String name, String cpf, String filename ->
+        to CreateResearcherPage
+        at CreateResearcherPage
+        page.saveOrUpdateResearcherWithFile(filename)
+        at ShowResearcherPage
+        page.findResearcher(cpf, name)
+}
+And(~/^Eu posso ver que o pesquisador de cpf "([^"]*)" e nome "([^"]*)" tem "([0-9]*)" atualização$/) {
+    String cpf, String name, int amount ->
+        at ShowResearcherPage
+        page.findResearcher(cpf, name)
+        page.findAmountUpdates(amount)
+}
+And(~/^Eu posso ver que o pesquisador de cpf "([^"]*)" e nome "([^"]*)" tem uma atualização informando que o artigo "([^"]*)" foi adicionado$/) {
+    String cpf, String name, String title ->
+        at ShowResearcherPage
+        page.findResearcher(cpf, name)
+        page.findUpdateLattes(title, UpdateType.ADD_ARTICLE)
 }

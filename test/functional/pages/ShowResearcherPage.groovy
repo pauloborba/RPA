@@ -2,6 +2,7 @@ package pages
 
 import geb.Page
 import org.openqa.selenium.WebElement
+import rpa.UpdateLattes
 import rpa.UpdateType
 
 class ShowResearcherPage extends PageWithI18nSupport {
@@ -28,6 +29,7 @@ class ShowResearcherPage extends PageWithI18nSupport {
         assert  $("span", id: "name-value").text() == name
         assert  $("span", id: "cpf-value").text() == cpf
     }
+
     def findArticle(String title, String journal, String issn){
         def allTitles = $("span", class: "title").allElements()
         def allJournal = $("span", class: "journal").allElements()
@@ -37,19 +39,9 @@ class ShowResearcherPage extends PageWithI18nSupport {
         assert containsText(issn, allIssn)
 
     }
-    def compareReseacherWithArticle(String name, String cpf, String title, String journal, String issn){
-        assert  $("span", id: "name-value").text() == name
-        assert  $("span", id: "cpf-value").text() == cpf
-        def allTitles = $("span", class: "title").allElements()
-        def allJournal = $("span", class: "journal").allElements()
-        def allIssn = $("span", class: "issn").allElements()
-        assert containsText(title, allTitles)
-        assert containsText(journal, allJournal)
-        assert containsText(issn, allIssn)
-    }
 
     def findAcceptedMsg(){
-        def savedmsg = helperMsg.getMessage('researcher.saved')
+        def savedmsg = helperMsg.getMessage('researcher.updated')
         assert $("div", class: "message").text() == savedmsg
     }
 
@@ -77,5 +69,25 @@ class ShowResearcherPage extends PageWithI18nSupport {
     def findAmountArticles(int amount){
         def allTitles = $("span", class: "title").allElements()
         assert allTitles.size() == amount
+    }
+
+    def findAmountAlertMsg(int amount){
+        def allAlertMsg = $("span", class: "lastUpdate").allElements()
+        assert allAlertMsg.size() == amount
+    }
+
+    def findAlertMsg(){
+        def alertLastUpdates = $("ul", class:"message lastUpdates")
+        assert alertLastUpdates != null
+    }
+
+    def findUpdateOnAlert(String title, UpdateType type){
+        def allAlerts = $("span", class:"lastUpdate").allElements()
+        if(type == UpdateType.ADD_ARTICLE){
+            assert containsText(helperMsg.getMessage('updateLattes.added',title), allAlerts)
+        }else{
+            assert containsText(helperMsg.getMessage('updateLattes.removed',title), allAlerts)
+        }
+
     }
 }

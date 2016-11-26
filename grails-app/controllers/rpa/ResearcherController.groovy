@@ -4,7 +4,7 @@ import rpa.Researcher
 import rpa.Article
 
 class ResearcherController {
-
+    private def  lastUpdates = []
     def create(){
 
     }
@@ -19,17 +19,23 @@ class ResearcherController {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'researcher.label', default: 'Pesquisador'), params.id])
             return
         }
-        [researcherInstance: researcherInstance]
+        def diff = chainModel['diff']
+        render(view: "show", model: [researcherInstance: researcherInstance, lastUpdates: diff])
     }
 
     def importFile(){
+        lastUpdates = []
         def xml = request.getFile('file')
         if(!xml.empty){
             XmlExtractorService xmlExtractor = new XmlExtractorService()
             Researcher researcherSaved = saveOrUpdateResearcher(xmlExtractor, xml)
             if (researcherSaved.validate()) {
-                flash.message = message(code: 'researcher.saved')
-                redirect action: 'show', id: researcherSaved.id
+                if(lastUpdates.size() > 0){
+                    flash.message = message(code: 'researcher.updated')
+                }else{
+                    flash.message = message(code: 'researcher.saved')
+                }
+                chain (action: 'show', id: researcherSaved.id, model: [diff: lastUpdates])
             }else{
                 flash.message = message(code: 'researcher.file.invalid')
                 redirect action: 'create'
@@ -48,7 +54,7 @@ class ResearcherController {
         def researcherSaved = Researcher.findByCpf(researcherFromXml?.cpf)
 
         if (researcherSaved != null) {
-            researcherSaved.update(researcherFromXml)
+            lastUpdates = researcherSaved.update(researcherFromXml)
         } else {
             researcherSaved = researcherFromXml
             researcherSaved.save()

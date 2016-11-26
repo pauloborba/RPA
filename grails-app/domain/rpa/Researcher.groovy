@@ -16,13 +16,14 @@ class Researcher {
     }
 
     def update(Researcher newResearcher){
+        def lastUpdates = []
         if(!newResearcher.validate(validatesWithoutCpf())){
-            return null
+            return lastUpdates
         }
-
-        addNewArticleFromUpdate(newResearcher)
-        removeArticleFromUpdate(newResearcher)
+        lastUpdates += addNewArticleFromUpdate(newResearcher)
+        lastUpdates += removeArticleFromUpdate(newResearcher)
         this.save(flush: true)
+        lastUpdates
     }
 
     //Removendo validacao do cpf
@@ -33,8 +34,9 @@ class Researcher {
         def allButExcluded = allFields - excludedFields
         allButExcluded
     }
-
-    private void removeArticleFromUpdate(Researcher newResearcher) {
+    //Guardo as atualizações e retorno os novas atualizacoes de artigos que foram removidos
+    private def removeArticleFromUpdate(Researcher newResearcher) {
+        def updates = []
         def articlesToRemove = []
         for (oldArticle in this.articles) {
             boolean isSame = false
@@ -45,7 +47,9 @@ class Researcher {
                 }
             }
             if (!isSame) {
-                this.addToUpdates(new UpdateLattes(oldArticle.title,UpdateType.REMOVE_ARTICLE ,this))
+                UpdateLattes update = new UpdateLattes(oldArticle.title,UpdateType.REMOVE_ARTICLE ,this)
+                this.addToUpdates(update)
+                updates << update
                 articlesToRemove << oldArticle
             }
         }
@@ -53,9 +57,11 @@ class Researcher {
             this.removeFromArticles(it)
             it.delete(flush: true)
         }
+        updates
     }
-
-    private void addNewArticleFromUpdate(Researcher newResearcher) {
+    //Guardo as atualizações e retorno os novas atualizacoes de artigos que foram adicionados
+    private def addNewArticleFromUpdate(Researcher newResearcher) {
+        def updates = []
         for (nArticle in newResearcher.articles) {
             boolean isSame = false
             for (oldArticle in this.articles) {
@@ -65,9 +71,12 @@ class Researcher {
                 }
             }
             if (!isSame) {
+                UpdateLattes update = new UpdateLattes(nArticle.title, UpdateType.ADD_ARTICLE, this)
                 this.addToArticles(nArticle)
-                this.addToUpdates(new UpdateLattes(nArticle.title, UpdateType.ADD_ARTICLE, this))
+                this.addToUpdates(update)
+                updates << update
             }
         }
+        updates
     }
 }

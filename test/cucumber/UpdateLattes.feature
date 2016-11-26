@@ -76,6 +76,9 @@ Feature: Atualizar currículo lattes e mostrar diff
     When importo arquivo "CurriculoValidoComDoisArtigos.xml"
     Then Eu estou na pagina de visualização
     And Eu vejo uma mensagem de confirmação
+    And Eu vejo uma mensagem de alerta sobre o que foi alterado
+    And A mensagem de alerta informa "1" artigos foram alterados
+    And A mensagem de alerta informa que o artigo "Implementation cow confident with BFS" foi adicionado
     And É possível ver "1" atualizações
     And É possível ver o nome do artigo "Implementation cow confident with BFS" informando que ele foi adicionado.
     And São exibidas as informações do pesquisador "Rafael" e cpf "12345678911"
@@ -94,6 +97,11 @@ Feature: Atualizar currículo lattes e mostrar diff
     When importo arquivo "CurriculoValidoComQuatroArtigos.xml"
     Then Eu estou na pagina de visualização
     And Eu vejo uma mensagem de confirmação
+    And Eu vejo uma mensagem de alerta sobre o que foi alterado
+    And A mensagem de alerta informa "3" artigos foram alterados
+    And A mensagem de alerta informa que o artigo "Implementation cow confident with BFS" foi adicionado
+    And A mensagem de alerta informa que o artigo "Abordagem de LVQ para dados simbólicos" foi adicionado
+    And A mensagem de alerta informa que o artigo "Curvas de bezier interativas" foi adicionado
     And É possível ver "3" atualizações
     And É possível ver o nome do artigo "Implementation cow confident with BFS" informando que ele foi adicionado.
     And É possível ver o nome do artigo "Abordagem de LVQ para dados simbólicos" informando que ele foi adicionado.
@@ -116,9 +124,42 @@ Feature: Atualizar currículo lattes e mostrar diff
     When importo arquivo "CurriculoValidoComUmArtigoWithOtherJournal.xml"
     Then Eu estou na pagina de visualização
     And Eu vejo uma mensagem de confirmação
+    And Eu vejo uma mensagem de alerta sobre o que foi alterado
+    And A mensagem de alerta informa "2" artigos foram alterados
+    And A mensagem de alerta informa que o artigo "Implementation sudoku with backtracking" foi adicionado
+    And A mensagem de alerta informa que o artigo "Implementation sudoku with backtracking" foi removido
     And É possível ver "2" atualizações
     And É possível ver o nome do artigo "Implementation sudoku with backtracking" informando que ele foi removido.
     And É possível ver o nome do artigo "Implementation sudoku with backtracking" informando que ele foi adicionado.
     And São exibidas as informações do pesquisador "Rafael" e cpf "12345678911"
     And São exibidos "1" artigos
     And É exibido o artigo "Implementation sudoku with backtracking" com journal "SBC Journal" e issn "1"
+
+  #Cenario8
+  #GUI
+  Scenario: Atualizar pesquisador com atualizações existentes
+    Given  pesquisador  de nome "Rafael", cpf "12345678911" foi cadastrado no sistema com o arquivo "CurriculoValidoComUmArtigo.xml"
+    And pesquisador  de nome "Rafael", cpf "12345678911" foi atualizado o arquivo "CurriculoValidoComDoisArtigos.xml"
+    And Eu posso ver que o pesquisador de cpf "12345678911" e nome "Rafael" tem "2" artigos
+    And Eu posso ver que o pesquisador de cpf "12345678911" e nome "Rafael" tem o artigo "Implementation sudoku with backtracking" do journal "Journal" e issn "1"
+    And Eu posso ver que o pesquisador de cpf "12345678911" e nome "Rafael" tem o artigo "Implementation cow confident with BFS" do journal "Journal" e issn "1"
+    And Eu posso ver que o pesquisador de cpf "12345678911" e nome "Rafael" tem "1" atualização
+    And Eu posso ver que o pesquisador de cpf "12345678911" e nome "Rafael" tem uma atualização informando que o artigo "Implementation cow confident with BFS" foi adicionado
+    And  Estou na página de importação de arquivo de pesquisador
+    When importo arquivo "CurriculoValidoComQuatroArtigos.xml"
+    Then Eu estou na pagina de visualização
+    And Eu vejo uma mensagem de confirmação
+    And Eu vejo uma mensagem de alerta sobre o que foi alterado
+    And A mensagem de alerta informa "2" artigos foram alterados
+    And A mensagem de alerta informa que o artigo "Abordagem de LVQ para dados simbólicos" foi adicionado
+    And A mensagem de alerta informa que o artigo "Curvas de bezier interativas" foi adicionado
+    And É possível ver "3" atualizações
+    And É possível ver o nome do artigo "Implementation cow confident with BFS" informando que ele foi adicionado.
+    And É possível ver o nome do artigo "Abordagem de LVQ para dados simbólicos" informando que ele foi adicionado.
+    And É possível ver o nome do artigo "Curvas de bezier interativas" informando que ele foi adicionado.
+    And São exibidas as informações do pesquisador "Rafael" e cpf "12345678911"
+    And São exibidos "4" artigos
+    And É exibido o artigo "Implementation sudoku with backtracking" com journal "Journal" e issn "1"
+    And É exibido o artigo "Implementation cow confident with BFS" com journal "Journal" e issn "1"
+    And É exibido o artigo "Abordagem de LVQ para dados simbólicos" com journal "Journal" e issn "1"
+    And É exibido o artigo "Curvas de bezier interativas" com journal "Journal" e issn "1"

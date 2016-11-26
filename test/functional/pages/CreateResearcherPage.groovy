@@ -11,7 +11,7 @@ class CreateResearcherPage extends PageWithI18nSupport {
         title == helperMsg.getMessage('default.create.label', researcherlabel)
     }
 
-    void createResearcherWithFile(String filename){
+    void saveOrUpdateResearcherWithFile(String filename){
         def file = new File(dirFiles+filename)
         $("form").file = file.getAbsolutePath()
         $("form").create().click()

@@ -18,6 +18,19 @@
     </div>
     <g:if test="${flash.message}">
         <div class="message" role="status">${flash.message}</div>
+        <g:if test="${lastUpdates?.size()>0}">
+            <ul class="message lastUpdates" style="list-style-type: none">
+                <g:each status="i" var="it" in="${lastUpdates}">
+                    <g:if test="${it.typeUpdate == UpdateType.ADD_ARTICLE}">
+                        <li><span class="lastUpdate"><g:message code="updateLattes.added" args="${[it.attribute]}" default="O artigo ${it.attribute} foi adicionado"/></span></li>
+                    </g:if>
+                    <g:if test="${it.typeUpdate == UpdateType.REMOVE_ARTICLE}">
+                        <li><span class="lastUpdate"><g:message code="updateLattes.removed" args="${[it.attribute]}" default="O artigo ${it.attribute} foi removido"/></span></li>
+                    </g:if>
+                </g:each>
+            </ul>
+        </g:if>
+
     </g:if>
     <div id="show-researcher" class="content scaffold-show" role="main">
         <ol class="property-list researcher">
