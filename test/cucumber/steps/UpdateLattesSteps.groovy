@@ -2,6 +2,7 @@ package steps
 
 import cucumber.api.PendingException
 import pages.ShowResearcherPage
+import rpa.Author
 import rpa.Researcher
 import rpa.Article
 import pages.CreateResearcherPage
@@ -24,10 +25,13 @@ And(~/^o pesquisador de cpf "([^"]*)" tem "([0-9]*)" artigos$/) {
         assert researcher.articles.size() == amount
 }
 
-And(~/^o pesquisador de cpf "([^"]*)" tem o artigo "([^"]*)" do journal "([^"]*)" e issn "([^"]*)"$/) {
-    String cpf, String title, String journal, String issn ->
+And(~/^o pesquisador de cpf "([^"]*)" tem o artigo "([^"]*)" do journal "([^"]*)", issn "([^"]*)" e dois autores "([^"]*)" e "([^"]*)"$/) {
+    String cpf, String title, String journal, String issn, String author1, String author2 ->
         def researcher = Researcher.findByCpf(cpf)
-        def article = new Article(title: title, journal: journal, issn: issn)
+        def authors = []
+        authors << new Author(name: author1)
+        authors << new Author(name: author2)
+        def article = new Article(title: title, journal: journal, issn: issn, authors: authors)
         assert researcher.articles.contains(article)
 }
 
@@ -123,11 +127,11 @@ And(~/^Eu posso ver que o pesquisador de cpf "([^"]*)" e nome "([^"]*)" tem "([^
         page.findAmountArticles()
 }
 
-And(~/^Eu posso ver que o pesquisador de cpf "([^"]*)" e nome "([^"]*)" tem o artigo "([^"]*)" do journal "([^"]*)" e issn "([^"]*)"$/) {
-    String cpf, String name, String title, String journal, String issn ->
+And(~/^Eu posso ver que o pesquisador de cpf "([^"]*)" e nome "([^"]*)" tem o artigo "([^"]*)" do journal "([^"]*)", issn "([^"]*)" e dois autores "([^"]*)" e "([^"]*)"$/) {
+    String cpf, String name, String title, String journal, String issn, String author1, String author2 ->
         at ShowResearcherPage
         page.findResearcher(cpf, name)
-        page.findArticle(title, journal, issn)
+        page.findArticleWithTwoAuthors(title, journal, issn, author1, author2)
 }
 
 And(~/^Eu posso ver que o pesquisador de cpf "([^"]*)" e nome "([^"]*)" não tem atualizações$/) {
@@ -180,10 +184,10 @@ And(~/^São exibidos "([0-9]*)" artigos$/) {
         page.findAmountArticles(amount)
 }
 
-And(~/^É exibido o artigo "([^"]*)" com journal "([^"]*)" e issn "([^"]*)"$/) {
-    String title, String journal, String issn ->
+And(~/^É exibido o artigo "([^"]*)" com journal "([^"]*)", issn "([^"]*)" e dois autores "([^"]*)" e "([^"]*)"$/) {
+    String title, String journal, String issn, String author1, String author2 ->
         at ShowResearcherPage
-        page.findArticle(title, journal, issn)
+        page.findArticleWithTwoAuthors(title, journal, issn, author1, author2)
 }
 
 And(~/^É possível ver o nome do artigo "([^"]*)" informando que ele foi removido\.$/) {

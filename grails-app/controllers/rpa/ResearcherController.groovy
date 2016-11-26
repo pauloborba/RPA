@@ -19,7 +19,13 @@ class ResearcherController {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'researcher.label', default: 'Pesquisador'), params.id])
             return
         }
-        def diff = chainModel['diff']
+
+        def diff
+        if(chainModel != null) {
+            diff = chainModel['diff']
+        }else{
+            diff = []
+        }
         render(view: "show", model: [researcherInstance: researcherInstance, lastUpdates: diff])
     }
 

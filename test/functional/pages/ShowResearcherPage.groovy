@@ -30,13 +30,16 @@ class ShowResearcherPage extends PageWithI18nSupport {
         assert  $("span", id: "cpf-value").text() == cpf
     }
 
-    def findArticle(String title, String journal, String issn){
+    def findArticleWithTwoAuthors(String title, String journal, String issn, String author1, String author2){
         def allTitles = $("span", class: "title").allElements()
         def allJournal = $("span", class: "journal").allElements()
         def allIssn = $("span", class: "issn").allElements()
+        def allAuthors = $("span", class: "author").allElements()
         assert containsText(title, allTitles)
         assert containsText(journal, allJournal)
         assert containsText(issn, allIssn)
+        assert containsText(author1, allAuthors)
+        assert containsText(author2, allAuthors)
 
     }
 

@@ -57,6 +57,10 @@
                                 <span id="journal-value${i}" class="journal property-value" ><g:fieldValue bean="${it}" field="journal"/></span>
                                 <span id="issn-label${i}" class="property-label"><g:message code="article.issn.label" default="Issn" /></span>
                                 <span id="issn-value${i}" class="issn property-value" ><g:fieldValue bean="${it}" field="issn"/></span>
+                                <span id="authors-label${i}" class="property-label"><g:message code="article.authors.label" default="Autores"/></span>
+                                <g:each var="author" in="${it.authors}">
+                                    <span class="author property-value">${author.name}</span>
+                                </g:each>
                             </li>
                         </ol>
                     </g:each>

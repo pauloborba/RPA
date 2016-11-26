@@ -79,6 +79,10 @@ class XmlExtractorService {
             } else if (detail.getNodeName().equals("DETALHAMENTO-DO-ARTIGO")) {
                 article.issn = detail.getAttributes().getNamedItem("ISSN").getNodeValue()
                 article.journal = detail.getAttributes().getNamedItem("TITULO-DO-PERIODICO-OU-REVISTA").getNodeValue()
+            } else if(detail.getNodeName().equals("AUTORES")){
+                def name = detail.getAttributes().getNamedItem("NOME-COMPLETO-DO-AUTOR").getNodeValue()
+                Author author = new Author(name: name)
+                article.addToAuthors(author)
             }
         }
         article
