@@ -10,7 +10,7 @@ import rpa.Researcher
 <html>
 <head>
     <meta name="layout" content="main">
-    <g:set var="entityName" value="${message(code: 'rpa.label', default: 'Researcher')}" />
+    <g:set var="entityName" value="${message(code: 'default.researcher.label', default: 'Researcher')}" />
     <title>Remove Screen</title>
 </head>
 
@@ -36,8 +36,9 @@ import rpa.Researcher
 
 
       <fieldset class="buttons">
-          <g:submitButton name="ResearcherRemove" class="remove" value="${message(code: 'default.button.RemoveResearcher.label', default: 'Remove') }" />
+          <g:submitButton name="ResearcherRemove" class="remove" value="${message(code: 'default.button.Delete.label', default: 'Remove') }" />
       </fieldset>
     </g:form>
 </body>
 </html>
+

@@ -5,7 +5,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta name="layout" content="main"/>
-    <g:set var="entityName" value="${message(code: 'rpa.label', default: 'Researcher')}"/>
+    <g:set var="entityName" value="${message(code: 'default.researcher.label', default: 'Researcher')}"/>
     <title><g:message code="default.show.label" args="[entityName]"/></title>
 </head>
 <body>
@@ -20,7 +20,7 @@
                                                                                args="[entityName]"/></g:link></span>
         <span class="menuButton"><g:link class="create" action="create"><g:message code="default.new.label"
                                                                                    args="[entityName]"/></g:link></span>
-        <span class="menuButton"><g:link class="removeStep1" action="removeStep1"><g:message code="Remove Researcher" /></g:link></span>
+        <span class="menuButton"><g:link class="removeStep1" action="removeStep1"><g:message code="default.remove.label" /></g:link></span>
     </div>
 
     <div class="body">
@@ -33,20 +33,20 @@
                 <tbody>
 
                 <tr class="prop">
-                    <td valign="top" class="name"><g:message code="rpa.name.label" default="Name"/></td>
+                    <td valign="top" class="name"><g:message code="default.name.label" default="Name"/></td>
                     <td valign="top" class="value">${fieldValue(bean: ResearcherInstance, field: "name")}</td>
 
                 </tr>
 
                 <tr class="prop">
-                    <td valign="top" class="name"><g:message code="rpa.cpf.label" default="CPF"/></td>
+                    <td valign="top" class="name"><g:message code="default.cpf.label" default="CPF"/></td>
                     <td valign="top" class="value">${fieldValue(bean: ResearcherInstance, field: "cpf")}</td>
 
                 </tr>
 
 
                 <tr class="prop">
-                    <td valign="top" class="name"><g:message code="rpa.listaPublicacoes.label" default="Artigos"/></td>
+                    <td valign="top" class="name"><g:message code="default.articles.label" default="Artigos"/></td>
 
                     <td valign="top" style="text-align: left;" class="value">
                         <ul>

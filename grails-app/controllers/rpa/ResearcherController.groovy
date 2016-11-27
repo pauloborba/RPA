@@ -22,7 +22,7 @@ class ResearcherController {
     def show(Long id) {
         def ResearcherInstance = Researcher.get(id)
         if (!ResearcherInstance) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'rpa.label', default: 'Pesquisadores'), nome])
+            flash.message = message(code: 'default.not.found.message', args: [message(code: 'default.researchers.label', default: 'Pesquisadores'), nome])
             redirect(action: "list")
             return
         }
@@ -32,12 +32,12 @@ class ResearcherController {
 
     def remove() {
         if (params.ResearchersSelector == null && params.typed == ""){
-            flash.message = message(code: 'nothingSelected', default: 'Select at least one researcher to remove')
+            flash.message = message(code: 'default.nothingSelected.message', default: 'Select at least one researcher to remove')
             redirect(action: "removeStep1")
         }
 
         else if(params.ResearchersSelector != null && params.typed != ""){
-            flash.message = message(code: 'bothUsed', default: 'You can not use the text field and the checklist at the same time')
+            flash.message = message(code: 'defaut.bothUsed.message', default: 'You can not use the text field and the checklist at the same time')
             redirect(action: "removeStep1")
         }
         else if (params.ResearchersSelector != null && params.typed == "") {
@@ -61,7 +61,7 @@ class ResearcherController {
                 redirect(action: "list")
             }
             else {
-                flash.message = message(code: 'NotExist', default: 'CPF not valid! You have to select a existing researcher!')
+                flash.message = message(code: 'default.notExist.message', default: 'CPF not valid! You have to select a existing researcher!')
                 redirect(action: "removeStep1")
             }
         }

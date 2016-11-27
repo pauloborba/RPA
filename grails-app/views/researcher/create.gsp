@@ -4,7 +4,7 @@
 <html>
 <head>
     <meta name="layout" content="main">
-    <g:set var="entityName" value="${message(code: 'Pesquisador.label', default: 'Researcher')}" />
+    <g:set var="entityName" value="${message(code: 'default.researcher.label', default: 'Researcher')}" />
     <title>Create Researcher</title>
 </head>
 <body>
@@ -13,7 +13,7 @@
     <ul>
         <li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
         <li><g:link class="list" action="list"><g:message code="default.list.label" args="[entityName]" /></g:link></li>
-        <span class="menuButton"><g:link class="removeStep1" action="removeStep1"><g:message code="Remove Researcher" /></g:link></span>
+        <span class="menuButton"><g:link class="removeStep1" action="removeStep1"><g:message code="default.remove.label" /></g:link></span>
     </ul>
 </div>
 <div id="create-residueGenerator" class="content scaffold-create" role="main">
