@@ -5,6 +5,10 @@ class Researcher {
     String cpf
     static hasMany = [articles: Article]
 
+    Researcher(){
+        articles = []
+    }
+
     static constraints = {
         name(nullable: false, blank: false)
         cpf(unique: true, nullable: false, blank: false, minSize: 11, maxSize: 11)

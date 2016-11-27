@@ -13,8 +13,8 @@
 </g:if>
 <g:else>
     <p class="error"> Erro ao gerar rank do grupo.</p>
-    <br/>
     <p> ${error} </p>
+    <br/>
 </g:else>
 
 

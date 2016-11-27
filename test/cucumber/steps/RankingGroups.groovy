@@ -4,15 +4,13 @@ import rpa.RankingGroupController
 import rpa.ResearchGroup
 import rpa.Researcher
 
-import cucumber.api.PendingException
+import static cucumber.api.groovy.EN.*
 
-this.metaClass.mixin(cucumber.api.groovy.Hooks)
-this.metaClass.mixin(cucumber.api.groovy.EN)
 
 ResearchGroup group
 def ranking
 
-Given(~/^O grupo "([^"]*)" existe/){
+Given(~/^O grupo "([^"]*)" existe  existe/){
     String groupName ->
         group = new ResearchGroup(groupName, [])
         group.save flush: true

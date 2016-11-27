@@ -1,17 +1,25 @@
 package rpa
 
-import rpa.GroupNotFoundException
-import rpa.ResearchGroup
-import rpa.Researcher
-import rpa.Article
-import rpa.QualisAvaliation
-
+import rpa.exception.GroupNotFoundException
 
 class RankingGroupController {
 
+    def groupName
 
     def index(){
-        [groups: ResearchGroup.find()]
+        def groups = ResearchGroup.findAll()
+        groups = [new ResearchGroup([name:"arthur", researchers:[]])]
+        def groupNames = []
+        for(it in groups){
+            groupNames.add(it.name)
+        }
+        groupName = ""
+        [groups: groupNames]
+    }
+
+    def showGroup() {
+        groupName = name
+        redirect(action:'show', params:[groupName: groupName])
     }
 
     def show(String groupName){
@@ -23,7 +31,7 @@ class RankingGroupController {
         try{
             ranking = groupRanking(group)
         } catch(Exception e){
-            error = e.message()
+            error = e.message
         }
 
         [ rank:ranking, error: error]
@@ -35,7 +43,7 @@ class RankingGroupController {
         for (article in articles){
 
             // grade == A1 + A2 + B1
-            QualisAvaliation[] avaliations = QualisAvaliation.find{ it.issn == article.issn }
+            QualisAvaliation[] avaliations = QualisAvaliation.find{ issn == article.issn }
 
             for (avaliation in avaliations){
                 if(avaliation == "A1" || avaliation == "A2" || avaliation == "B1")
@@ -63,6 +71,8 @@ class RankingGroupController {
 
         ranking.sort{it.rank}
         ranking = ranking.reverse()
+
+        ranking = [new Rank(name:"arthur", grade:10)]
 
         return ranking
     }

@@ -7,7 +7,11 @@ import rpa.Article
 this.metaClass.mixin(cucumber.api.groovy.Hooks)
 
 Before() {
+    bindingUpdater = new BindingUpdater(binding, new Browser())
+    bindingUpdater.initialize()
 
+    scenarioInterceptor = new GrailsTestRequestEnvironmentInterceptor(appCtx)
+    scenarioInterceptor.init()
 }
 
 After() {
@@ -21,6 +25,7 @@ After() {
     Article.list().each {
         it.delete(flush:true)
     }
+    scenarioInterceptor.destroy()
 
     bindingUpdater.remove()
 }
