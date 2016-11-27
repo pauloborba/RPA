@@ -56,7 +56,7 @@ Given(~/^eu estou na página de detalhe do qualis "([^"]*)" cadastrado com o arq
     page.submitForm()
 }
 
-When(~/^eu clicar em deletar na pagina de detalhes$/) { ->
+When(~/^deleto o qualis na pagina de detalhes$/) { ->
     at QualisShowPage
     page.clickDelete()
 }
@@ -66,7 +66,7 @@ Then(~/^eu estou na página de listagem de qualis e não existe um qualis chamad
     assert !page.qualisExist(title)
 }
 
-When(~/^eu clico em editar na pagina de detalhes$/) { ->
+When(~/^eu entro em editar$/) { ->
     at QualisShowPage
     page.clickEdit()
     at QualisEditPage
@@ -77,7 +77,7 @@ And(~/^eu preencho o formulário de editar com título "([^"]*)" com o arquivo "
     page.fillForm(title, path)
 }
 
-And(~/^eu clico em atualizar$/) { ->
+And(~/^atualizo o qualis$/) { ->
     page.submitForm()
 }
 

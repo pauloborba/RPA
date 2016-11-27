@@ -25,14 +25,14 @@ Feature: Cadastrar qualis em formato XLSX
 
   Scenario: Deletar qualis web
     Given eu estou na página de detalhe do qualis "2012" cadastrado com o arquivo "qualis_2012-2.xls"
-    When eu clicar em deletar na pagina de detalhes
+    When deleto o qualis na pagina de detalhes
     Then eu estou na página de listagem de qualis e não existe um qualis chamado "2012"
 
   Scenario: Editar qualis web
     Given eu estou na página de detalhe do qualis "2012" cadastrado com o arquivo "qualis_2012.xls"
-    When eu clico em editar na pagina de detalhes
+    When eu entro em editar
     And eu preencho o formulário de editar com título "2012.2" com o arquivo "qualis_2012-2.xls"
-    And eu clico em atualizar
+    And atualizo o qualis
     Then o título do página é "2012.2"
     And o veículo "Veículo teste" está presente na página
     And o veículo "Commit da perdição" está presente na página
