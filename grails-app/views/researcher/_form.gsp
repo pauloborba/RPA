@@ -33,5 +33,5 @@
 		<g:message code="Articles" default="Articles" />
 		
 	</label>
-	<g:select name="articles" from="${rpa.Article.list()}" multiple="multiple" optionKey="id" size="5" value="${researcherInstance.articles*.id}" optionValue="${{it.tittle}}" class="many-to-many"/>
+	<g:select name="articles" from="${rpa.Article.list()}" multiple="multiple" optionKey="id" size="5" value="${researcherInstance.articles*.id}" optionValue="${{it.title}}" class="many-to-many"/>
 </div>

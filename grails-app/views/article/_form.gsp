@@ -3,11 +3,11 @@
 
 
 <div class="fieldcontain ${hasErrors(bean: articleInstance, field: 'title', 'error')} required">
-	<label for="tittle">
-		<g:message code="article.tittle.label" default="Tittle" />
+	<label for="title">
+		<g:message code="article.title.label" default="Title" />
 		<span class="required-indicator">*</span>
 	</label>
-	<g:textField name="tittle" required="" value="${articleInstance?.tittle}"/>
+	<g:textField name="title" required="" value="${articleInstance?.title}"/>
 
 </div>
 

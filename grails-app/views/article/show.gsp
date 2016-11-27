@@ -23,11 +23,11 @@
 			</g:if>
 			<ol class="property-list article">
 			
-				<g:if test="${articleInstance?.tittle}">
+				<g:if test="${articleInstance?.title}">
 				<li class="fieldcontain">
-					<span id="tittle-label" class="property-label"><g:message code="article.tittle.label" default="Tittle" /></span>
+					<span id="title-label" class="property-label"><g:message code="article.title.label" default="Title" /></span>
 					
-						<span class="property-value" aria-labelledby="tittle-label"><g:fieldValue bean="${articleInstance}" field="tittle"/></span>
+						<span class="property-value" aria-labelledby="title-label"><g:fieldValue bean="${articleInstance}" field="title"/></span>
 					
 				</li>
 				</g:if>
