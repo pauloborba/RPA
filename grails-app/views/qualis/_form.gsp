@@ -2,7 +2,7 @@
 
 <div class="fieldcontain ${hasErrors(bean: qualis, field: 'title', 'error')} required">
     <label for="title">
-        Título
+        <g:message code="qualis.title.label" default="Título"/>
         <span class="required-indicator">*</span>
     </label>
     <g:textField name="title" required="" value="${qualis?.title}"/>
@@ -10,7 +10,7 @@
 
 <div class="fieldcontain">
     <label for="qualis-sheet">
-        Planilha
+        <g:message code="qualis.qualis-sheet.label" default="Planilha"/>
         <span class="required-indicator">*</span>
     </label>
     <input type="file" id="qualis-sheet" name="qualis-sheet" />
