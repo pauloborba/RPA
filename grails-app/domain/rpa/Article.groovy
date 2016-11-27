@@ -1,17 +1,23 @@
 package rpa
 
 class Article {
-    String tittle
+    String title
     String journal
     String issn
-    static hasMany = [authors:Researcher]
-    static belongsTo = Researcher
+    Set<Author> authors
+    static hasMany = [authors:Author]
+    static belongsTo = [owner:Researcher]
     int citationAmount
 
+    Article() {
+        authors = []
+    }
+
     static constraints = {
-        tittle(nullable: false, blank: false)
+        title(nullable: false, blank: false)
         journal(nullable: false, blank: false)
-        issn(unique: true,nullable: false, blank: false)
+        issn(nullable: false, blank: false)
+        owner(nullable: true)
         citationAmount(blank: true)
     }
 }

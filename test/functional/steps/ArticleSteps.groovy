@@ -11,13 +11,13 @@ class ArticleSteps {
 
     static articles = [
             [
-                    tittle: "Implementing distribution and persistence aspects with AspectJ",
+                    title: "Implementing distribution and persistence aspects with AspectJ",
                     journal: "ACM",
                     issn: "11111",
-                    citationAmount: 376
+                    citationAmount: 377
             ],
             [
-                    tittle: "Assessing fine-grained feature dependencies",
+                    title: "Assessing fine-grained feature dependencies",
                     journal: "ACM",
                     issn: "22222",
                     citationAmount: 0
@@ -26,14 +26,14 @@ class ArticleSteps {
 
     static public def findArticle(String title) {
         articles.find { article ->
-            article.tittle == title
+            article.title == title
         }
     }
 
 
     static public void createArticle(String title, String journal, String issn, String citations) {
         def cont = new ArticleController()
-        cont.params << findArticle(title) << [tittle: title]
+        cont.params << findArticle(title) << [title: title]
 
         if (journal != null) {
             cont.params["journal"] = journal
@@ -54,7 +54,7 @@ class ArticleSteps {
     }
 
     static public boolean isArticleStored(article, title) {
-        def sArticle = Article.findByTittle(title)
+        def sArticle = Article.findByTitle(title)
         def hasArticle = true
         if (sArticle != null && article != null) {
             sArticle.each { key, data ->

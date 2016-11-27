@@ -18,7 +18,6 @@ class CitationTestSteps {
         }
 
         int initialCitationAmount = art.citationAmount
-        System.out.println(initialCitationAmount+"*")
         return initialCitationAmount == findCitations(article, researcher)
     }
 
@@ -28,7 +27,6 @@ class CitationTestSteps {
         List<Article> list = new ArrayList<Article>()
         list.add(art)
         gs.findCitations(list)
-        System.out.println(list.get(0).citationAmount+"+")
         return list.get(0).citationAmount
     }
 

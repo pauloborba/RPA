@@ -3,7 +3,12 @@ package rpa
 class Researcher {
     String name
     String cpf
-    static hasMany = [articles:Article]
+    static hasMany = [articles:Article, updates:UpdateLattes]
+
+    Researcher() {
+        articles = []
+        updates = []
+    }
 
     static constraints = {
         name(nullable: false, blank: false)

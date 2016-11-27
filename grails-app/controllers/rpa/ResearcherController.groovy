@@ -1,10 +1,7 @@
 package rpa
 
-import org.radeox.util.logging.SystemOutLogger
-
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
-import rpa.GoogleScholarService
 
 @Transactional(readOnly = true)
 class ResearcherController {
@@ -26,7 +23,7 @@ class ResearcherController {
 
     def findCitations() {
         Researcher res = Researcher.findByName(params.researcher)
-        Article art = Article.findByTittle(params.article)
+        Article art = Article.findByTitle(params.article)
         List<Article> lista = new ArrayList<Article>()
         lista.add(art)
         gs = new GoogleScholarService()

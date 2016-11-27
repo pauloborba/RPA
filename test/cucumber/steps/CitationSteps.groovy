@@ -1,7 +1,5 @@
 package steps
 
-import pages.Citation
-
 import rpa.Researcher
 import rpa.Article
 
@@ -22,7 +20,7 @@ Given(~/^the researcher "([^"]*)" with cpf "([^"]*)" is stored by the system$/) 
 
 And(~/^the article with title "([^"]*)", issn "([^"]*)" from the journal "([^"]*)" and with "([^"]*)" citations at Google Scholar is stored by the system$/) { String arg1, String arg2, String arg3, String arg4 ->
     ArticleSteps.createArticle(arg1, arg2, arg3, arg4)
-    Article article = Article.findByTittle(arg1)
+    Article article = Article.findByTitle(arg1)
     assert ArticleSteps.isArticleStored(article, arg1)
 }
 

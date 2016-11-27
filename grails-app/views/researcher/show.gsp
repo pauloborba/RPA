@@ -46,7 +46,7 @@
 					<span id="articles-label" class="property-label"><g:message code="researcher.articles.label" default="Articles" /></span>
 
 						<g:each in="${rpa.Article.list()}" var="a">
-						<span class="property-value" aria-labelledby="articles-label"><g:link controller="article" action="show" id="${a.id}">${a.tittle}</g:link></span>
+						<span class="property-value" aria-labelledby="articles-label"><g:link controller="article" action="show" id="${a.id}">${a.title}</g:link></span>
 						</g:each>
 					
 				</li>
