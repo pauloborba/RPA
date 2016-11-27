@@ -10,7 +10,8 @@ class QualisAvaliationController {
         def qualisAvaliation = QualisAvaliation.findById(params.id)
         if(!qualisAvaliation)
         {
-            flash.message = 'Avaliação de períodico não encontrada'
+            flash.message = 'qualisAvaliation.not.found.message'
+            flash.default = 'Avaliação de qualis não encontrada'
             redirect(controller: 'qualis', action: 'index')
             return
         }

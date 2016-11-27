@@ -40,7 +40,8 @@ class QualisController {
     def edit() {
         def qualisInstance = Qualis.findById(params.id)
         if(qualisInstance == null) {
-            flash.message = 'Qualis inexistente'
+            flash.message = 'qualis.not.found.message'
+            flash.default = 'Qualis não encontrado'
             redirect(controller: 'Qualis', action: 'index')
             return
         }
@@ -62,7 +63,8 @@ class QualisController {
                 {
                     //caso não exista tal qualis, redirecionamos para a página de index
                     // com uma mensagem indicando o erro
-                    flash.message = 'Impossível encontrar o qualis'
+                    flash.message = 'qualis.not.found.message'
+                    flash.default = 'Qualis não encontrado'
                     redirect(controller: 'qualis', action: 'index')
                     return
                 }
@@ -83,7 +85,8 @@ class QualisController {
                             addQualisAvaliations(qualis, fileSys)
                         } catch (Exception ex) {
                             // em caso de erro com o arquivo, retornamos um mensagem de erro para o browser
-                            flash.message = 'O arquivo submetido não é válido'
+                            flash.message = 'qualis.invalid.file.message'
+                            flash.message = 'Arquivo inválido'
                             redirect(controller: 'qualis', action: 'edit', params: [id: params.id])
                             ex.printStackTrace()
                             return
@@ -95,12 +98,15 @@ class QualisController {
                 redirect(controller: 'qualis', action: 'show', params: [id: params.id])
             } else {
                 // caso não haja título, redirecionamos o mesmo
-                flash.message = 'Campo título é obrigatório'
+                flash.message = 'default.blank.message'
+                flash.args = [message(code: 'qualis.title.label'), 'qualis']
+                flash.default = 'O campo título da classe qualis não pode ficar em branco'
                 redirect(controller: 'qualis', action: 'edit', params: [id: params.id])
             }
         } else {
             // caso não haja id, redirecionamos o mesmo
-            flash.message = 'Impossível encontrar o qualis'
+            flash.message = 'qualis.not.found.message'
+            flash.default = 'Qualis não encontrado'
             redirect(controller: 'qualis', action: 'index')
         }
     }
@@ -112,9 +118,10 @@ class QualisController {
     @Transactional
     def delete() {
         def qualisInstance = Qualis.findById(params.id)
-        if(qualisInstance == null)
-            flash.message = 'Qualis não encontrado'
-        else {
+        if(qualisInstance == null) {
+            flash.message = 'qualis.not.found.message'
+            flash.default = 'Qualis não encontrado'
+        } else {
             qualisInstance.delete(flush: true)
         }
         redirect(controller: 'qualis', action: 'index')
@@ -127,9 +134,9 @@ class QualisController {
     @Transactional
     def show() {
         def qualisInstance = Qualis.findById(params.id)
-        if(qualisInstance == null)
-        {
-            flash.message = 'Qualis não encontrado'
+        if(qualisInstance == null) {
+            flash.message = 'qualis.not.found.message'
+            flash.default = 'Qualis não encontrado'
             redirect(controller: 'qualis', action: 'index')
             return
         }
@@ -160,7 +167,9 @@ class QualisController {
 
                 if(!reqFile) // verificamos se o arquivo foi submetido
                 {
-                    flash.message = 'É obrigatória a submissão de uma planilha'
+                    flash.message = 'default.blank.message'
+                    flash.args = [message(code: 'qualis.qualis-sheet.label'), 'qualis']
+                    flash.default = 'O campo planilha da classe qualis não pode ficar em branco'
                     redirect(controller: 'qualis', action: 'create')
                     qualisInstance.delete()
                     return
@@ -170,7 +179,8 @@ class QualisController {
                 try { // tentamos adicionar as avaliações ao qualis
                     addQualisAvaliations(qualisInstance, file)
                 } catch (Exception ex) { // abortamos o processo no caso de um erro com o arquivo
-                    flash.message = 'O arquivo submetido não é válido'
+                    flash.message = 'qualis.invalid.file.message'
+                    flash.message = 'Arquivo inválido'
                     qualisInstance.delete()
                     redirect(controller: 'qualis', action: 'create')
                     ex.printStackTrace()
@@ -178,7 +188,9 @@ class QualisController {
                 }
                 file.delete() // por fim, o arquivo é excluido
             } else { // de forma análoga, invalidamos a requisição na ausência de um arquivo
-                flash.message = 'É obrigatória a submissão de uma planilha'
+                flash.message = 'default.blank.message'
+                flash.args = [message(code: 'qualis.qualis-sheet.label'), 'qualis']
+                flash.default = 'O campo planilha da classe qualis não pode ficar em branco'
                 redirect(controller: 'qualis', action: 'create')
                 qualisInstance.delete()
                 return
@@ -187,7 +199,9 @@ class QualisController {
             redirect(controller: 'qualis', action: 'show', params: [id: qualisInstance.id])
         }
         else { // é obrigatória a presença de um título
-            flash.message = 'Campo título é obrigatório'
+            flash.message = 'default.blank.message'
+            flash.args = [message(code: 'qualis.title.label'), 'qualis']
+            flash.default = 'O campo título da classe qualis não pode ficar em branco'
             redirect(controller: 'qualis', action: 'create')
         }
     }
