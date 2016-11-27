@@ -21,8 +21,9 @@ class QualisListPage extends PageWithI18nSupport{
         def table = $('table')
         def rows = table.find('tbody').find('tr')
         boolean val = false
-        for(int i = 0; i < rows.size() && !val; ++i)
-            if(rows[i].find('td').text() == title)
+        int i = 0
+        while(i < rows.size() && !val)
+            if(rows[i++].find('td').text() == title)
                 val = true
         return val
     }

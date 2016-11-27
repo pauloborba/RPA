@@ -20,7 +20,12 @@ Then(~/^o sistema cadastra o qualis chamado "([^"]*)" com ([0-9]*) avaliações$
 }
 And(~/^o qualis "([^"]*)" tem uma avaliação "([^"]*)" para o veículo "([^"]*)" de ISSN "([^"]*)" no tema "([^"]*)"$/)
 { String qualisTitle, String evaluation, String journalTitle, String issn, String subject ->
-    def qualisAvaliationValues = [issn: issn, journal: journalTitle, evaluation: evaluation, subject: subject]
+    def qualisAvaliationValues = [
+            issn: issn,
+            journal: journalTitle,
+            evaluation: evaluation,
+            subject: subject
+    ]
     checkQualisAndAvaliation(qualisTitle, qualisAvaliationValues)
 }
 
