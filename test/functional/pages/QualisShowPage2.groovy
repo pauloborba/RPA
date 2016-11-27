@@ -5,11 +5,11 @@ import geb.Page
 /**
  * Created by dgmneto on 07/11/16.
  */
-class QualisShowPage2 extends Page{
+class QualisShowPage2 extends PageWithI18nSupport {
     static url = 'qualis/show/5'
 
     static at = {
-        title ==~ 'Qualis 2012.2'
+        title ==~ helperMsg.getMessage('default.show.label', '2012.2')
     }
 
     def clickDelete() {

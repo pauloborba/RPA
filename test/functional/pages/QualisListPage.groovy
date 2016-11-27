@@ -6,11 +6,11 @@ import rpa.Qualis
 /**
  * Created by dgmneto on 07/11/16.
  */
-class QualisListPage extends Page{
+class QualisListPage extends PageWithI18nSupport{
     static url = 'qualis'
 
     static at = {
-        title ==~ /Qualis/
+        title ==~ helperMsg.getMessage('default.list.label', 'Qualis')
     }
 
     boolean selectCreateNewQualis() {
