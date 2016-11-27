@@ -69,31 +69,13 @@ class QualisController {
                     return
                 }
                 qualis.setTitle(params.title) // substituimos o título pelo que vem na requisição
-                if(request instanceof MultipartHttpServletRequest) // verificamos o tipo da requisição
-                {
-                    def file = request.getFile('qualis-sheet')
-                    def path = System.getProperty('user.dir') + '/grails-app/uploads/' + ((String)params.title) + '.xls'
-                    def fileSys = new File(path)
-                    // verificamos se foi submetido um arquivo junto com o título
-                    if(file) {
-                        // se sim, copiamos o mesmo para a pasta de uploads
-                        file.transferTo(fileSys)
-                        qualis.qualisAvaliations.each {it.delete()}
-                        qualis.qualisAvaliations.clear()
-                        try {
-                            // após excluir os QualisAvaliation's antigos, adicionamos os novos ao sistema
-                            addQualisAvaliations(qualis, fileSys)
-                        } catch (Exception ex) {
-                            // em caso de erro com o arquivo, retornamos um mensagem de erro para o browser
-                            flash.message = 'qualis.invalid.file.message'
-                            flash.message = 'Arquivo inválido'
-                            redirect(controller: 'qualis', action: 'edit', params: [id: params.id])
-                            ex.printStackTrace()
-                            return
-                        }
-                        //deletamos o arquivo ao fim do processamento
-                        fileSys.delete()
-                    }
+                int cod = addQualisAvaliations(qualis)
+                if(cod == 2) {
+                    flash.message = 'qualis.invalid.file.message'
+                    flash.message = 'Arquivo inválido'
+                    qualis.delete()
+                    redirect(controller: 'qualis', action: 'create')
+                    return
                 }
                 redirect(controller: 'qualis', action: 'show', params: [id: params.id])
             } else {
@@ -156,46 +138,23 @@ class QualisController {
             if(tQualis != null) {
                 tQualis.delete(flush: true) // e o deletamos caso exista
             }
-
             def qualisInstance = new Qualis(title: params.title) // criamos uma nova instância com o título especificado
             qualisInstance.save()
-
-            if(request instanceof MultipartHttpServletRequest) { // verificamos o tipo da requisição
-                def path = System.getProperty('user.dir') + '/grails-app/uploads/' + ((String)params.title) + '.xls'
-                def file = new File(path)
-                def reqFile = request.getFile('qualis-sheet')
-
-                if(!reqFile) // verificamos se o arquivo foi submetido
-                {
-                    flash.message = 'default.blank.message'
-                    flash.args = [message(code: 'qualis.qualis-sheet.label'), 'qualis']
-                    flash.default = 'O campo planilha da classe qualis não pode ficar em branco'
-                    redirect(controller: 'qualis', action: 'create')
-                    qualisInstance.delete()
-                    return
-                }
-                reqFile.transferTo(file) // então transferimos ele para a pasta de upload
-
-                try { // tentamos adicionar as avaliações ao qualis
-                    addQualisAvaliations(qualisInstance, file)
-                } catch (Exception ex) { // abortamos o processo no caso de um erro com o arquivo
-                    flash.message = 'qualis.invalid.file.message'
-                    flash.message = 'Arquivo inválido'
-                    qualisInstance.delete()
-                    redirect(controller: 'qualis', action: 'create')
-                    ex.printStackTrace()
-                    return
-                }
-                file.delete() // por fim, o arquivo é excluido
-            } else { // de forma análoga, invalidamos a requisição na ausência de um arquivo
+            int cod = addQualisAvaliations(qualisInstance)
+            if(cod == 1) {
                 flash.message = 'default.blank.message'
                 flash.args = [message(code: 'qualis.qualis-sheet.label'), 'qualis']
                 flash.default = 'O campo planilha da classe qualis não pode ficar em branco'
                 redirect(controller: 'qualis', action: 'create')
                 qualisInstance.delete()
                 return
+            } else if(cod == 2) { // de forma análoga, invalidamos a requisição na ausência de um arquivo
+                flash.message = 'qualis.invalid.file.message'
+                flash.message = 'Arquivo inválido'
+                qualisInstance.delete()
+                redirect(controller: 'qualis', action: 'create')
+                return
             }
-
             redirect(controller: 'qualis', action: 'show', params: [id: qualisInstance.id])
         }
         else { // é obrigatória a presença de um título
@@ -210,36 +169,49 @@ class QualisController {
      * Método para o processamento de uma planilha
      * Cada linha é processada para um QualisAvaliation e adicionado ao qualis em questão
      * @param qualis
-     * @param file
      * @return
      */
-    def static addQualisAvaliations(Qualis qualis, File file) {
-        // usamos a classe WorkbookFactory que se encarrega de avaliar o tipo de arquivo em questão
-        Workbook workbook = WorkbookFactory.create(file)
-        // o DataFormatter nos permite sempre extrair o conteúdo puro em formato de string
-        DataFormatter dataFormatter = new DataFormatter()
-        // selecionamos a primeira planilha
-        Sheet sheet = workbook.getSheetAt(0)
-        // criamos um iterator para as linha da planilha
-        Iterator<Row> rows = sheet.iterator()
-        rows.next() // damos um skip na primeira linha
-        while(rows.hasNext()) {
-            // para cada linha, convertemos a mesmo em um QualisAvaliation
-            def row = rows.next()
-
-            def values = [
-                    issn: dataFormatter.formatCellValue(row.getCell(0)),
-                    journal: dataFormatter.formatCellValue(row.getCell(1)),
-                    subject: dataFormatter.formatCellValue(row.getCell(2)),
-                    evaluation: dataFormatter.formatCellValue(row.getCell(3))
-            ]
-
-            def qualisAvaliationInstance = new QualisAvaliation(values)
-            // então adicionamos a instância a relação one-to-many com Qualis
-            qualis.addToQualisAvaliations(qualisAvaliationInstance)
-        }
-        qualis.save()
-        // por fim, encerramos o arquivo
-        workbook.close()
+    def int addQualisAvaliations(Qualis qualis) {
+        if(request instanceof MultipartHttpServletRequest) {
+            def path = System.getProperty('user.dir') + '/grails-app/uploads/' + ((String)params.title) + '.xls'
+            def file = new File(path)
+            def reqFile = request.getFile('qualis-sheet')
+            if(!reqFile) // verificamos se o arquivo foi submetido
+                return 1
+            reqFile.transferTo(file) // então transferimos ele para a pasta de upload
+            try { // tentamos adicionar as avaliações ao qualis
+                // usamos a classe WorkbookFactory que se encarrega de avaliar o tipo de arquivo em questão
+                Workbook workbook = WorkbookFactory.create(file)
+                // o DataFormatter nos permite sempre extrair o conteúdo puro em formato de string
+                DataFormatter dataFormatter = new DataFormatter()
+                // selecionamos a primeira planilha
+                Sheet sheet = workbook.getSheetAt(0)
+                // criamos um iterator para as linha da planilha
+                Iterator<Row> rows = sheet.iterator()
+                rows.next() // damos um skip na primeira linha
+                while(rows.hasNext()) {
+                    // para cada linha, convertemos a mesmo em um QualisAvaliation
+                    def row = rows.next()
+                    def values = [
+                            issn: dataFormatter.formatCellValue(row.getCell(0)),
+                            journal: dataFormatter.formatCellValue(row.getCell(1)),
+                            subject: dataFormatter.formatCellValue(row.getCell(2)),
+                            evaluation: dataFormatter.formatCellValue(row.getCell(3))
+                    ]
+                    def qualisAvaliationInstance = new QualisAvaliation(values)
+                    // então adicionamos a instância a relação one-to-many com Qualis
+                    qualis.addToQualisAvaliations(qualisAvaliationInstance)
+                }
+                qualis.save()
+                // por fim, encerramos o arquivo
+                workbook.close()
+            } catch (Exception ex) { // abortamos o processo no caso de um erro com o arquivo
+                ex.printStackTrace()
+                return 2
+            }
+            file.delete() // por fim, o arquivo é excluido
+        } else
+            return 1
+        return 0
     }
 }
