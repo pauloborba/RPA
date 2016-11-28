@@ -4,6 +4,7 @@ class Researcher {
     String name
     String cpf
     static hasMany = [articles:Article, updates:UpdateLattes]
+    int citationAmount
 
     Researcher() {
         articles = []

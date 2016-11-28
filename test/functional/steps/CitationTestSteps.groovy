@@ -1,38 +1,42 @@
 package steps
 
-import jline.internal.Log
 import rpa.Article
+import rpa.ArticleController
 import rpa.GoogleScholarService
+import rpa.Researcher
+import rpa.ResearcherController
 
 /**
  * Created by rbb3 on 05/11/16.
  */
 class CitationTestSteps {
 
-    static public boolean compareCitationAmount(String article, String researcher) {
-        ArticleSteps articleSteps = new ArticleSteps()
-        Article art = articleSteps.findArticle(article)
-
-        if (art == null) {
-            return false
-        }
-
-        int initialCitationAmount = art.citationAmount
-        return initialCitationAmount == findCitations(article, researcher)
-    }
-
-    static public int findCitations(String article, String researcher) {
-        Article art = (new ArticleSteps()).findArticle(article)
+    static public int findCitations(Article article) {
         GoogleScholarService gs = new GoogleScholarService()
         List<Article> list = new ArrayList<Article>()
-        list.add(art)
+        list.add(article)
         gs.findCitations(list)
         return list.get(0).citationAmount
     }
 
-    static public boolean informationStored(String article, String citations) {
-        Article art = (new ArticleSteps()).findArticle(article)
-        return art.citationAmount == citations.toInteger()
+    static public int findCitationsResearcher(Researcher researcher) {
+        GoogleScholarService gs = new GoogleScholarService()
+        def totalCitations = gs.findCitations(researcher.articles)
+        researcher.citationAmount = totalCitations
+        def cont = new ResearcherController()
+        cont.save(researcher)
+        cont.response.reset()
+        return totalCitations
+    }
+
+    static public boolean informationStored(String title, int citations) {
+        Article art = Article.findByTitle(title)
+        return art.citationAmount == citations
+    }
+
+    static public boolean informationStoredResearcher(String name, int citations) {
+        Researcher res = Researcher.findByName(name)
+        return res.citationAmount == citations
     }
 
 }
