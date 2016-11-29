@@ -5,7 +5,7 @@ import rpa.Article
 
 class ResearcherController {
 
-    def create(){
+    def create() {
 
     }
 
@@ -42,26 +42,25 @@ class ResearcherController {
         if(!xml.empty){
             XmlExtractorService xmlExtractor = new XmlExtractorService()
             def researcherXml = xmlExtractor.getResearcher(xml.getInputStream())
-            def researcherSaved = Researcher.findByCpf(researcherXml.cpf)
-
-            if (researcherSaved != null) {
-                params << [researcherNew: researcherXml, researcherSaved: researcherSaved]
-                researcherSaved = update()
-            } else {
-                params << [name: researcherXml.name, cpf: researcherXml.cpf, articles: researcherXml.articles]
-                researcherSaved = save()
-            }
-
-            if (researcherSaved) {
-                flash.message = message(code: 'researcher.saved')
-                redirect action: 'show', id: researcherSaved.id
-            }else{
+            if (researcherXml == null) {
                 flash.message = message(code: 'researcher.file.invalid')
                 redirect action: 'create'
+            } else {
+                def researcherSaved = Researcher.findByCpf(researcherXml.cpf)
+                if (researcherSaved != null) {
+                    params << [researcherNew: researcherXml, researcherSaved: researcherSaved]
+                    researcherSaved = update()
+                } else {
+                    params << [name: researcherXml.name, cpf: researcherXml.cpf, articles: researcherXml.articles]
+                    researcherSaved = save()
+                }
+                flash.message = message(code: 'researcher.saved')
+                redirect action: 'show', id: researcherSaved.id
             }
         }else{
             flash.message = message(code: 'researcher.file.empty')
-            render(view: "create")
+            redirect action: 'create'
+            //render(view: "create")
         }
     }
 }

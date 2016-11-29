@@ -33,8 +33,9 @@ class XmlExtractorService {
                     }
                 }
             }
-        }catch(ParserConfigurationException | SAXException | IOException e) {
+        }catch(Exception e) {
             e.printStackTrace();
+            researcher = null;
         }
         researcher
     }

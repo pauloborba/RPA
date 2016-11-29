@@ -1,7 +1,7 @@
 Feature: Importar curriculos lattes
-  As um usuário
-  I want to importar curriculos lattes
-  So that eu possa visualiza-los e compara-los depois
+As um usuário
+I want to importar curriculos lattes
+So that eu possa visualiza-los e compara-los depois
 
 #Controller
 Scenario: Cadastrar um pesquisador com vários artigos com sucesso
@@ -48,3 +48,31 @@ Then  Estou na página de exibir pesquisadores
 And   É exibido um aviso de que um pesquisador foi cadastrado
 And   São exibidos o nome do pesquisador "Fulano" e o CPF "01234567890".
 And   Não é exibido nenhum artigo
+
+#Controller
+Scenario: Tentar importar algo que não é um arquivo de currículo
+Given O arquivo "TestAndOperations.groovy" não é um arquivo de currículo
+When  Um arquivo de currículo de nome "TestAndOperations.groovy" é importado
+Then  Nenhum pesquisador é cadastrado
+
+#GUI
+Scenario: Tentar importar algo que não é um arquivo de currículo
+Given Estou na página de cadastrar pesquisadores
+And   O arquivo "TestAndOperations.groovy" não é um arquivo de currículo
+When  Eu tento importar um arquivo de currículo de nome "TestAndOperations.groovy".
+Then  Ainda estou na página de cadastrar pesquisadores
+And   É exibido um aviso de que o arquivo selecionado é inválido
+
+#Controller
+Scenario: Tentar importar um arquivo vazio
+Given O arquivo "ArquivoVazio.xml" está vazio
+When  Um arquivo de currículo de nome "ArquivoVazio.xml" é importado
+Then  Nenhum pesquisador é cadastrado
+
+#GUI
+Scenario: Tentar importar um arquivo vazio
+Given Estou na página de cadastrar pesquisadores
+And   O arquivo "ArquivoVazio.xml" está vazio
+When  Eu tento importar um arquivo de currículo de nome "ArquivoVazio.xml".
+Then  Ainda estou na página de cadastrar pesquisadores
+And   É exibido um aviso de que o arquivo selecionado está vazio

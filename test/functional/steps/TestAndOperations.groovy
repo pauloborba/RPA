@@ -13,6 +13,7 @@ class TestAndOperations {
     static public Researcher buildResearcherWithFile(String filename){
         def path = new File(dirFiles+filename)
         InputStream file = new FileInputStream(path)
+
         XmlExtractorService extractorService = new XmlExtractorService()
         Researcher researcher = extractorService.getResearcher(file)
         researcher
@@ -75,5 +76,15 @@ class TestAndOperations {
 
     static public boolean researcherHasNoArticles(Researcher r) {
         return (r.articles == null || r.articles.size() < 1)
+    }
+
+    static public boolean noResearchers() {
+        return Researcher.findAll().empty
+    }
+
+    static public boolean archiveIsEmpty(filename) {
+        def path = new File(dirFiles+filename)
+        FileReader file = new FileReader(path)
+        return (new BufferedReader(file).readLine() == null)
     }
 }
