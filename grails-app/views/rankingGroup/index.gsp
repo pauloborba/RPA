@@ -12,12 +12,14 @@
             %{--<g:radio name="groupName" value="${it.name}"/> ${it.name}--}%
             %{--<br>--}%
         %{--</g:each>--}%
-        <g:radioGroup name="${groupName}"
+        <g:radioGroup name="groupName"
                       labels="${groups}"
-                      values="${groups}">
-            <p>${it.radio} ${it.label}</p>
+                      values="${groups}"
+                      value="${groupName}">
+            <g:link action="update" params="[groupName: it.label]">${it.radio}
+            </g:link> ${it.label}
         </g:radioGroup>
-        <g:link action="show" params="[groupName: groupName]" >
+        <g:link name="selectGroup" action="show" params="[groupName: groupName]" >
             <input type="button" value="Apresentar">
             </input>
         </g:link>

@@ -4,23 +4,26 @@ import rpa.exception.GroupNotFoundException
 
 class RankingGroupController {
 
-    def groupName
 
-    def index(){
+
+    def index(String groupName){
+
+        def name = groupName ? groupName : ""
+
         def groups = ResearchGroup.findAll()
         groups = [new ResearchGroup([name:"arthur", researchers:[]])]
         def groupNames = []
         for(it in groups){
             groupNames.add(it.name)
         }
-        groupName = ""
-        [groups: groupNames]
+        [groups: groupNames, groupName: name]
     }
 
-    def showGroup() {
-        groupName = name
-        redirect(action:'show', params:[groupName: groupName])
+    def update(String groupName) {
+//        redirect(action:'show', params:[groupName: groupName])
+        redirect action: 'index', params:[groupName: groupName]
     }
+
 
     def show(String groupName){
         def group = ResearchGroup.find({name: groupName})
@@ -61,7 +64,7 @@ class RankingGroupController {
         }
 
         Rank[] ranking = []
-        // generate ranking, rank ==
+        // generate ranking
         for (pq in group.researchers) {
 
             def grade = gradeResearcher(pq)
