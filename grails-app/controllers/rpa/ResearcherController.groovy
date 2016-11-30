@@ -22,7 +22,7 @@ class ResearcherController {
     def show(Long id) {
         def ResearcherInstance = Researcher.get(id)
         if (!ResearcherInstance) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'default.researchers.label', default: 'Pesquisadores'), nome])
+            flash.message = message(code: 'default.not.found.message', args: [message(code: 'default.researchers.label', default: 'Researchers'), nome])
             redirect(action: "list")
             return
         }
@@ -51,14 +51,14 @@ class ResearcherController {
                     params.remove(it)
                 }
             }
-            redirect(action: "list")
+            redirect(action: "removeStep1")
         }
 
         else {
             def ResearcherInstance = Researcher.findByCpf(params.typed)
             if (ResearcherInstance != null) {
                 ResearcherInstance.delete(flush: true)
-                redirect(action: "list")
+                redirect(action: "removeStep1")
             }
             else {
                 flash.message = message(code: 'default.notExist.message', default: 'CPF not valid! You have to select a existing researcher!')

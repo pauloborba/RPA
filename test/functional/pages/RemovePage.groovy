@@ -6,10 +6,12 @@ import rpa.*
 /**
  * Created by ajgan on 05/11/16.
  */
-class removePage extends Page {
+class RemovePage extends AuxiliarPage {
     static url = "researcher/removeStep1"
+
     static at={
-        title==~"Remove Screen"
+        def titlemsg = helperMsg.getMessage('default.removeScreen.label')
+        title == titlemsg
     }
 
     def select(String cpf){
@@ -26,5 +28,9 @@ class removePage extends Page {
 
     def hasErrors() {
         $("div.message").text()
+    }
+
+    def cpfExist(String cpf) {
+        $("form").ResearchersSelector.contains(cpf)
     }
 }

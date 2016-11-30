@@ -14,11 +14,10 @@ Feature: Remove Researcher
   Given Estou na tela de remoção de pesquisador
   And Eu não selecionei nenhum pesquisador da lista
   When Eu seleciono a opção de remover
-  Then A remoção é rejeitada e uma mensagem é exibida dizendo que eu preciso escolher pelo menos um pesquisador para poder remover alguém
-
+  Then A remoção é rejeitada e uma mensagem de erro é exibida
   #GUI
   Scenario: Tentar remover pesquisador informando um CPF inválido
   Given Estou na tela de remoção de pesquisador
   And Eu informei no campo de busca o CPF "something"
   When Eu seleciono a opção de remover
-  Then A busca retorna null para o CPF "something" e uma mensagem é exibida dizendo que o pesquisador que eu pretendo remover não foi encontrado.
+  Then O CPF "something" não é encontrado e uma mensagem de erro é exibida

@@ -1,7 +1,7 @@
 package steps
 
 import cucumber.api.PendingException
-import pages.removePage
+import pages.RemovePage
 import rpa.Group
 import rpa.Researcher
 import rpa.ResearcherController
@@ -16,59 +16,60 @@ this.metaClass.mixin(cucumber.api.groovy.EN)
 Given(~/^Os pesquisadores de CPF "([^"]*)" e nome "([^"]*)" e CPF "([^"]*)" e nome "([^"]*)" estão cadastrados$/) {
     String cpf1, String nome1, String cpf2,  String nome2 ->
 
-    ResearcherController rc = new ResearcherController()
-    rc.params<<[cpf:cpf1, name:nome1]
-    rc.create()
-    rc.save()
-    rc.response.reset()
-    rc.params<<[cpf:cpf2, name:nome2]
-    rc.create()
-    rc.save()
-    rc.response.reset()
+    createNewResearcher(nome1, cpf1)
+    createNewResearcher(nome2, cpf2)
     Researcher re1 = Researcher.findByCpf(cpf1)
     Researcher re2 = Researcher.findByCpf(cpf2)
-    boolean condition =  (re1 != null) && (re2 != null)
 
-    assert condition
+    assert (re1 != null) && (re2 != null)
 }
 
 When(~/^Eu recebo a solicitação para remover os pesquisadores de CPF "([^"]*)" e "([^"]*)"$/) { String cpf1, String cpf2 ->
-    ResearcherController rc = new ResearcherController()
-    rc.params<<[typed:cpf1]
-    rc.remove()
-    rc.response.reset()
-    rc.params<<[typed:cpf2]
-    rc.remove()
-    rc.response.reset()
+    deleteResearcher(cpf1)
+    deleteResearcher(cpf2)
 }
 Then(~/^Os pesquisadores de CPF "([^"]*)" e "([^"]*)" são removidos da lista de pesquisadores$/) { String cpf1, String cpf2 ->
-    ResearcherController rc = new ResearcherController()
     Researcher re1 = Researcher.findByCpf(cpf1)
     Researcher re2 = Researcher.findByCpf(cpf2)
     assert (re1 == null) && (re2 == null)
 }
 
 Given(~/^Estou na tela de remoção de pesquisador$/) { ->
-    to removePage
-    at removePage
+    to RemovePage
+    at RemovePage
 }
 And(~/^Eu não selecionei nenhum pesquisador da lista$/) { ->
     page.fillSearch("")
 }
 When(~/^Eu seleciono a opção de remover$/) { ->
-    at removePage
+    at RemovePage
     page.selectRemove()
 }
-Then(~/^A remoção é rejeitada e uma mensagem é exibida dizendo que eu preciso escolher pelo menos um pesquisador para poder remover alguém$/) {
+Then(~/^A remoção é rejeitada e uma mensagem de erro é exibida$/) {
     ->
-    at removePage
-    assert page.hasErrors() != null
+    at RemovePage
+    assert page.hasErrors()
 }
 And(~/^Eu informei no campo de busca o CPF "([^"]*)"$/) { String cpf ->
-    at removePage
+    at RemovePage
     page.fillSearch(cpf)
 }
-Then(~/^A busca retorna null para o CPF "([^"]*)" e uma mensagem é exibida dizendo que o pesquisador que eu pretendo remover não foi encontrado\.$/) { String cpf ->
-    Researcher re = Researcher.findByCpf(cpf)
-    assert re == null
+Then(~/^O CPF "([^"]*)" não é encontrado e uma mensagem de erro é exibida$/) { String cpf ->
+    at RemovePage
+    assert !page.cpfExist(cpf) && page.hasErrors()
+}
+
+def createNewResearcher(String name, String cpf) {
+    def rc = new ResearcherController()
+    rc.params<<[name:name, cpf:cpf]
+    rc.create()
+    rc.save()
+    rc.response.reset()
+}
+
+def deleteResearcher(String cpf) {
+    def rc = new ResearcherController()
+    rc.params<<[typed:cpf]
+    rc.remove()
+    rc.response.reset()
 }

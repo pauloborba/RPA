@@ -36,7 +36,7 @@ import rpa.Researcher
 
 
       <fieldset class="buttons">
-          <g:submitButton name="ResearcherRemove" class="remove" value="${message(code: 'default.button.Delete.label', default: 'Remove') }" />
+          <g:submitButton name="ResearcherRemove" class="remove" value="${message(code: 'default.button.delete.label', default: 'Remove') }" />
       </fieldset>
     </g:form>
 </body>
