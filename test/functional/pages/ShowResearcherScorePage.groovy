@@ -1,12 +1,10 @@
 package pages
 
-import geb.Page
-
-class ShowResearcherScorePage extends Page {
+class ShowResearcherScorePage extends InternacionalizedPage {
     static url = "/RPA/researcherScore/show/3/"
 
     static at = {
-        title ==~ /Ver ResearcherScore/
+        title ==~ helperMsg.getMessage('default.show.label', 'ResearcherScore')
     }
 
     boolean ShowingNotAvaliatedArticle(){

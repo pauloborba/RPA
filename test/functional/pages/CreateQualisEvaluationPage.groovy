@@ -1,12 +1,10 @@
 package pages
 
-import geb.Page
-
-class CreateQualisEvaluationPage extends Page{
-    static url ="/RPA/qualisAvaliation/create/"
+class CreateQualisEvaluationPage extends InternacionalizedPage{
+    static url ="/RPA/qualisEvaluation/create/"
 
     static at = {
-        title ==~ /Criar QualisEvaluation/
+        title ==~ helperMsg.getMessage('default.create.label', 'QualisAvaliation')
     }
 
     boolean CreateAvaliation(String journalName, String av){

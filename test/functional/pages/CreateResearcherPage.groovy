@@ -1,13 +1,12 @@
 package pages
 
-import geb.Page
 import rpa.Article
 
-class CreateResearcherPage extends Page{
+class CreateResearcherPage extends InternacionalizedPage{
     static url ="/RPA/researcher/create/"
 
     static at = {
-        title ==~ /Criar Researcher/
+        title ==~ helperMsg.getMessage('default.create.label', 'Researcher')
     }
 
     boolean CreateResearcher(String cpf, Set<Article> articles){

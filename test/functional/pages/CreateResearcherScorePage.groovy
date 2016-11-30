@@ -1,14 +1,13 @@
 package pages
 
-import geb.Page
 import rpa.Researcher
 import rpa.Qualis
 
-class CreateResearcherScorePage extends Page {
+class CreateResearcherScorePage extends InternacionalizedPage {
     static url = "/RPA/researcherScore/create/"
 
     static at ={
-        title ==~ /Criar ResearcherScore/
+        title ==~ helperMsg.getMessage('default.create.label', 'ResearcherScore')
     }
 
     boolean CreateScore(Researcher r, Qualis l){

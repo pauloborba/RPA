@@ -1,12 +1,10 @@
 package pages
 
-import geb.Page
-
-class ListResearcherScorePage extends Page{
+class ListResearcherScorePage extends InternacionalizedPage{
     static url = "/RPA/researcherScore/index/"
 
     static at = {
-        title ==~ /ResearcherScore Listagem/
+        title ==~ helperMsg.getMessage('default.list.label', 'ResearcherScore')
     }
 
     boolean Click(String res){
