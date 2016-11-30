@@ -1,7 +1,5 @@
 package rpa
 
-import rpaServices.GoogleScholarService
-
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
 

@@ -2,7 +2,7 @@ package steps
 
 import rpa.Article
 import rpa.Researcher
-import rpaServices.GoogleScholarService
+import rpa.GoogleScholarService
 
 /**
  * Created by rbb3 on 05/11/16.
