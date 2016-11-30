@@ -12,7 +12,6 @@
     <meta name="layout" content="main">
     <g:set var="entityName" value="${message(code: 'default.ResearcherGroup.label', default: 'Researcher Group')}" />
     <title>${message(code: 'default.button.compare.label', default: 'Compare')} ${message(code: 'default.ResearcherGroup.label', default: 'Researcher Group')}</title>
-
 </head>
 <body>
 <a href="#create-residueGenerator" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>

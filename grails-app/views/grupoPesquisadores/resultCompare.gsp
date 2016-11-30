@@ -36,33 +36,30 @@
                 </tr>
                 </thead>
                 <tbody>
-                <g:set var="i" value="${0}"/>
-                <g:while test="${i < 8}">
+                 <g:each var="crit" in="['A1','A2','B1','B2','B3','B4','B5','C']">
                     <tr class="dados">
-                        <td class="Criterio"> ${grupoPesquisadoresInstance1.convertQualis(i)}</td>
+                        <td class="Criterio"> ${crit}</td>
 
-                        <g:set var="notaG1" value="${grupoPesquisadoresInstance1.getNotaStub(i,qualis,grupoPesquisadoresInstance1.getNomeGrupo())}"></g:set>
-                        <g:set var="notaG2" value="${grupoPesquisadoresInstance2.getNotaStub(i,qualis,grupoPesquisadoresInstance2.getNomeGrupo())}"></g:set>
+                        <g:set var="notaG1" value="${grupoPesquisadoresInstance1.getGroupScore(crit,qualis,grupoPesquisadoresInstance1.getNomeGrupo())}"></g:set>
+                        <g:set var="notaG2" value="${grupoPesquisadoresInstance2.getGroupScore(crit,qualis,grupoPesquisadoresInstance2.getNomeGrupo())}"></g:set>
                         <g:if test="${(notaG1==notaG2)}">
-                            <td class="${'blue'}"> ${grupoPesquisadoresInstance1.getNotaStub(i,qualis,grupoPesquisadoresInstance1.getNomeGrupo()) }</td>
-                            <td class="${'blue'}"> ${grupoPesquisadoresInstance2.getNotaStub(i,qualis,grupoPesquisadoresInstance2.getNomeGrupo())}</td>
+                            <td class="${'blue'}"> ${grupoPesquisadoresInstance1.getGroupScore(crit,qualis,grupoPesquisadoresInstance1.getNomeGrupo()) }</td>
+                            <td class="${'blue'}"> ${grupoPesquisadoresInstance2.getGroupScore(crit,qualis,grupoPesquisadoresInstance2.getNomeGrupo())}</td>
                         </g:if>
                         <g:else>
-                            <td class="${(notaG1>notaG2)?'green' : 'red'}"> ${grupoPesquisadoresInstance1.getNotaStub(i,qualis,grupoPesquisadoresInstance1.getNomeGrupo()) }</td>
-                            <td class="${(notaG1>notaG2)?'red' : 'green'}"> ${grupoPesquisadoresInstance2.getNotaStub(i,qualis,grupoPesquisadoresInstance2.getNomeGrupo())}</td>
+                            <td class="${(notaG1>notaG2)?'green' : 'red'}"> ${grupoPesquisadoresInstance1.getGroupScore(crit,qualis,grupoPesquisadoresInstance1.getNomeGrupo()) }</td>
+                            <td class="${(notaG1>notaG2)?'red' : 'green'}"> ${grupoPesquisadoresInstance2.getGroupScore(crit,qualis,grupoPesquisadoresInstance2.getNomeGrupo())}</td>
                         </g:else>
-
-                        <g:set var="i" value="${i+1}"/>
                     </tr>
-                </g:while>
+                 </g:each>
                 </tbody>
             </table>
         </div>
 
 
-        <div class="list">
+        <div class="list2">
             <h1>${message(code: 'default.ArtAvgRese.label', default: 'Article Average per Researcher')}</h1>
-            <table bgcolor='#a9a9a9'>
+            <table id="avgValues" bgcolor='#a9a9a9'>
                 <thead>
                 <tr>
                     <th>${message(code: 'default.criterion.label', default: 'Criterion')}</th>
@@ -71,17 +68,16 @@
                 </tr>
                 </thead>
                 <tbody>
-                <g:set var="i" value="${0}"/>
-                <g:while test="${i < 8}">
-                    <tr class="dados">
-                        <td class="criterio"> ${grupoPesquisadoresInstance1.convertQualis(i)}</td>
-                        <g:set var="mediaG1" value="${(grupoPesquisadoresInstance1.getNotaStub(i,qualis,grupoPesquisadoresInstance1.getNomeGrupo()))}"></g:set>
-                        <g:set var="mediaG2" value="${(grupoPesquisadoresInstance2.getNotaStub(i,qualis,grupoPesquisadoresInstance2.getNomeGrupo()))}"></g:set>
+                <g:each var="crit" in="['A1','A2','B1','B2','B3','B4','B5','C']">
+                    <tr class="dadosMedia">
+                        <td class="Criterio"> ${crit}</td>
+                        <g:set var="mediaG1" value="${(grupoPesquisadoresInstance1.getGroupScore(crit,qualis,grupoPesquisadoresInstance1.getNomeGrupo()))}"></g:set>
+                        <g:set var="mediaG2" value="${(grupoPesquisadoresInstance2.getGroupScore(crit,qualis,grupoPesquisadoresInstance2.getNomeGrupo()))}"></g:set>
                         <g:if test="${(grupoPesquisadoresInstance1.pesquisadores.size())>0}">
-                            <g:set var="mediaG1" value="${(grupoPesquisadoresInstance1.getNotaStub(i,qualis,grupoPesquisadoresInstance1.getNomeGrupo()))/(grupoPesquisadoresInstance1.pesquisadores.size())}"></g:set>
+                            <g:set var="mediaG1" value="${(grupoPesquisadoresInstance1.getGroupScore(crit,qualis,grupoPesquisadoresInstance1.getNomeGrupo()))/(grupoPesquisadoresInstance1.pesquisadores.size())}"></g:set>
                         </g:if>
                         <g:if test="${(grupoPesquisadoresInstance2.pesquisadores.size())>0}">
-                            <g:set var="mediaG2" value="${(grupoPesquisadoresInstance2.getNotaStub(i,qualis,grupoPesquisadoresInstance2.getNomeGrupo()))/(grupoPesquisadoresInstance2.pesquisadores.size())}"></g:set>
+                            <g:set var="mediaG2" value="${(grupoPesquisadoresInstance2.getGroupScore(crit,qualis,grupoPesquisadoresInstance2.getNomeGrupo()))/(grupoPesquisadoresInstance2.pesquisadores.size())}"></g:set>
                         </g:if>
 
                         <g:if test="${(mediaG1==mediaG2)}">
@@ -91,12 +87,10 @@
                         </g:if>
                         <g:else>
                             <td class="${(mediaG1>mediaG2)?'green' : 'red'}"> ${Math.round((mediaG1 + 0.00001) * 100) / 100}</td>
-                            <td class="${(mediaG1>mediaG2)?'red' : 'green'}"> ${Math.round((mediaG2 + 0.00001) * 100) / 100}</td>
+                            <td class="${(mediaG1>mediaG2)?'red' : 'green'}"> ${Math.round((mediaG2+ 0.00001) * 100) / 100}</td>
                         </g:else>
-
-                        <g:set var="i" value="${i+1}"/>
                     </tr>
-                </g:while>
+                </g:each>
                 </tbody>
             </table>
         </div>

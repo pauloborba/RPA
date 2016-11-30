@@ -81,18 +81,17 @@
             </thead>
             <tbody>
             <g:set var="i" value="${0}"/>
-            <g:while test="${i < 8}">
+            <g:each var="crit" in="['A1','A2','B1','B2','B3','B4','B5','C']">
                 <tr class="dados">
-                    <td> ${grupoPesquisadoresInstance.convertQualis(i)}</td>
-                    <td> ${grupoPesquisadoresInstance.medias2010[i]}</td>
-                    <td> ${grupoPesquisadoresInstance.medias2011[i]}</td>
-                    <td> ${grupoPesquisadoresInstance.medias2012[i]}</td>
-                    <td> ${grupoPesquisadoresInstance.medias2013[i]}</td>
-                    <td> ${grupoPesquisadoresInstance.medias2014[i]}</td>
-                    <td> ${grupoPesquisadoresInstance.medias2015[i]}</td>
-                    <g:set var="i" value="${i+1}"/>
+                    <td> ${crit}</td>
+                    <td> ${grupoPesquisadoresInstance.getGroupScore(crit,"2010",grupoPesquisadoresInstance.getNomeGrupo())}</td>
+                    <td> ${grupoPesquisadoresInstance.getGroupScore(crit,"2011",grupoPesquisadoresInstance.getNomeGrupo())}</td>
+                    <td> ${grupoPesquisadoresInstance.getGroupScore(crit,"2012",grupoPesquisadoresInstance.getNomeGrupo())}</td>
+                    <td> ${grupoPesquisadoresInstance.getGroupScore(crit,"2013",grupoPesquisadoresInstance.getNomeGrupo())}</td>
+                    <td> ${grupoPesquisadoresInstance.getGroupScore(crit,"2014",grupoPesquisadoresInstance.getNomeGrupo())}</td>
+                    <td> ${grupoPesquisadoresInstance.getGroupScore(crit,"2015",grupoPesquisadoresInstance.getNomeGrupo())}</td>
                 </tr>
-            </g:while>
+            </g:each>
             </tbody>
         </table>
 

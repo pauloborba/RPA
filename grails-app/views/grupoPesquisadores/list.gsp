@@ -29,7 +29,7 @@
             <thead>
             <tr>
                 <g:sortableColumn property="nomeGrupo" title="${message(code: 'rpa.nomeGrupo.label', default: 'NomeGrupo')}" />
-                <g:sortableColumn property="tamanhoGrupo" title="${message(code: 'rpa.nomeGrupo.label', default: 'Numero de Pesquisadores')}" />
+                <g:sortableColumn property="tamanhoGrupo" title="${message(code: 'default.researcherNumber.label', default: 'Numero de Pesquisadores')}" />
 
             </tr>
             </thead>
