@@ -1,10 +1,8 @@
 package steps
 
 import rpa.Article
-import rpa.ArticleController
-import rpa.GoogleScholarService
 import rpa.Researcher
-import rpa.ResearcherController
+import rpaServices.GoogleScholarService
 
 /**
  * Created by rbb3 on 05/11/16.
