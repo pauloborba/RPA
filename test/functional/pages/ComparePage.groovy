@@ -6,13 +6,15 @@ package pages
 import geb.Page
 import rpa.GrupoPesquisadores
 
-class comparePage extends Page {
+class ComparePage extends PageSupport {
     def titulo = "Comparar Grupo de Pesquisadores"
     def titulo2 = "Compare Researcher Group"
     static url = "grupoPesquisadores/compare"
     static at = {
-        title ==~ titulo ||
-        title ==~titulo2
+        def researcherGroupLabel = interMessage.getMessage('default.ResearcherGroup.label')
+        def compareLabel = interMessage.getMessage('default.button.compare.label')
+        def titleMsg = compareLabel+" "+researcherGroupLabel
+        title == titleMsg
     }
 
     def dataToCompare(GrupoPesquisadores g1, GrupoPesquisadores g2,String qualis) {
