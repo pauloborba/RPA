@@ -11,8 +11,8 @@
 <html>
 <head>
     <meta name="layout" content="main">
-    <g:set var="entityName" value="${message(code: 'default.Researcher.label', default: 'Pesquisadores')}" />
-    <title>${message(code: 'default.button.create.label', default: 'Create')} ${message(code: 'default.Researcher.label', default: 'Researcher')}</title>
+    <g:set var="entityName" value="${message(code: 'default.researcher.label', default: 'Pesquisadores')}" />
+    <title>${message(code: 'default.button.create.label', default: 'Create')} ${message(code: 'default.researcher.label', default: 'Researcher')}</title>
 </head>
 <body>
 <a href="#create-residueGenerator" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
@@ -23,7 +23,7 @@
     </ul>
 </div>
 <div id="create-residueGenerator" class="content scaffold-create" role="main">
-    <h1>${message(code: 'default.button.create.label', default: 'Create')} ${message(code: 'default.Researcher.label', default: 'Researcher')} </h1>
+    <h1>${message(code: 'default.button.create.label', default: 'Create')} ${message(code: 'default.researcher.label', default: 'Researcher')} </h1>
     <g:if test="${flash.message}">
         <div class="message" role="status">${flash.message}</div>
     </g:if>
