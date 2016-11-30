@@ -24,6 +24,8 @@ import pages.CreateAvaliationPage
 this.metaClass.mixin(cucumber.api.groovy.Hooks)
 this.metaClass.mixin(cucumber.api.groovy.EN)
 
+//metodos feitos na fase de refatoracao de codigo
+
 def createArticle(title, journal, issn, controller){
 
     Article a = new Article([tittle: title, journal: journal, issn: issn])
@@ -120,29 +122,15 @@ And(~/^o sistema contem o qualis "([^"]*)" com a nota "([^"]*)" para a publicaca
     def qualisAvaliation2 = new QualisAvaliation[2]
     def qualisAvaliationController = new QualisAvaliationController()
 
-//    Set<QualisAvaliation> listQualisAvaliation = new HashSet<QualisAvaliation>()
-//    listQualisAvaliation.add(qAvaliation1)
-//
-//    Set<QualisAvaliation> list2QualisAvaliation = new HashSet<QualisAvaliation>()
-//    list2QualisAvaliation.add(qAvaliation2)
-//    list2QualisAvaliation.add(qAvaliation3)
-
     qualisAvaliation[0] = createQualisAvaliation(publication1, score1, qualisAvaliationController)
     qualisAvaliation2[0] = createQualisAvaliation(publication2, score2, qualisAvaliationController)
     qualisAvaliation2[1] = createQualisAvaliation(publication3, score2, qualisAvaliationController)
 
-
     def qualisController = new QualisController()
     createQualis(qualis1, qualisAvaliation, qualisController)
     createQualis(qualis2, qualisAvaliation2, qualisController)
-
-//    Qualis q1 = new Qualis([year: qualis1, avaliations: listQualisAvaliation])
-//    Qualis q2 = new Qualis([year: qualis2, avaliations: list2QualisAvaliation])
-//
-//    q1.save flush: true
-//    q2.save flush: true
-
 }
+
 When(~/^o sistema recebe a solicitacao de avaliar o pesquisador "([^"]*)" pelo qualis "([^"]*)" e "([^"]*)"$/) { String researcher, String qualis1, String qualis2 ->
 
     def AvaliationController = new AvaliationController()
@@ -152,7 +140,7 @@ When(~/^o sistema recebe a solicitacao de avaliar o pesquisador "([^"]*)" pelo q
 
     av1.categoryPoints = AvaliationController.CalculateScore(av1)
     av2.categoryPoints = AvaliationController.CalculateScore(av2)
-    
+
 }
 
 Then(~/^o sistema retorna uma lista com a quantidade de publicacoes que o pesquisador "([^"]*)" tem por nota "([^"]*)" no qualis "([^"]*)"$/) { String researcher, String list, String qualis ->

@@ -102,6 +102,8 @@ class AvaliationController {
         }
     }
 
+    //metodo do controlador que vai calcular as notas do pesquisador por qualis
+
     String CalculateScore(Avaliation avaliation){
         Set<Article> researcherArticles = avaliation.researcher.articles
         Set<QualisAvaliation> qualisAvaliations = avaliation.qualis.avaliations

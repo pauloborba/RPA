@@ -2,12 +2,12 @@ package pages
 
 import geb.Page
 
-class VisualizationAvaliationPage extends Page{
+class VisualizationAvaliationPage extends InternacionalizedPage{
 
     static url = "/RPA/avaliation/show"
 
     static at = {
-        title ==~ /Show Avaliation/
+        title ==~ helperMsg.getMessage('default.show.label', 'Avaliation')
     }
 
     boolean Visualization(){

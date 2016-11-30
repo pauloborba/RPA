@@ -2,12 +2,13 @@ package pages
 
 import geb.Page
 
-class CreateQualisAvaliationPage extends Page{
+class CreateQualisAvaliationPage extends InternacionalizedPage{
     static url ="/RPA/qualisAvaliation/create/"
 
     static at = {
-        title ==~ /Create QualisAvaliation/
+        title ==~ helperMsg.getMessage('default.create.label', 'QualisAvaliation')
     }
+
 
     boolean CreateAvaliation(String journalName, String av){
         $("form").journal = journalName

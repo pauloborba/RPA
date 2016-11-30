@@ -3,11 +3,11 @@ package pages
 import geb.Page
 import rpa.QualisAvaliation
 
-class CreateQualisPage extends Page{
+class CreateQualisPage extends InternacionalizedPage{
     static url = "/RPA/qualis/create/"
 
     static at = {
-        title ==~ /Create Qualis/
+        title ==~ helperMsg.getMessage('default.create.label', 'Qualis')
     }
 
     boolean CreateQualis(String qualisYear, Set<QualisAvaliation> avs){
