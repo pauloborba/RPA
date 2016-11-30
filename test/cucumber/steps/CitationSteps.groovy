@@ -1,12 +1,9 @@
 package steps
 
-import cucumber.api.PendingException
 import pages.ArticleCitations
 import pages.ResearcherCitations
-import rpa.ArticleController
 import rpa.Researcher
 import rpa.Article
-import rpa.ResearcherController
 
 /**
  * Created by rbb3 on 01/11/16.

@@ -1,9 +1,5 @@
 package rpa
 
-import groovyx.net.http.ContentType
-import groovyx.net.http.HTTPBuilder
-import groovyx.net.http.Method
-
 /**
  * Created by rbb3 on 30/11/16.
  */
