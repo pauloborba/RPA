@@ -8,11 +8,11 @@ Feature: Collecting citations
   Scenario:  Integrity of data between the system and Google Scholar
 
     Given the researcher "Paulo Borba" with cpf "11111111111" is stored by the system
-    And the article with title "Implementing distribution and persistence aspects with AspectJ", issn "11111", journal "ACM" from "Paulo Borba" is stored by the system
-    And the system has no information about the citation amount to the article with title "Implementing distribution and persistence aspects with AspectJ".
-    And the article with title "Implementing distribution and persistence aspects with AspectJ" has "377" citations at Google Scholar
-    When I try to find citations to "Implementing distribution and persistence aspects with AspectJ" from researcher "Paulo Borba".
-    Then the "377" citations to the article "Implementing distribution and persistence aspects with AspectJ" are stored by the system
+    And the article with title "PDC: Persistent data collections pattern", issn "11111", journal "ACM" from "Paulo Borba" is stored by the system
+    And the system has no information about the citation amount to the article with title "PDC: Persistent data collections pattern".
+    And the article with title "PDC: Persistent data collections pattern" has "43" citations at Google Scholar
+    When I try to find citations to "PDC: Persistent data collections pattern" from researcher "Paulo Borba".
+    Then the "43" citations to the article "PDC: Persistent data collections pattern" are stored by the system
 
   Scenario: Data not found
 
@@ -25,11 +25,11 @@ Feature: Collecting citations
 
   Scenario: Request for number of citations of a researcher
 
-    Given the researcher "Luiz Silveira" with cpf "33333333333" is stored by the system
-    And the article with title "Projects on DB", issn "44444", journal "ACM" from "Luiz Silveira" is stored by the system
-    And the article with title "Projects on DB" has "520" citations at Google Scholar
-    And the article with title "Projects on BD", issn "55555", journal "ACM" from "Luiz Silveira" is stored by the system
-    And the article with title "Projects on BD" has "105" citations at Google Scholar
-    And the researcher "Luiz Silveira" has only "2" articles stored by the system: "Projects on DB" and "Projects on BD".
-    When I try to find citations to "Luiz Silveira"
-    Then the "625" citations to the researcher "Luiz Silveira" are stored by the system
+    Given the researcher "Uirá Kulesza" with cpf "33333333333" is stored by the system
+    And the article with title "Jat: A test automation framework for multi-agent systems", issn "44444", journal "ACM" from "Uirá Kulesza" is stored by the system
+    And the article with title "Jat: A test automation framework for multi-agent systems" has "27" citations at Google Scholar
+    And the article with title "Design patterns as aspects: A quantitative assessment", issn "55555", journal "ACM" from "Uirá Kulesza" is stored by the system
+    And the article with title "Design patterns as aspects: A quantitative assessment" has "24" citations at Google Scholar
+    And the researcher "Uirá Kulesza" has only "2" articles stored by the system: "Jat: A test automation framework for multi-agent systems" and "Design patterns as aspects: A quantitative assessment".
+    When I try to find citations to "Uirá Kulesza"
+    Then the "51" citations to the researcher "Uirá Kulesza" are stored by the system

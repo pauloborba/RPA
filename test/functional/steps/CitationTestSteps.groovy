@@ -21,7 +21,11 @@ class CitationTestSteps {
 
     static public int findCitationsResearcher(Researcher researcher) {
         GoogleScholarService gs = new GoogleScholarService()
-        def totalCitations = gs.findCitations(researcher.articles)
+        List<Article> list = new ArrayList<Article>()
+        researcher.articles.each { article ->
+            list.add(article)
+        }
+        def totalCitations = gs.findCitations(list)
         researcher.citationAmount = totalCitations
         def cont = new ResearcherController()
         cont.save(researcher)
