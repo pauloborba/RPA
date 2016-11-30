@@ -2,12 +2,14 @@ package pages
 
 import geb.Page
 import org.openqa.selenium.WebElement
+import steps.InternationalizationHelper
 
 class ShowResearcherPage extends Page {
     static url = "RPA/researcher/show"
 
     static at = {
-        title ==~ /Show Researcher/
+        InternationalizationHelper helper = InternationalizationHelper.instance
+        title ==~ helper.getMessage('default.show.label', "Researcher")
     }
 
     boolean containsText(String t, Collection<WebElement> allT){
@@ -22,8 +24,8 @@ class ShowResearcherPage extends Page {
     }
 
     def findAcceptedMsg(){
-        assert $("div", class: "message").text() == "O pesquisador abaixo foi registrado com sucesso" ||
-                $("div", class: "message").text() == "The researcher below was successfully registered"
+        InternationalizationHelper helper = InternationalizationHelper.instance
+        assert $("div", class: "message").text() == helper.getMessage('researcher.saved')
     }
 
     boolean checkName(String nome){

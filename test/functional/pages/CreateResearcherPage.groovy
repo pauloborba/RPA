@@ -1,13 +1,15 @@
 package pages
 
 import geb.Page
+import steps.InternationalizationHelper
 
 class CreateResearcherPage extends Page {
     private static final dirFiles = "test/functional/steps/"
     static url = "/RPA/researcher/create/"
 
     static at = {
-        title ==~ /Create Researcher/
+        InternationalizationHelper helper = InternationalizationHelper.instance
+        title ==~ helper.getMessage('default.create.label', "Researcher")
     }
 
     def createResearcherWithFile(String filename){
@@ -17,12 +19,12 @@ class CreateResearcherPage extends Page {
     }
 
     def findInvallidMsg(){
-        assert $("div", class: "message").text() == "O arquivo selecionado é inválido" ||
-                $("div", class: "message").text() == "The file chosen is invalid"
+        InternationalizationHelper helper = InternationalizationHelper.instance
+        assert $("div", class: "message").text() == helper.getMessage('researcher.file.invalid')
     }
 
     def findEmptyMsg(){
-        assert $("div", class: "message").text() == "O arquivo está vazio" ||
-                $("div", class: "message").text() == "There is nothing in the archive"
+        InternationalizationHelper helper = InternationalizationHelper.instance
+        assert $("div", class: "message").text() == helper.getMessage('researcher.file.empty')
     }
 }

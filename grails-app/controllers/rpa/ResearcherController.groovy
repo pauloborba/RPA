@@ -1,8 +1,5 @@
 package rpa
 
-import rpa.Researcher
-import rpa.Article
-
 class ResearcherController {
 
     def create() {
@@ -32,9 +29,7 @@ class ResearcherController {
     }
 
     def update(){
-        Researcher researcherSaved = params['researcherSaved']
-        Researcher researcherNew = params['researcherNew']
-        researcherSaved.save flush:true
+
     }
 
     def importFile(){
@@ -46,21 +41,14 @@ class ResearcherController {
                 flash.message = message(code: 'researcher.file.invalid')
                 redirect action: 'create'
             } else {
-                def researcherSaved = Researcher.findByCpf(researcherXml.cpf)
-                if (researcherSaved != null) {
-                    params << [researcherNew: researcherXml, researcherSaved: researcherSaved]
-                    researcherSaved = update()
-                } else {
-                    params << [name: researcherXml.name, cpf: researcherXml.cpf, articles: researcherXml.articles]
-                    researcherSaved = save()
-                }
+                params << [name: researcherXml.name, cpf: researcherXml.cpf, articles: researcherXml.articles]
+                researcherXml = save()
                 flash.message = message(code: 'researcher.saved')
-                redirect action: 'show', id: researcherSaved.id
+                redirect action: 'show', id: researcherXml.id
             }
         }else{
             flash.message = message(code: 'researcher.file.empty')
             redirect action: 'create'
-            //render(view: "create")
         }
     }
 }
