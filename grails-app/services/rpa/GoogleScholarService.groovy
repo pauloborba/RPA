@@ -15,7 +15,7 @@ class GoogleScholarService {
             http.request('http://scholar.google.com.br/', Method.GET, ContentType.TEXT) { req ->
                 uri.path = '/scholar'
                 uri.query = [hl: "en", q: publicationTitle]
-                headers.'User-Agent' = "Mozilla/5.0 Firefox/3.0.4"
+                headers.'User-Agent' = "Mozilla/5.0 Firefox/3.0.4 Travis/1.0"
                 headers.Accept = 'application/json'
 
                 response.success = { resp, reader ->
