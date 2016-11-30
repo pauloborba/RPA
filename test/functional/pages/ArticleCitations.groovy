@@ -7,7 +7,7 @@ class ArticleCitations extends InternationalizedPage {
     static url = "/RPA/article/articleCitations/"
 
     static at = {
-        title ==~ /ArticleCitations/
+        title ==~ helperMsg.getMessage('default.articlecitations.label', 'ArtigoCitacoes')
     }
 
     void fillTitle(String title) {

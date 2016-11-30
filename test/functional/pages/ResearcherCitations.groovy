@@ -7,7 +7,7 @@ class ResearcherCitations extends InternationalizedPage {
     static url = "/RPA/researcher/researcherCitations/"
 
     static at = {
-        title ==~ /ResearcherCitations/
+        title ==~ helperMsg.getMessage('default.researchercitations.label', 'PesquidadorCitacoes')
     }
 
     void fillName(String name) {
