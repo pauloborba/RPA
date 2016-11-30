@@ -27,6 +27,7 @@ class GoogleScholarService {
                     println 'Not found'
                 }
             }
+            System.out.println(result)
             if (result == null || result == "") {
                 publication.citationAmount = 0
             } else {
