@@ -4,7 +4,7 @@
 <html>
 	<head>
 		<meta name="layout" content="main">
-		<g:set var="entityName" value="${message(code: 'researcher.label', default: 'Researchers')}" />
+		<g:set var="entityName" value="${message(code: 'researcher.label', default: 'Researcher')}" />
 		<title><g:message code="default.list.label" args="[entityName]" /></title>
 	</head>
 	<body>
@@ -13,6 +13,7 @@
 			<ul>
 				<li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
 				<li><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
+				<li><g:link class="home" action="researcherCitations"><g:message code="Ver citacoes" args="[entityName]"/></g:link></li>
 			</ul>
 		</div>
 		<div id="list-researcher" class="content scaffold-list" role="main">
@@ -28,6 +29,8 @@
 					
 						<g:sortableColumn property="cpf" title="${message(code: 'researcher.cpf.label', default: 'Cpf')}" />
 					
+						<g:sortableColumn property="citationAmount" title="${message(code: 'researcher.citationAmount.label', default: 'Citation Amount')}" />
+					
 					</tr>
 				</thead>
 				<tbody>
@@ -37,6 +40,8 @@
 						<td><g:link action="show" id="${researcherInstance.id}">${fieldValue(bean: researcherInstance, field: "name")}</g:link></td>
 					
 						<td>${fieldValue(bean: researcherInstance, field: "cpf")}</td>
+					
+						<td>${fieldValue(bean: researcherInstance, field: "citationAmount")}</td>
 					
 					</tr>
 				</g:each>

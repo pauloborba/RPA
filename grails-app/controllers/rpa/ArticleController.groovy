@@ -7,7 +7,7 @@ import grails.transaction.Transactional
 @Transactional(readOnly = true)
 class ArticleController {
 
-//    static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
+    static GoogleScholarService gs
 
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
@@ -20,6 +20,19 @@ class ArticleController {
 
     def create() {
         respond new Article(params)
+    }
+
+    def findCitations() {
+        Article article = Article.findByTitle(params.article)
+        List<Article> lista = new ArrayList<Article>()
+        lista.add(article)
+        gs = new GoogleScholarService()
+        gs.findCitations(lista)
+        render(view: "citationsArticle", model: [citationsCount: article.citationAmount, article: params.article])
+    }
+
+    def articleCitations() {
+        render(view: "citationsArticle", model: [citationsCount: "", article: ""])
     }
 
     @Transactional

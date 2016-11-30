@@ -13,6 +13,7 @@
 			<ul>
 				<li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
 				<li><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
+				<li><g:link class="home" action="articleCitations"><g:message code="Ver citacoes" args="[entityName]"/></g:link></li>
 			</ul>
 		</div>
 		<div id="list-article" class="content scaffold-list" role="main">
@@ -30,6 +31,10 @@
 					
 						<g:sortableColumn property="issn" title="${message(code: 'article.issn.label', default: 'Issn')}" />
 					
+						<th><g:message code="article.owner.label" default="Owner" /></th>
+					
+						<g:sortableColumn property="citationAmount" title="${message(code: 'article.citationAmount.label', default: 'Citation Amount')}" />
+					
 					</tr>
 				</thead>
 				<tbody>
@@ -41,6 +46,10 @@
 						<td>${fieldValue(bean: articleInstance, field: "journal")}</td>
 					
 						<td>${fieldValue(bean: articleInstance, field: "issn")}</td>
+					
+						<td>${fieldValue(bean: articleInstance, field: "owner")}</td>
+					
+						<td>${fieldValue(bean: articleInstance, field: "citationAmount")}</td>
 					
 					</tr>
 				</g:each>

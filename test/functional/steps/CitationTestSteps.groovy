@@ -26,10 +26,7 @@ class CitationTestSteps {
             list.add(article)
         }
         def totalCitations = gs.findCitations(list)
-        researcher.citationAmount = totalCitations
-        def cont = new ResearcherController()
-        cont.save(researcher)
-        cont.response.reset()
+        gs.updateCitations(researcher, totalCitations)
         return totalCitations
     }
 

@@ -50,12 +50,30 @@
 				</li>
 				</g:if>
 			
+				<g:if test="${articleInstance?.owner}">
+				<li class="fieldcontain">
+					<span id="owner-label" class="property-label"><g:message code="article.owner.label" default="Owner" /></span>
+					
+						<span class="property-value" aria-labelledby="owner-label"><g:link controller="researcher" action="show" id="${articleInstance?.owner?.id}">${articleInstance?.owner?.encodeAsHTML()}</g:link></span>
+					
+				</li>
+				</g:if>
+			
+				<g:if test="${articleInstance?.citationAmount}">
+				<li class="fieldcontain">
+					<span id="citationAmount-label" class="property-label"><g:message code="article.citationAmount.label" default="Citation Amount" /></span>
+					
+						<span class="property-value" aria-labelledby="citationAmount-label"><g:fieldValue bean="${articleInstance}" field="citationAmount"/></span>
+					
+				</li>
+				</g:if>
+			
 				<g:if test="${articleInstance?.authors}">
 				<li class="fieldcontain">
 					<span id="authors-label" class="property-label"><g:message code="article.authors.label" default="Authors" /></span>
 					
 						<g:each in="${articleInstance.authors}" var="a">
-						<span class="property-value" aria-labelledby="authors-label"><g:link controller="researcher" action="show" id="${a.id}">${a?.encodeAsHTML()}</g:link></span>
+						<span class="property-value" aria-labelledby="authors-label"><g:link controller="author" action="show" id="${a.id}">${a?.encodeAsHTML()}</g:link></span>
 						</g:each>
 					
 				</li>

@@ -2,7 +2,6 @@ package rpa
 
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
-import rpa.GoogleScholarService
 
 @Transactional(readOnly = true)
 class ResearcherController {
@@ -23,17 +22,19 @@ class ResearcherController {
     }
 
     def findCitations() {
-        Researcher res = Researcher.findByName(params.researcher)
-        Article art = Article.findByTitle(params.article)
+        Researcher researcher = Researcher.findByName(params.researcher)
         List<Article> lista = new ArrayList<Article>()
-        lista.add(art)
+        researcher.articles.each { article ->
+            lista.add(article)
+        }
         gs = new GoogleScholarService()
-        gs.findCitations(lista)
-        render(view: "citations", model: [citationsCount: lista.get(0).citationAmount, researcher: params.researcher, article: params.article])
+        def totalCitations = gs.findCitations(lista)
+        gs.updateCitations(researcher, totalCitations)
+        render(view: "citationsResearcher", model: [citationsCount:  researcher.citationAmount, researcher: params.researcher])
     }
 
-    def citations() {
-        render(view: "citations", model: [citationsCount: "", researcher: "", article: ""])
+    def researcherCitations() {
+        render(view: "citationsResearcher", model: [citationsCount: "", researcher: ""])
     }
 
     @Transactional

@@ -14,7 +14,6 @@
 				<li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
 				<li><g:link class="list" action="index"><g:message code="default.list.label" args="[entityName]" /></g:link></li>
 				<li><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
-				<li><g:link class="home" action="citations"><g:message code="Ver citacoes" args="[entityName]"/></g:link></li>
 			</ul>
 		</div>
 		<div id="show-researcher" class="content scaffold-show" role="main">
@@ -41,15 +40,37 @@
 					
 				</li>
 				</g:if>
-
+			
+				<g:if test="${researcherInstance?.citationAmount}">
+				<li class="fieldcontain">
+					<span id="citationAmount-label" class="property-label"><g:message code="researcher.citationAmount.label" default="Citation Amount" /></span>
+					
+						<span class="property-value" aria-labelledby="citationAmount-label"><g:fieldValue bean="${researcherInstance}" field="citationAmount"/></span>
+					
+				</li>
+				</g:if>
+			
+				<g:if test="${researcherInstance?.articles}">
 				<li class="fieldcontain">
 					<span id="articles-label" class="property-label"><g:message code="researcher.articles.label" default="Articles" /></span>
-
-						<g:each in="${rpa.Article.list()}" var="a">
-						<span class="property-value" aria-labelledby="articles-label"><g:link controller="article" action="show" id="${a.id}">${a.title}</g:link></span>
+					
+						<g:each in="${researcherInstance.articles}" var="a">
+						<span class="property-value" aria-labelledby="articles-label"><g:link controller="article" action="show" id="${a.id}">${a?.encodeAsHTML()}</g:link></span>
 						</g:each>
 					
 				</li>
+				</g:if>
+			
+				<g:if test="${researcherInstance?.updates}">
+				<li class="fieldcontain">
+					<span id="updates-label" class="property-label"><g:message code="researcher.updates.label" default="Updates" /></span>
+					
+						<g:each in="${researcherInstance.updates}" var="u">
+						<span class="property-value" aria-labelledby="updates-label"><g:link controller="updateLattes" action="show" id="${u.id}">${u?.encodeAsHTML()}</g:link></span>
+						</g:each>
+					
+				</li>
+				</g:if>
 			
 			</ol>
 			<g:form url="[resource:researcherInstance, action:'delete']" method="DELETE">

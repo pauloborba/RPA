@@ -29,12 +29,30 @@
 
 </div>
 
+<div class="fieldcontain ${hasErrors(bean: articleInstance, field: 'owner', 'error')} ">
+	<label for="owner">
+		<g:message code="article.owner.label" default="Owner" />
+		
+	</label>
+	<g:select id="owner" name="owner.id" from="${rpa.Researcher.list()}" optionKey="id" value="${articleInstance?.owner?.id}" class="many-to-one" noSelection="['null': '']"/>
+
+</div>
+
 <div class="fieldcontain ${hasErrors(bean: articleInstance, field: 'authors', 'error')} ">
 	<label for="authors">
 		<g:message code="article.authors.label" default="Authors" />
 		
 	</label>
 	
+<ul class="one-to-many">
+<g:each in="${articleInstance?.authors?}" var="a">
+    <li><g:link controller="author" action="show" id="${a.id}">${a?.encodeAsHTML()}</g:link></li>
+</g:each>
+<li class="add">
+<g:link controller="author" action="create" params="['article.id': articleInstance?.id]">${message(code: 'default.add.label', args: [message(code: 'author.label', default: 'Author')])}</g:link>
+</li>
+</ul>
+
 
 </div>
 
