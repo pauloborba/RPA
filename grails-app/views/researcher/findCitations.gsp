@@ -17,25 +17,25 @@
     <a href="#show-citations-researcher" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
     <div class="nav" role="navigation">
         <ul>
-            <li><g:link url="${request.getHeader('referer')}"><g:message code="Voltar" args="[entityName]" /></g:link></li>
+            <li><g:link url="${request.getHeader('referer')}"><g:message code="default.link.back" args="[entityName]" /></g:link></li>
         </ul>
     </div>
     <div id="show-citations-researcher" class="content scaffold-show" role="main">
-        <h1><g:message code="Ver Citações" args="[entityName]" /></h1>
+        <h1><g:message code="default.seeCitations.label" args="[entityName]" /></h1>
         <ol class="property-list citations">
             <g:form>
                 <fieldset class="form">
                     <div class="fieldcontain">
                         <label for="researcher">
-                            <g:message code="Researcher" default="Researcher" />
+                            <g:message code="default.researcher.label" default="Researcher" />
                             <span class="required-indicator">*</span>
                         </label>
                         <g:textField name="researcher" id="123" required="" value="${researcher ?: ""}"/>
                     </div>
 
                     <div class="fieldcontain">
-                        <label for="citationsCount">
-                            <g:message code="Citations" default="Citations" />
+                        <label for="citations">
+                            <g:message code="default.citations.label" default="Citations" />
                         </label>
                         <g:textField name="citations" id="222" value="${citationsCount ?: ""}"/>
                     </div>

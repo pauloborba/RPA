@@ -1,5 +1,6 @@
 package steps
 
+import rpa.Article
 import rpa.Researcher
 import rpa.ResearcherController
 
@@ -8,10 +9,17 @@ import rpa.ResearcherController
  */
 class ResearcherSteps {
 
-    def static CreateResearcher(String name, String cpf) {
+    def static createResearcher(String name, String cpf) {
         def cont = new ResearcherController()
         cont.create()
         cont.save(new Researcher(name:name, cpf:cpf))
+        cont.response.reset()
+    }
+
+    def static updateResearcher(Researcher researcher, Article article) {
+        def cont = new ResearcherController()
+        researcher.articles.add(article)
+        cont.save(researcher)
         cont.response.reset()
     }
 }

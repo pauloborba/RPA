@@ -11,18 +11,18 @@ class ArticleCitations extends InternationalizedPage {
     }
 
     void fillTitle(String title) {
-        $("form").article = title
+        $('input[name="article"]').value(title)
     }
 
     void select() {
-        $("input", name:"buscar").click()
+        $('input[type="submit"]').click()
     }
 
-    String getTitleValue() {
-        return $("form").article
+    def getTitleValue() {
+        return $('input[name="article"]').value()
     }
 
-    int getCitationValue() {
-        return $("form").citationsCount
+    def getCitationValue() {
+        return $('input[name="citations"]').value()
     }
 }

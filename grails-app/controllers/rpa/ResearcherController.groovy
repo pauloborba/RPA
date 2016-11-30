@@ -24,9 +24,12 @@ class ResearcherController {
     def findCitations() {
         Researcher researcher = Researcher.findByName(params.researcher)
         List<Article> lista = new ArrayList<Article>()
+        def name
+        def citationNumber
         if (researcher == null) {
             flash.message = 'Researcher not found'
-            render(view: "citationsResearcher", model: [citationsCount: "Researcher not found", researcher: params.researcher])
+            name = params.researcher
+            citationNumber = "Researcher not found"
         } else {
             researcher.articles.each { article ->
                 lista.add(article)
@@ -34,12 +37,18 @@ class ResearcherController {
             gs = new GoogleScholarService()
             def totalCitations = gs.findCitations(lista)
             gs.updateCitations(researcher, totalCitations)
-            render(view: "citationsResearcher", model: [citationsCount: researcher.citationAmount, researcher: params.researcher])
+            name = researcher.name
+            citationNumber = totalCitations
         }
+        chain(controller: 'researcher', action: 'researcherCitations', model: [citationsCount: citationNumber, researcher: name])
     }
 
     def researcherCitations() {
-        render(view: "citationsResearcher", model: [citationsCount: "", researcher: ""])
+        if (chainModel != null) {
+            render(view: "findCitations", model: [citationsCount: chainModel['citationsCount'] ?: "", researcher: chainModel['researcher'] ?: ""])
+        } else {
+            render(view: "findCitations", model: [citationsCount: "", researcher: ""])
+        }
     }
 
     @Transactional

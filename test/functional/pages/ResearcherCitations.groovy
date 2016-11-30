@@ -11,18 +11,18 @@ class ResearcherCitations extends InternationalizedPage {
     }
 
     void fillName(String name) {
-        $("form").researcher = name
+        $('input[name="researcher"]').value(name)
     }
 
     void select() {
-        $("input", name:"buscar").click()
+        $('input[type="submit"]').click()
     }
 
-    String getNameValue() {
-        return $("form").researcher
+    def getNameValue() {
+        return $('input[name="researcher"]').value()
     }
 
-    int getCitationValue() {
-        return $("form").citationsCount
+    def getCitationValue() {
+        return $('input[name="citations"]').value()
     }
 }

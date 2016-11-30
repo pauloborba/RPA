@@ -34,8 +34,8 @@
                 </div>
 
                 <div class="fieldcontain">
-                    <label for="citationsCount">
-                        <g:message code="default.citations.label" default="Citations" />
+                    <label for="citations">
+                        <g:message code="default.citations.label" default="Citacoes" />
                     </label>
                     <g:textField name="citations" id="111" value="${citationsCount ?: ""}"/>
                 </div>

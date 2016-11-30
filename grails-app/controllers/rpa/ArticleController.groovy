@@ -25,19 +25,28 @@ class ArticleController {
     def findCitations() {
         Article article = Article.findByTitle(params.article)
         List<Article> lista = new ArrayList<Article>()
+        def title
+        def citationNumber
         if (article == null) {
             flash.message = 'Article not found'
-            render(view: "citationsArticle", model: [citationsCount: "Article not found", article: params.article])
+            title = params.article
+            citationNumber = "Article not found"
         } else {
             lista.add(article)
             gs = new GoogleScholarService()
             gs.findCitations(lista)
-            render(view: "citationsArticle", model: [citationsCount: article.citationAmount, article: params.article])
+            title = article.title
+            citationNumber = article.citationAmount
         }
+        chain(controller: 'article', action: 'articleCitations', model: [citationsCount: citationNumber, article: title])
     }
 
     def articleCitations() {
-        render(view: "citationsArticle", model: [citationsCount: "", article: ""])
+        if (chainModel != null) {
+            render(view: "findCitations", model: [citationsCount: chainModel['citationsCount'] ?: "", article: chainModel['article'] ?: ""])
+        } else {
+            render(view: "findCitations", model: [citationsCount: "", article: ""])
+        }
     }
 
     @Transactional

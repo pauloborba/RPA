@@ -16,14 +16,14 @@ this.metaClass.mixin(cucumber.api.groovy.EN)
     Scenario: Integrity of data between the system and Google Scholar
 */
 Given(~/^the researcher "([^"]*)" with cpf "([^"]*)" is stored by the system$/) { String name, String cpf ->
-    ResearcherSteps.CreateResearcher(name, cpf)
+    ResearcherSteps.createResearcher(name, cpf)
     assert Researcher.findByName(name)
 }
 And(~/^the article with title "([^"]*)", issn "([^"]*)", journal "([^"]*)" from "([^"]*)" is stored by the system$/) { String title, String issn, String journal, String name ->
     ArticleSteps.CreateArticle(title, issn, journal)
     def researcher = Researcher.findByName(name)
     def article = Article.findByTitle(title)
-    researcher.articles.add(article)
+    ResearcherSteps.updateResearcher(researcher, article)
     assert article && researcher.articles.contains(article)
 }
 And(~/^the system has no information about the citation amount to the article with title "([^"]*)".$/) { String title ->
@@ -82,17 +82,29 @@ Given(~/^I am at the ArticleCitations Menu$/) { ->
 When(~/^I select the article "([^"]*)"\.$/) { String title ->
     page.fillTitle(title)
 }
-And(~/^I ask to find citations$/) { ->
+And(~/^I ask to find citations to article$/) { ->
+    at ArticleCitations
     page.select()
 }
-Then(~/^the number "([^"]*)" of citations to the article "([^"]*)" are shown$/) { int citations, String title ->
-    assert page.getTitleValue() == title && page.getCitationValue().toInteger() == citations
+Then(~/^the number "([^"]*)" of citations to the article "([^"]*)" are shown$/) { String citations, String title ->
+    waitFor (15, 0.1) {
+        at ArticleCitations
+        page.getCitationValue() != ""
+    }
+    def returnTitle = page.getTitleValue()
+    def value = page.getCitationValue()
+    assert returnTitle == title && value == citations
 }
 
 /*
     Scenario: Irregular importing citations to article
 */
 Then(~/^the message "([^"]*)" is displayed$/) { String message ->
+    if (message == "Article not found") {
+        at ArticleCitations
+    } else {
+        at ResearcherCitations
+    }
     assert page.getCitationValue() == message
 }
 
@@ -106,6 +118,7 @@ Given(~/^I am at the ResearcherCitations Menu$/) { ->
 When(~/^I select the researcher "([^"]*)"\.$/) { String name ->
     page.fillName(name)
 }
-Then(~/^the number "([^"]*)" of citations to the researcher "([^"]*)" are shown$/) { int citations, String name ->
-    assert page.getNameValue() == name && page.getCitationValue().toInteger() == citations
+And(~/^I ask to find citations to researcher/) { ->
+    at ResearcherCitations
+    page.select()
 }

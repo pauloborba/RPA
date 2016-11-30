@@ -37,27 +37,20 @@ Feature: Collecting citations
   Scenario: Regular importing citations to article
 
     Given I am at the ArticleCitations Menu
-    When I select the article "A quantitative assessment".
-    And I ask to find citations
-    Then the number "24" of citations to the article "A quantitative assessment" are shown
+    When I select the article "PDC: Persistent data collections pattern".
+    And I ask to find citations to article
+    Then the number "43" of citations to the article "PDC: Persistent data collections pattern" are shown
 
   Scenario: Irregular importing citations to article
 
     Given I am at the ArticleCitations Menu
-    When I select the article "A quantitative assessment".
-    And I ask to find citations
+    When I select the article "Any article out of the system".
+    And I ask to find citations to article
     Then the message "Article not found" is displayed
-
-  Scenario: Regular importing citations to researcher
-
-    Given I am at the ResearcherCitations Menu
-    When I select the researcher "Uirá Kulesza".
-    And I ask to find citations
-    Then the number "0" of citations to the researcher "Uirá Kulesza" are shown
 
   Scenario: Irregular importing citations to researcher
 
     Given I am at the ResearcherCitations Menu
-    When I select the researcher "Uirá Kulesza".
-    And I ask to find citations
+    When I select the researcher "Andre Matos".
+    And I ask to find citations to researcher
     Then the message "Researcher not found" is displayed
