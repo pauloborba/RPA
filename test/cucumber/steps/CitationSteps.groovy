@@ -1,6 +1,8 @@
 package steps
 
 import cucumber.api.PendingException
+import pages.ArticleCitations
+import pages.ResearcherCitations
 import rpa.ArticleController
 import rpa.Researcher
 import rpa.Article
@@ -71,4 +73,42 @@ When(~/^I try to find citations to "([^"]*)"$/) { String name ->
 }
 Then(~/^the "([^"]*)" citations to the researcher "([^"]*)" are stored by the system$/) { int citations, String name ->
     assert CitationTestSteps.informationStoredResearcher(name, citations)
+}
+
+/*
+    Scenario: Regular importing citations to article
+*/
+Given(~/^I am at the ArticleCitations Menu$/) { ->
+    to ArticleCitations
+    at ArticleCitations
+}
+When(~/^I select the article "([^"]*)"\.$/) { String title ->
+    page.fillTitle(title)
+}
+And(~/^I ask to find citations$/) { ->
+    page.select()
+}
+Then(~/^the number "([^"]*)" of citations to the article "([^"]*)" are shown$/) { int citations, String title ->
+    assert page.getTitleValue() == title && page.getCitationValue().toInteger() == citations
+}
+
+/*
+    Scenario: Irregular importing citations to article
+*/
+Then(~/^the message "([^"]*)" is displayed$/) { String message ->
+    assert page.getCitationValue() == message
+}
+
+/*
+    Scenario: Regular importing citations to researcher
+*/
+Given(~/^I am at the ResearcherCitations Menu$/) { ->
+    to ResearcherCitations
+    at ResearcherCitations
+}
+When(~/^I select the researcher "([^"]*)"\.$/) { String name ->
+    page.fillName(name)
+}
+Then(~/^the number "([^"]*)" of citations to the researcher "([^"]*)" are shown$/) { int citations, String name ->
+    assert page.getNameValue() == name && page.getCitationValue().toInteger() == citations
 }

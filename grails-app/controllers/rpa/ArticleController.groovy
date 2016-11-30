@@ -25,10 +25,15 @@ class ArticleController {
     def findCitations() {
         Article article = Article.findByTitle(params.article)
         List<Article> lista = new ArrayList<Article>()
-        lista.add(article)
-        gs = new GoogleScholarService()
-        gs.findCitations(lista)
-        render(view: "citationsArticle", model: [citationsCount: article.citationAmount, article: params.article])
+        if (article == null) {
+            flash.message = 'Article not found'
+            render(view: "citationsArticle", model: [citationsCount: "Article not found", article: params.article])
+        } else {
+            lista.add(article)
+            gs = new GoogleScholarService()
+            gs.findCitations(lista)
+            render(view: "citationsArticle", model: [citationsCount: article.citationAmount, article: params.article])
+        }
     }
 
     def articleCitations() {

@@ -24,13 +24,18 @@ class ResearcherController {
     def findCitations() {
         Researcher researcher = Researcher.findByName(params.researcher)
         List<Article> lista = new ArrayList<Article>()
-        researcher.articles.each { article ->
-            lista.add(article)
+        if (researcher == null) {
+            flash.message = 'Researcher not found'
+            render(view: "citationsResearcher", model: [citationsCount: "Researcher not found", researcher: params.researcher])
+        } else {
+            researcher.articles.each { article ->
+                lista.add(article)
+            }
+            gs = new GoogleScholarService()
+            def totalCitations = gs.findCitations(lista)
+            gs.updateCitations(researcher, totalCitations)
+            render(view: "citationsResearcher", model: [citationsCount: researcher.citationAmount, researcher: params.researcher])
         }
-        gs = new GoogleScholarService()
-        def totalCitations = gs.findCitations(lista)
-        gs.updateCitations(researcher, totalCitations)
-        render(view: "citationsResearcher", model: [citationsCount:  researcher.citationAmount, researcher: params.researcher])
     }
 
     def researcherCitations() {

@@ -33,3 +33,31 @@ Feature: Collecting citations
     And the researcher "Uirá Kulesza" has only "2" articles stored by the system: "Jat: A test automation framework for multi-agent systems" and "Design patterns as aspects: A quantitative assessment".
     When I try to find citations to "Uirá Kulesza"
     Then the "51" citations to the researcher "Uirá Kulesza" are stored by the system
+
+  Scenario: Regular importing citations to article
+
+    Given I am at the ArticleCitations Menu
+    When I select the article "A quantitative assessment".
+    And I ask to find citations
+    Then the number "24" of citations to the article "A quantitative assessment" are shown
+
+  Scenario: Irregular importing citations to article
+
+    Given I am at the ArticleCitations Menu
+    When I select the article "A quantitative assessment".
+    And I ask to find citations
+    Then the message "Article not found" is displayed
+
+  Scenario: Regular importing citations to researcher
+
+    Given I am at the ResearcherCitations Menu
+    When I select the researcher "Uirá Kulesza".
+    And I ask to find citations
+    Then the number "0" of citations to the researcher "Uirá Kulesza" are shown
+
+  Scenario: Irregular importing citations to researcher
+
+    Given I am at the ResearcherCitations Menu
+    When I select the researcher "Uirá Kulesza".
+    And I ask to find citations
+    Then the message "Researcher not found" is displayed

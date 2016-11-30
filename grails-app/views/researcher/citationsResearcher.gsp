@@ -9,7 +9,7 @@
 <html>
 <head>
     <meta name="layout" content="main">
-    <g:set var="entityName" value="${message(code: 'researchercitations.label', default: 'ResearcherCitations')}" />
+    <g:set var="entityName" value="${message(code: 'default.researchercitations.label', default: 'ResearcherCitations')}" />
     <title><g:message code="default.researchercitations.label" args="[entityName]" /></title>
 </head>
 
@@ -41,7 +41,7 @@
                     </div>
                 </fieldset>
                 <fieldset class="buttons">
-                    <g:actionSubmit action="findCitations" value="Buscar Citações" />
+                    <g:actionSubmit name="buscar" action="findCitations" value="Buscar Citações" />
                 </fieldset>
             </g:form>
         </ol>
