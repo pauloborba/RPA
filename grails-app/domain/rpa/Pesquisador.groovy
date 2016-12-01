@@ -20,6 +20,6 @@ class Pesquisador {
     }
 
     static mapping = {
-        sort nome: "asc" // or "asc"
+        sort nome: "asc"
     }
 }

@@ -22,6 +22,7 @@ class GrupoPesquisadores {
             }
             return null
         }
+        else return null
     }
 
     public void addPesq(Pesquisador p){
@@ -30,92 +31,65 @@ class GrupoPesquisadores {
         }
     }
 
+    public void addMember(int n){
+        for(int i=0;i<n;i++)pesquisadores.add(new Pesquisador())
+    }
+
     //stub method
-    public int getNotaStub(int tipo,String qualis,String nomeGrupo){
+    public int getGroupScore(String criterio, String qualis, String nomeGrupo){
         if(nomeGrupo.equals("Cin UFPE")){
             if(qualis.equals("2010")){
-                if(convertQualis(tipo).equals("B1"))return 5
+                if(criterio.equals("A1"))return 2
+                else if(criterio.equals("A2"))return 4
+                else if(criterio.equals("B1"))return 5
+                else if(criterio.equals("B2"))return 8
+                else if(criterio.equals("B3"))return 3
                 else return 0
             }
             else if(qualis.toString().equals("2012")){
-                if(convertQualis(tipo).equals("A1"))return 3
+                if(criterio.equals("A1"))return 3
+                else if(criterio.equals("A2"))return 2
+                else if(criterio.equals("B1"))return 5
+                else if(criterio.equals("B2"))return 6
+                else if(criterio.equals("B3"))return 8
                 else return 0
             }
             else if(qualis.toString().equals("2013")){
-                if(convertQualis(tipo).equals("A2"))return 4
+                if(criterio.equals("A1"))return 2
+                else if(criterio.equals("A2"))return 4
+                else if(criterio.equals("B1"))return 5
+                else if(criterio.equals("B2"))return 0
+                else if(criterio.equals("B3"))return 1
                 else return 0
             }
             else return 0
         }
         else if(nomeGrupo.equals("UFRJ")){
             if(qualis.equals("2010")){
-                if(convertQualis(tipo).equals("B1"))return 5
+                if(criterio.equals("A1"))return 3
+                else if(criterio.equals("A2"))return 5
+                else if(criterio.equals("B1"))return 5
+                else if(criterio.equals("B2"))return 0
+                else if(criterio.equals("B3"))return 8
                 else return 0
             }
             else if(qualis.equals("2012")){
-                if(convertQualis(tipo).equals("A1"))return 2
+                if(criterio.equals("A1"))return 2
+                else if(criterio.equals("A2"))return 3
+                else if(criterio.equals("B1"))return 4
+                else if(criterio.equals("B2"))return 5
+                else if(criterio.equals("B3"))return 7
                 else return 0
             }
             else if(qualis.equals("2013")){
-                if(convertQualis(tipo).equals("A2"))return 4
+                if(criterio.equals("A1"))return 3
+                else if(criterio.equals("A2"))return 4
+                else if(criterio.equals("B1"))return 1
+                else if(criterio.equals("B2"))return 0
+                else if(criterio.equals("B3"))return 3
                 else return 0
             }
             else return 0
-        }
-    }
-
-
-    public String convertQualis(int i){
-        if(i==0){
-            return "A1"
-        }
-        else if(i==1){
-            return "A2"
-        }
-        else if(i==2){
-            return "B1"
-        }
-        else if(i==3){
-            return "B2"
-        }
-        else if(i==4){
-            return "B3"
-        }
-        else if(i==5){
-            return "B4"
-        }
-        else if(i==6){
-            return "B5"
-        }
-        else if(i==7){
-            return "C "
-        }
-    }
-
-    public int revertQualis(String criterio){
-        if(criterio.equals("A1")){
-            return 0
-        }
-        else if(criterio.equals("A2")){
-            return 1
-        }
-        else if(criterio.equals("B1")){
-            return 2
-        }
-        else if(criterio.equals("B2")){
-            return 3
-        }
-        else if(criterio.equals("B3")){
-            return 4
-        }
-        else if(criterio.equals("B4")){
-            return 5
-        }
-        else if(criterio.equals("B5")){
-            return 6
-        }
-        else if(criterio.equals("C")){
-            return 7
         }
     }
 
