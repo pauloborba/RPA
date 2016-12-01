@@ -1,138 +1,102 @@
 package steps
 
-import pages.comparePage
-import pages.resultComparePage
+import pages.*
 import rpa.GrupoPesquisadores
 import rpa.GrupoPesquisadoresController
+import rpa.Pesquisador
+import rpa.PesquisadorController
+
 import static cucumber.api.groovy.EN.*
 this.metaClass.mixin(cucumber.api.groovy.Hooks)
 this.metaClass.mixin(cucumber.api.groovy.EN)
-import geb.Page
-import cucumber.api.PendingException
-
-
 //Cenario 1
+Given(~'^Os pesquisadores "([^"]+)" de cpf "([^"]+)" e "([^"]+)" de cpf "([^"]+)" estão cadastrados no sistema$'){String nome1,String cpf1,String nome2,String cpf2->
+    to CreateResearcherPage
+    at CreateResearcherPage
+    page.dataToAdd(nome1,cpf1)
+    assert Pesquisador.findByCpf(cpf1)!=null
+    to CreateResearcherPage
+    at CreateResearcherPage
+    page.dataToAdd(nome2,cpf2)
+    assert Pesquisador.findByCpf(cpf2)!=null
+}
 
-Given(~'^Os grupos "([^"]+)" e "([^"]+)" estão cadastrados no sistema$'){String nome1, String nome2->
-    assert false
+And(~'^"([^"]+)" está cadastrado e tem o pesquisador "([^"]+)"$') { String nomeGrupo, String nomePesq ->
+    to CreateResearcherGroupPage
+    at CreateResearcherGroupPage
+    def names=[]
+    names.push(nomePesq)
+    page.createInfo(nomeGrupo,names as String[])
+    assert GrupoPesquisadores.findByNomeGrupo(nomeGrupo)!=null
+}
+
+And(~'^"([^"]+)" está cadastrado e tem os pesquisadores "([^"]+)" e "([^"]+)"$') { String nomeGrupo, String nomePesq1, String nomePesq2 ->
+    to CreateResearcherGroupPage
+    at CreateResearcherGroupPage
+    def names=[]
+    names.push(nomePesq1)
+    names.push(nomePesq2)
+    page.createInfo(nomeGrupo,names as String[])
+    assert GrupoPesquisadores.findByNomeGrupo(nomeGrupo)!=null
 }
 
 And(~'^"([^"]+)" tem nota "([0-9]+)" no "([^"]+)" do Qualis "([^"]+)"$') { String nome, int media, String tipo, String qualis ->
-    createAndSaveGroup(nome)
-    def grupo = GrupoPesquisadores.findByNomeGrupo(nome)
-    assert grupo!=null
-    int k = grupo.revertQualis(tipo)
-    assert grupo.getNotaStub(k,qualis,nome)==media
-}
-And(~'^"([^"]+)"  tem nota "([0-9]+)" no "([^"]+)" do Qualis "([^"]+)"$') {String nome, int media, String tipo,String qualis->
-    createAndSaveGroup(nome)
-    def grupo = GrupoPesquisadores.findByNomeGrupo(nome)
-    assert grupo!=null
-    int k = grupo.revertQualis(tipo)
-    assert grupo.getNotaStub(k,qualis,nome)==media
+    checkNotaGrupo(nome,tipo,qualis,media)
 }
 
 When(~'^Solicito a comparação usando Qualis "([^"]+)" entre "([^"]+)" e "([^"]+)"$') {String qualis,String nome1,String nome2->
-    to comparePage
-
+    to ComparePage
     nonNullGroups(nome1,nome2)
-
     page.dataToCompare(GrupoPesquisadores.findByNomeGrupo(nome1),GrupoPesquisadores.findByNomeGrupo(nome2),qualis)
 }
 
 Then(~'^A nota "([0-9]+)" do grupo "([^"]+)" fica verde e a nota "([0-9]+)" do grupo "([^"]+)" fica vermelha no critério "([^"]+)" do Qualis "([^"]+)"$') {int nota1,String nome1,int nota2,String nome2, String tipo,String qualis->
-    at resultComparePage
-
+    at ResultComparePage
     nonNullGroups(nome1,nome2)
-
     assert page.checkData(nota1,nota2,tipo)
 }
 
-//Cenario 2
-Given(~'^Os grupos "([^"]+)" e "([^"]+)" estão cadastrados dentro do sistema$') {String nome1, String nome2->
-    assert false
-}
-
-And(~'^"([^"]+)" possui nota "([0-9]+)" no "([^"]+)" do Qualis "([^"]+)"$') {String nome, int media,String tipo,String qualis->
-    createAndSaveGroup(nome)
-    def grupo = GrupoPesquisadores.findByNomeGrupo(nome)
-    assert grupo!=null
-    int k = grupo.revertQualis(tipo)
-    assert grupo.getNotaStub(k,qualis,nome)==media
-}
-
-And(~'^"([^"]+)" possui a nota "([0-9]+)" no "([^"]+)" do Qualis "([^"]+)"$') {String nome, int media,String tipo,String qualis->
-    createAndSaveGroup(nome)
-    def grupo = GrupoPesquisadores.findByNomeGrupo(nome)
-    assert grupo!=null
-    int k = grupo.revertQualis(tipo)
-    assert grupo.getNotaStub(k,qualis,nome)==media
-}
-
-When(~'^Solicito a comparação usando  Qualis "([^"]+)" entre "([^"]+)" e "([^"]+)"$') {String qualis, String nome1,String nome2->
-    to comparePage
+And(~'^A nota media por pesquisador do grupo "([^"]+)" fica verde e a nota media por pesquisador do grupo "([^"]+)" fica vermelha no critério "([^"]+)" do Qualis "([^"]+)"$') {String nome1,String nome2, String tipo, String qualis ->
+    at ResultComparePage
     nonNullGroups(nome1,nome2)
-    page.dataToCompare(GrupoPesquisadores.findByNomeGrupo(nome1),GrupoPesquisadores.findByNomeGrupo(nome2),qualis)
+    def grupo1 = GrupoPesquisadores.findByNomeGrupo(nome1)
+    def grupo2 = GrupoPesquisadores.findByNomeGrupo(nome2)
+    assert page.checkAvgData(grupo1.pesquisadores.size(),grupo1.getGroupScore(tipo,qualis,nome1),grupo2.pesquisadores.size(),grupo2.getGroupScore(tipo,qualis,nome2),tipo)
 }
 
+
+//Cenario 2
 Then(~'^A nota "([0-9]+)" do grupo "([^"]+)" e a nota "([0-9]+)" do grupo "([^"]+)" ficam azuis no critério "([^"]+)" do Qualis "([^"]+)"$') {int nota1,String nome1,int nota2,String nome2,String tipo,String qualis->
-    at resultComparePage
+    at ResultComparePage
     nonNullGroups(nome1,nome2)
     assert page.checkData(nota1,nota2,tipo)
 }
 
 //Cenario 3
-Given(~'^O grupo "([^"]+)"  está cadastrado como um grupo no sistema$') {String nome1->
-    assert false
-}
-
-When(~'^Solicito a comparação utilizando Qualis "([^"]+)" entre "([^"]+)" e "([^"]+)"$') {String qualis,String nome1, String nome2->
-    createAndSaveGroup(nome1)
-    createAndSaveGroup(nome2)
-    nonNullGroups(nome1,nome2)
-
-    to comparePage
-    page.dataToCompare(GrupoPesquisadores.findByNomeGrupo(nome1),GrupoPesquisadores.findByNomeGrupo(nome2),qualis)
+Given(~'^O pesquisador "([^"]+)" de cpf "([^"]+)" está cadastrado no sistema$') {String nome, String cpf->
+    to CreateResearcherPage
+    at CreateResearcherPage
+    page.dataToAdd(nome,cpf)
+    assert Pesquisador.findByCpf(cpf)
 }
 
 Then(~'^Aparece uma mensagem de erro dizendo que a comparação não pode ser realizada$') {->
-    at resultComparePage
+    at ResultComparePage
     assert page.errorMessage()!=null
 }
 
-
 //Cenario 4
-Given(~'^Os grupos "([^"]+)" e  "([^"]+)" estão cadastrados no sistema$') {String nome1, String nome2->
-    assert false
-}
-
-And(~'^"([^"]+)" tem nota "([0-9]+)" no "([^"]+)" do Qualis  "([^"]+)"$') {String nome, int media,String tipo,String qualis->
-    createAndSaveGroup(nome)
-    def grupo = GrupoPesquisadores.findByNomeGrupo(nome)
-    assert grupo!=null
-    int k = grupo.revertQualis(tipo)
-    assert grupo.getNotaStub(k,qualis,nome)==media
-}
-
-And(~'^"([^"]+)" tem nota "([0-9]+)" no "([^"]+)" do  Qualis "([^"]+)"$') {String nome, int media,String tipo,String qualis->
-    createAndSaveGroup(nome)
-    def grupo = GrupoPesquisadores.findByNomeGrupo(nome)
-    assert grupo!=null
-    int k = grupo.revertQualis(tipo)
-    assert grupo.getNotaStub(k,qualis,nome)==media
-}
-
-When(~'^Eu solicito a comparação usando Qualis "([^"]+)" entre "([^"]+)" e "([^"]+)"$') {String qualis, String nome1, String nome2->
+Given(~'^Os grupos "([^"]+)" e "([^"]+)" estão cadastrados no sistema$'){String nome1, String nome2->
+    createAndSaveGroup(nome1)
+    createAndSaveGroup(nome2)
     nonNullGroups(nome1,nome2)
-    to comparePage
-    page.dataToCompare(GrupoPesquisadores.findByNomeGrupo(nome1),GrupoPesquisadores.findByNomeGrupo(nome2),qualis)
 }
-
+When(~'^Faço a comparação usando Qualis "([^"]+)" entre "([^"]+)" e "([^"]+)"$') {String qualis,String nome1,String nome2->
+    GrupoPesquisadoresController gc = new GrupoPesquisadoresController()
+    gc.resultCompare(nome1,nome2,qualis)
+}
 Then(~'^"([^"]+)" continua com nota "([0-9]+)" no "([^"]+)" do Qualis "([^"]+)"$') {String nome, int media,String tipo,String qualis->
     checkNotaGrupo(nome,tipo,qualis,media)
-}
-And(~'^"([^"]+)" continua com  nota "([0-9]+)" no "([^"]+)" do Qualis "([^"]+)"$') {String nome, int media,String tipo,String qualis->
-   checkNotaGrupo(nome,tipo,qualis,media)
 }
 
 def createAndSaveGroup(String nome){
@@ -145,10 +109,9 @@ def createAndSaveGroup(String nome){
 def checkNotaGrupo(String nome,String tipo,String qualis,int media){
     def grupo = GrupoPesquisadores.findByNomeGrupo(nome)
     assert grupo!=null
-    int k = grupo.revertQualis(tipo)
-    assert grupo.getNotaStub(k,qualis,nome)==media
+    assert grupo.getGroupScore(tipo,qualis,nome)==media
 }
-def nonNullGroups(nome1,nome2){
+def nonNullGroups(String nome1, String nome2){
     def grupo = GrupoPesquisadores.findByNomeGrupo(nome1)
     assert grupo!=null
     def grupo2 = GrupoPesquisadores.findByNomeGrupo(nome2)
