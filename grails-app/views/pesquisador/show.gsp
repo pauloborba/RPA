@@ -10,7 +10,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta name="layout" content="main"/>
-    <g:set var="entityName" value="${message(code: 'rpa.label', default: 'Pesquisadores')}"/>
+    <g:set var="entityName" value="${message(code: 'default.researcher.label', default: 'Pesquisadores')}"/>
     <title><g:message code="default.show.label" args="[entityName]"/></title>
 </head>
 <body>

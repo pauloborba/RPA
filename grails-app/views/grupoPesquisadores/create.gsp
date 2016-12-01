@@ -10,8 +10,8 @@
 <html>
 <head>
     <meta name="layout" content="main">
-    <g:set var="entityName" value="${message(code: 'GrupoPesquisadores.label', default: 'GrupoPesquisadores')}" />
-    <title>Criar Novo Grupo De Pesquisadores</title>
+    <g:set var="entityName" value="${message(code: 'default.ResearcherGroup.label', default: 'Researcher Group')}" />
+    <title>${message(code: 'default.button.create.label', default: 'Create')} ${message(code: 'default.ResearcherGroup.label', default: 'Researcher Group')}</title>
 </head>
 <body>
 <a href="#create-residueGenerator" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>

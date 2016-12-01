@@ -10,7 +10,7 @@
 
 <div class="fieldcontain ${hasErrors(bean: grupoPesquisadoresInstance, field: 'pesquisadores', 'error')}">
 
-   <g:select name="pesquisador" from="${Pesquisador.list()}" optionValue="nome"  optionKey="cpf" multiple="multiple" class="many-to-many"></g:select>
+   <g:select id="selectPesq" name="pesquisador" from="${Pesquisador.list()}" optionValue="nome"  optionKey="cpf" multiple="multiple" class="many-to-many"></g:select>
     <input type="button" value=">>" class="button" onclick="myField.setAttribute(value,pesquisador.selected())"/>
    <g:textArea name="myField" value="${PesquisadoresInstanceList}"></g:textArea>
 
