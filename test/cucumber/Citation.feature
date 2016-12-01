@@ -37,11 +37,11 @@ Feature: Collecting citations
   Scenario: Regular importing citations to article
 
     Given I am at the ArticleCitations Menu
-    When I select the article "PDC: Persistent data collections pattern".
+    When I select the article "Jat: A test automation framework for multi-agent systems".
     And I ask to find citations to article
-    Then the number "43" of citations to the article "PDC: Persistent data collections pattern" are shown
+    Then the number "27" of citations to the article "Jat: A test automation framework for multi-agent systems" are shown
 
-  Scenario: Irregular importing citations to article
+   Scenario: Irregular importing citations to article
 
     Given I am at the ArticleCitations Menu
     When I select the article "Any article out of the system".

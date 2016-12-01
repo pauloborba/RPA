@@ -10,24 +10,26 @@ class GoogleScholarService {
         def totalCitations = 0
         for (publication in publications) {
             String publicationTitle = (publication.title).replace(" ", "+")
-            String result
-            def http = new HTTPBuilder()
-            http.ignoreSSLIssues()
-            http.request('https://scholar.google.com/', Method.GET, ContentType.TEXT) { req ->
-                uri.path = '/scholar'
-                uri.query = [hl: "en", q: publicationTitle]
-                headers.'User-Agent' = "User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.89 Safari/537.36 Firefox/3.0.4"
 
-                response.success = { resp, reader ->
-                    assert resp.statusLine.statusCode == 200
-                    result = reader.text
-                }
+            String url = "https://scholar.google.com/scholar?hl=en&q="+publicationTitle;
+            URL obj = new URL(url);
 
-                response.'404' = {
-                    println 'Not found'
-                }
+            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+            con.setRequestMethod("GET");
+
+            con.setRequestProperty("User-Agent", "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:45.0) Gecko/20100101 Firefox/45.0");
+
+            def reader = new BufferedReader(new InputStreamReader(con.getInputStream()));
+            String inputLine;
+            StringBuffer response = new StringBuffer();
+
+            while ((inputLine = reader.readLine()) != null) {
+                response.append(inputLine);
             }
-            System.out.println(result)
+            reader.close();
+
+            String result = response.toString()
+
             if (result == null || result == "") {
                 publication.citationAmount = 0
             } else {
@@ -46,7 +48,7 @@ class GoogleScholarService {
     private static String countCitations(String result) {
         String citations = ""
         try {
-            def allCitations = result.split("Cited by")
+            def allCitations = result.split("Citado por")
             String wantedCitation = allCitations[1]
             citations = (wantedCitation.split("<"))[0]
             return citations
