@@ -10,7 +10,11 @@ class PesquisadorController {
 
     def save() {
         def PesquisadorInstance = new Pesquisador(params)
-        PesquisadorInstance.save()
+        if (!PesquisadorInstance.save(flush: true)) {
+            flash.message = "ERROR"
+            render(view: "create")
+            return
+        }
         redirect(action: "create")
     }
 

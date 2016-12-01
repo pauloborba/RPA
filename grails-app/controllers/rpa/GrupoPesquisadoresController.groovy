@@ -13,20 +13,9 @@ class GrupoPesquisadoresController {
         def grupoPesquisadoresInstance = new GrupoPesquisadores(params)
 
         params.list('pesquisador').each{
-            grupoPesquisadoresInstance.addPesq(Pesquisador.findByCpf(it))
+            grupoPesquisadoresInstance.addPesq(Pesquisador.findByCpf(it as String))
         }
         grupoPesquisadoresInstance.tamanhoGrupo=grupoPesquisadoresInstance.pesquisadores.size()
-
-        /*if(params.nomeGrupo.equals("Cin UFPE")){
-            grupoPesquisadoresInstance.setNota(3,0,"2012")
-            grupoPesquisadoresInstance.setNota(4,1,"2013")
-            grupoPesquisadoresInstance.setNota(5,2,"2010")
-        }
-        if(params.nomeGrupo.equals("UFRJ")){
-            grupoPesquisadoresInstance.setNota(2,0,"2012")
-            grupoPesquisadoresInstance.setNota(4,1,"2013")
-            grupoPesquisadoresInstance.setNota(5,2,"2010")
-        }*/
 
         if (!grupoPesquisadoresInstance.save(flush: true)) {
             flash.message = "ERROR"
@@ -55,15 +44,23 @@ class GrupoPesquisadoresController {
     def compare(){
 
     }
-    def resultCompare(){
-        if(params.grupoSelecionado1.toString().equals(params.grupoSelecionado2.toString())){
+    def resultCompare(String nomeG1, String nomeG2, String qualisName){
+        if((params.grupoSelecionado1.toString().equals(params.grupoSelecionado2.toString())) || (nomeG1!=null && nomeG2!=null && (nomeG1.equals(nomeG2))) ) {
             flash.message = message(code: 'default.compareSameGroup.message', default: 'Cannot Compare a Group With Itself')
         }
-        else{
+        else if(nomeG1==null && nomeG2==null && qualisName==null){
+            Pesquisador.all
+            GrupoPesquisadores.all
             def grupo1 = GrupoPesquisadores.findByNomeGrupo(params.grupoSelecionado1)
             def grupo2 = GrupoPesquisadores.findByNomeGrupo(params.grupoSelecionado2)
             def qualis = params.qualis
             [grupoPesquisadoresInstance1: grupo1, grupoPesquisadoresInstance2: grupo2, qualis: qualis]
+        }
+
+        else{
+            def grupo1 = GrupoPesquisadores.findByNomeGrupo(nomeG1)
+            def grupo2 = GrupoPesquisadores.findByNomeGrupo(nomeG2)
+            [grupoPesquisadoresInstance1: grupo1, grupoPesquisadoresInstance2: grupo2, qualis: qualisName]
         }
     }
 
