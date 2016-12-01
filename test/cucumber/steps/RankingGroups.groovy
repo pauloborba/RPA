@@ -3,6 +3,9 @@ package steps
 import rpa.RankingGroupController
 import rpa.ResearchGroup
 import rpa.Researcher
+import pages.RankingGroupPage
+import pages.RankingGroupPageShow
+
 
 import static cucumber.api.groovy.EN.*
 
@@ -69,27 +72,35 @@ When(~/^ solicitado a listagem do grupo "([^"]*)"/) {
 }
 
 Then(~/^E lancada uma excecao "([^"]*)"/) {
-    String errorText
+    String errorText ->
     assert error == errorText
 }
 
 
 Given(~/^Nao ha grupos cadastrados na base/) {
-
+    def groups = ResearchGroup.list()
+    assert groups.size() == 0
 }
 
 When(~/^E solicitado a listagem do ranking de grupos/) {
-
+    to RankingGroupPage
+    at RankingGroupPage
 }
 
 Then(~/^Aparece na tela uma mensagem de error/) {
-
+    at RankingGroupPage
+    page.findErrorMsg()
 }
 
 When(~/^E solicitado a listagem do ranking do grupo "([^"]*)"/) {
-
+    String groupName ->
+    at RankingGroupPage
+    page.selectGroup(name: groupName)
+    at RankingGroupPage
+    page.submit()
 }
 
 Then(~/^Aparece na tela uma lista com o ranking dos pesquisadores/) {
-
+    at RankingGroupPageShow
+    page.rankingListed()
 }

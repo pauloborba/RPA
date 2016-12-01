@@ -3,6 +3,9 @@ package support
 import rpa.Researcher
 import rpa.ResearchGroup
 import rpa.Article
+import geb.Browser
+import geb.binding.BindingUpdater
+import org.codehaus.groovy.grails.test.support.GrailsTestRequestEnvironmentInterceptor
 
 this.metaClass.mixin(cucumber.api.groovy.Hooks)
 
