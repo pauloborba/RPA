@@ -14,7 +14,7 @@ this.metaClass.mixin(cucumber.api.groovy.EN)
 def controladorGrupo = new ResearchGroupController()
 def controladorPesquisador = new ResearcherController()
 
-//Controller test
+//Controller test1
 Given(~/^O sistema nao contem o grupo "([^"]*)" cadastrado no seu database$/) { String arg1 ->
     assert !ResearchGroup.findByName(arg1)
 }
@@ -49,7 +49,18 @@ Then(~/^O sistema cria o grupo "([^"]*)", com "([^"]*)", "([^"]*)", "([^"]*)" e 
     assert ResearchGroup.findByName(arg1).researchers.contains(Researcher.findByName(arg5))
 }
 
-//GUI tests
+//Controller test2
+When(~/^O sistema recebe uma submissao para adicionar o grupo "([^"]*)"$/) { String arg1 ->
+    def grupo = new ResearchGroup([name:arg1, researchers: null])
+    controladorGrupo.save(grupo)
+    controladorGrupo.response.reset()
+}
+
+Then(~/^O sistema nao cria um grupo "([^"]*)"$/) { String arg1 ->
+    assert !ResearchGroup.findByName(arg1)
+}
+
+//GUI test
 Given(~/^Eu estou na pagina de Criacao de Grupos$/) { ->
     to CreateGroupPage
     at CreateGroupPage

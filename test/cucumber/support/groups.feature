@@ -6,6 +6,11 @@ Scenario: Criar grupo de pesquisa novo
   When O sistema recebe uma submissao para adicionar o grupo "CIn" com uma lista de  participantes contendo "PauloBorba", "FernandoCastor" e o grupo de pesquisa "InteligenciaArtificialCIn"
   Then O sistema cria o grupo "CIn", com "PauloBorba", "FernandoCastor", "TeresaLudermir" e "PauloAdeodato" nele, no seu database
 
+Scenario: Adicionar grupo de pesquisa com nome inapropriado
+  Given O sistema nao contem o grupo "&#@&" cadastrado no seu database
+  When O sistema recebe uma submissao para adicionar o grupo "&#@&"
+  Then O sistema nao cria um grupo "&#@&"
+
 Scenario: Criar grupo de pesquisa a partir de pesquisadores em outros grupos
   Given Eu estou na pagina de Criacao de Grupos
   And O pesquisador "VeronicaTeichrieb" com o cpf "51111111111" pertence ao grupo "RealidadeAumentada"
