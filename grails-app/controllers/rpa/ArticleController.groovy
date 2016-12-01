@@ -7,7 +7,7 @@ import grails.transaction.Transactional
 @Transactional(readOnly = true)
 class ArticleController {
 
-    static GoogleScholarService gs
+    static GoogleScholar gs
 
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
@@ -33,7 +33,7 @@ class ArticleController {
             citationNumber = "Article not found"
         } else {
             lista.add(article)
-            gs = new GoogleScholarService()
+            gs = new GoogleScholar()
             gs.findCitations(lista)
             title = article.title
             citationNumber = article.citationAmount

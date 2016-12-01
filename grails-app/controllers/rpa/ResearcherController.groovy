@@ -6,7 +6,7 @@ import grails.transaction.Transactional
 @Transactional(readOnly = true)
 class ResearcherController {
 
-    static GoogleScholarService gs
+    static GoogleScholar gs
 
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
@@ -34,7 +34,7 @@ class ResearcherController {
             researcher.articles.each { article ->
                 lista.add(article)
             }
-            gs = new GoogleScholarService()
+            gs = new GoogleScholar()
             def totalCitations = gs.findCitations(lista)
             gs.updateCitations(researcher, totalCitations)
             name = researcher.name

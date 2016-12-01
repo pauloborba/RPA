@@ -1,9 +1,8 @@
 package steps
 
 import rpa.Article
-import rpa.GoogleScholarServiceMock
+import rpa.GoogleScholar
 import rpa.Researcher
-import rpa.GoogleScholarService
 
 /**
  * Created by rbb3 on 05/11/16.
@@ -11,7 +10,7 @@ import rpa.GoogleScholarService
 class CitationTestSteps {
 
     static public int findCitations(Article article) {
-        GoogleScholarServiceMock gs = new GoogleScholarServiceMock()
+        GoogleScholar gs = new GoogleScholar()
         List<Article> list = new ArrayList<Article>()
         list.add(article)
         gs.findCitations(list)
@@ -19,7 +18,7 @@ class CitationTestSteps {
     }
 
     static public int findCitationsResearcher(Researcher researcher) {
-        GoogleScholarServiceMock gs = new GoogleScholarServiceMock()
+        GoogleScholar gs = new GoogleScholar()
         List<Article> list = new ArrayList<Article>()
         researcher.articles.each { article ->
             list.add(article)
