@@ -60,6 +60,26 @@ Then(~/^O sistema nao cria um grupo "([^"]*)"$/) { String arg1 ->
     assert !ResearchGroup.findByName(arg1)
 }
 
+//Controller test3
+Given(~/^O grupo "([^"]*)" nao tem o pesquisador "([^"]*)"$/) { String arg1, String arg2 ->
+    def pesq = new Researcher[2]
+    def grupo = new ResearchGroup([name: arg1, researchers: pesq])
+    def pesquisador = new Researcher([name: arg2, cpf: "23232323232"])
+    controladorGrupo.save(grupo)
+    controladorGrupo.response.reset()
+    assert !ResearchGroup.findByName(arg1).researchers.contains(pesquisador)
+}
+
+When(~/^O sistema recebe uma submissao para adicionar "([^"]*)" ao grupo "([^"]*)"$/) { String arg1, String arg2 ->
+    def grupo = ResearchGroup.findByName(arg2)
+    def pesquisador = new Researcher([name: arg2, cpf: "23232323232"])
+    grupo.researchers.add(pesquisador)
+}
+
+Then(~/^O grupo "([^"]*)" passa a ter "([^"]*)" entre seus integrantes$/) { String arg1, String arg2 ->
+    assert ResearchGroup.findByName(arg1).researchers.contains(Researcher.findByName(arg2))
+}
+
 //GUI test
 Given(~/^Eu estou na pagina de Criacao de Grupos$/) { ->
     to CreateGroupPage

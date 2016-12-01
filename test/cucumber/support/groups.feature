@@ -11,6 +11,11 @@ Scenario: Adicionar grupo de pesquisa com nome inapropriado
   When O sistema recebe uma submissao para adicionar o grupo "&#@&"
   Then O sistema nao cria um grupo "&#@&"
 
+Scenario: Adicionar um novo pesquisador a um grupo de pesquisa
+  Given O grupo "MatematicaComputacional" nao tem o pesquisador "SostenesLins"
+  When O sistema recebe uma submissao para adicionar "SostenesLins" ao grupo "MatematicaComputacional"
+  Then O grupo "MatematicaComputacional" passa a ter "SostenesLins" entre seus integrantes
+
 Scenario: Criar grupo de pesquisa a partir de pesquisadores em outros grupos
   Given Eu estou na pagina de Criacao de Grupos
   And O pesquisador "VeronicaTeichrieb" com o cpf "51111111111" pertence ao grupo "RealidadeAumentada"
