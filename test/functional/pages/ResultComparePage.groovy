@@ -107,9 +107,6 @@ class ResultComparePage extends PageSupport {
         }
     }
 
-
-    def titulo = "Resultados da Comparação"
-    def titulo2 = "Compare Results"
     static url = "grupoPesquisadores/resultCompare"
 
     static at = {

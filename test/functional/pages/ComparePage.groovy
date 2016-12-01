@@ -7,8 +7,6 @@ import geb.Page
 import rpa.GrupoPesquisadores
 
 class ComparePage extends PageSupport {
-    def titulo = "Comparar Grupo de Pesquisadores"
-    def titulo2 = "Compare Researcher Group"
     static url = "grupoPesquisadores/compare"
     static at = {
         def researcherGroupLabel = interMessage.getMessage('default.ResearcherGroup.label')
