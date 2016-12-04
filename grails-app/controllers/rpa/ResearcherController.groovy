@@ -4,7 +4,6 @@ import rpa.Researcher
 import rpa.Article
 
 class ResearcherController {
-    private def  lastUpdates = []
     def create(){
 
     }
@@ -30,11 +29,13 @@ class ResearcherController {
     }
 
     def importFile(){
-        lastUpdates = []
+        def lastUpdates = []
         def xml = request.getFile('file')
         if(!xml.empty){
             XmlExtractorService xmlExtractor = new XmlExtractorService()
-            Researcher researcherSaved = saveOrUpdateResearcher(xmlExtractor, xml)
+            def resultSaveOrUpdate = saveOrUpdateResearcher(xmlExtractor, xml)
+            Researcher researcherSaved = resultSaveOrUpdate[0]
+            lastUpdates = resultSaveOrUpdate[1]
             if (researcherSaved.validate()) {
                 if(lastUpdates.size() > 0){
                     flash.message = message(code: 'researcher.updated')
@@ -51,8 +52,9 @@ class ResearcherController {
             render(view: "create")
         }
     }
-
-    private Researcher saveOrUpdateResearcher(XmlExtractorService xmlExtractor, xml) {
+    //O método retorna o novo pesquisador e as ultimas atualizacações
+    private def saveOrUpdateResearcher(XmlExtractorService xmlExtractor, xml) {
+        def lastUpdates = []
         def researcherFromXml = xmlExtractor.getResearcher(xml.getInputStream())
         if(researcherFromXml == null){
             researcherFromXml = new Researcher()
@@ -65,6 +67,6 @@ class ResearcherController {
             researcherSaved = researcherFromXml
             researcherSaved.save()
         }
-        researcherSaved
+        [researcherSaved,lastUpdates]
     }
 }
