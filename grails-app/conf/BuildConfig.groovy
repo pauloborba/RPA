@@ -46,6 +46,7 @@ grails.project.dependency.resolution = {
 
         // Dependencias adicionadas
         compile "org.spockframework:spock-grails-support:0.7-groovy-1.8"
+        compile "org.codehaus.groovy.modules.http-builder:http-builder:0.7.1"
         test "org.gebish:geb-junit4:0.9.2"
         test "org.seleniumhq.selenium:selenium-support:2.39.0"
         test "org.seleniumhq.selenium:selenium-chrome-driver:2.39.0"

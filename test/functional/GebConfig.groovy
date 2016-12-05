@@ -19,4 +19,9 @@ environments {
     firefox {
         driver = { new FirefoxDriver() }
     }
+
+    waiting {
+        timeout = 30
+        retryInterval = 0.1
+    }
 }
