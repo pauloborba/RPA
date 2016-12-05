@@ -31,16 +31,20 @@ class ResearcherController {
             name = params.researcher
             citationNumber = "Researcher not found"
         } else {
-            researcher.articles.each { article ->
-                lista.add(article)
-            }
-            gs = new GoogleScholar()
-            def totalCitations = gs.findCitations(lista)
-            gs.updateCitations(researcher, totalCitations)
+            def totalCitations = searchArticles(researcher, lista)
             name = researcher.name
             citationNumber = totalCitations
         }
         chain(controller: 'researcher', action: 'researcherCitations', model: [citationsCount: citationNumber, researcher: name])
+    }
+
+    def searchArticles(researcher, lista) {
+        researcher.articles.each { article ->
+            lista.add(article)
+        }
+        gs = new GoogleScholar()
+        def totalCitations = gs.findCitations(lista)
+        gs.updateCitations(researcher, totalCitations)
     }
 
     def researcherCitations() {

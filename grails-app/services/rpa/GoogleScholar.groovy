@@ -28,12 +28,7 @@ class GoogleScholar {
     static def findCitations(List<Article> publications) {
         def totalCitations = 0
         for (publication in publications) {
-            def result
-            staticResponse.each { it ->
-                if (it.title == publication.title) {
-                    result = it.response
-                }
-            }
+            def result = searchArticlesResponse(publication)
             if (result == null || result == "") {
                 publication.citationAmount = 0
             } else {
@@ -47,6 +42,16 @@ class GoogleScholar {
             }
         }
         totalCitations
+    }
+
+    private static String searchArticlesResponse(publication) {
+        String result
+        staticResponse.each { it ->
+            if (it.title == publication.title) {
+                result = it.response
+            }
+        }
+        return result
     }
 
     private static String countCitations(String result) {

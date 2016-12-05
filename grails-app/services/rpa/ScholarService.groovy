@@ -11,24 +11,7 @@ class ScholarService {
         for (publication in publications) {
             String publicationTitle = (publication.title).replace(" ", "+")
 
-            String url = "https://scholar.google.com/scholar?hl=en&q="+publicationTitle;
-            URL obj = new URL(url);
-
-            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-            con.setRequestMethod("GET");
-
-            con.setRequestProperty("User-Agent", "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:45.0) Gecko/20100101 Firefox/45.0");
-
-            def reader = new BufferedReader(new InputStreamReader(con.getInputStream()));
-            String inputLine;
-            StringBuffer response = new StringBuffer();
-
-            while ((inputLine = reader.readLine()) != null) {
-                response.append(inputLine);
-            }
-            reader.close();
-
-            String result = response.toString()
+            String result = makeRequest(publicationTitle)
 
             if (result == null || result == "") {
                 publication.citationAmount = 0
@@ -43,6 +26,27 @@ class ScholarService {
             }
         }
         totalCitations
+    }
+
+    private static String makeRequest(publicationTitle) {
+        String url = "https://scholar.google.com/scholar?hl=en&q="+publicationTitle;
+        URL obj = new URL(url);
+
+        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+        con.setRequestMethod("GET");
+
+        con.setRequestProperty("User-Agent", "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:45.0) Gecko/20100101 Firefox/45.0");
+
+        def reader = new BufferedReader(new InputStreamReader(con.getInputStream()));
+        String inputLine;
+        StringBuffer response = new StringBuffer();
+
+        while ((inputLine = reader.readLine()) != null) {
+            response.append(inputLine);
+        }
+        reader.close();
+
+        return response.toString()
     }
 
     private static String countCitations(String result) {
