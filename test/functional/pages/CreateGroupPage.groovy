@@ -1,23 +1,25 @@
 package pages
 
 import geb.Page
-import rpa.ResearchGroup
 import rpa.Researcher
+import steps.InternationalizationHelper
 
 class CreateGroupPage extends Page{
+    InternationalizationHelper message = InternationalizationHelper.instance
+
     static url = "/RPA/researchGroup/create"
 
     static at = {
-        title ==~ /Create ResearchGroup/
+        title ==~ message.getMessage('default.create.label', 'ResearchGroup')
     }
 
-    boolean CreateNewGroup(nome, pesq) {
+    boolean createNewGroup(nome, pesq) {
         $("form").name = nome
         $("form").researchers = pesq.id
         $("input", name: "create").click()
     }
 
-    boolean ViewResearcher(pesq, num) {
+    boolean viewResearcher(pesq, num) {
         Researcher.findByName(pesq).id == num
     }
 }

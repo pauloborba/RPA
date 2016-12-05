@@ -1,15 +1,18 @@
 package pages
 
 import geb.Page
+import steps.InternationalizationHelper
 
 class CreateResearcherPage extends Page{
+    InternationalizationHelper message = InternationalizationHelper.instance
+
     static url = "/RPA/researcher/create"
 
     static at = {
-        title ==~ /Create Researcher/
+        title ==~ message.getMessage('default.create.label', 'Researcher')
     }
 
-    boolean CreateNewResearcher(pesq, num) {
+    boolean createNewResearcher(pesq, num) {
         $("form").name = pesq
         $("form").cpf = num
         $("input", name: "create").click()

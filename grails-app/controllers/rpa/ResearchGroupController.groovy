@@ -25,10 +25,10 @@ class ResearchGroupController {
 
     @Transactional
     def save(ResearchGroup researchGroupInstance) {
-        if (researchGroupInstance == null || researchGroupInstance.name.matches(".*[^\\w\\s].*")) {
+        if (researchGroupInstance == null) {
             notFound()
             return
-        }//Da true para qualquer string que contenha ao menos um char não alfanúmérico nem espaço.
+        }
 
         if (researchGroupInstance.hasErrors()) {
             respond researchGroupInstance.errors, view:'create'
