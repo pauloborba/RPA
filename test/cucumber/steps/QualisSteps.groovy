@@ -57,7 +57,7 @@ Given(~/^eu estou na página de detalhe do qualis "([^"]*)" cadastrado com o arq
 }
 
 When(~/^deleto o qualis na pagina de detalhes$/) { ->
-    at QualisShowPage
+    at Qualis2012ShowPage
     page.clickDelete()
 }
 
@@ -67,7 +67,7 @@ Then(~/^eu estou na página de listagem de qualis e não existe um qualis chamad
 }
 
 When(~/^eu entro em editar$/) { ->
-    at QualisShowPage
+    at Qualis2012ShowPage
     page.clickEdit()
     at QualisEditPage
 }
@@ -82,7 +82,7 @@ And(~/^atualizo o qualis$/) { ->
 }
 
 Then(~/^o título do página é "([^"]*)"$/) { String title ->
-    at QualisShowPage2
+    at Qualis20122ShowPage
 }
 
 And(~/^o veículo "([^"]*)" está presente na página$/) { String journal ->

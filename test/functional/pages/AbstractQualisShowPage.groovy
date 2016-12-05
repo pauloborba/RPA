@@ -1,16 +1,13 @@
 package pages
 
-import geb.Page
-
 /**
- * Created by dgmneto on 07/11/16.
+ * Created by dgmneto on 05/12/16.
  */
-class QualisShowPage2 extends PageWithI18nSupport {
-    static url = 'qualis/show/5'
+abstract class AbstractQualisShowPage extends PageWithI18nSupport{
 
-    static at = {
-        title ==~ helperMsg.getMessage('default.show.label', '2012.2')
-    }
+    abstract static url;
+
+    abstract static at;
 
     def clickDelete() {
         assert withConfirm(true) {
