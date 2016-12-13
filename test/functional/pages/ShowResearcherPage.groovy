@@ -1,8 +1,8 @@
 package pages
 
 import geb.Page
-import org.openqa.selenium.WebElement
 import steps.InternationalizationHelper
+import static steps.TestAndOperations.containsText
 
 class ShowResearcherPage extends Page {
     static url = "RPA/researcher/show"
@@ -10,17 +10,6 @@ class ShowResearcherPage extends Page {
     static at = {
         InternationalizationHelper helper = InternationalizationHelper.instance
         title ==~ helper.getMessage('default.show.label', "Researcher")
-    }
-
-    boolean containsText(String t, Collection<WebElement> allT){
-        boolean contain = false
-        for(a in allT){
-            if(a.getText() == t){
-                contain = true;
-                break;
-            }
-        }
-        contain
     }
 
     def findAcceptedMsg(){

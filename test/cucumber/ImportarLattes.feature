@@ -16,11 +16,10 @@ And   O artigo "Implementation sudoku with backtracking" é adicionado ao currí
 
 #GUI
 Scenario: Cadastrar um pesquisador com vários artigos com sucesso
-Given Estou na página de cadastrar pesquisadores
-And   O arquivo "CurriculoValidoComDoisArtigos.xml" contém um pesquisador de CPF "12345678911" e nome "Rafael".
+Given O arquivo "CurriculoValidoComDoisArtigos.xml" contém um pesquisador de CPF "12345678911" e nome "Rafael".
 And   O arquivo "CurriculoValidoComDoisArtigos.xml" contém o artigo "Implementation cow confident with BFS".
 And   O arquivo "CurriculoValidoComDoisArtigos.xml" contém o artigo "Implementation sudoku with backtracking".
-And   O pesquisador de CPF "12345678911" não está cadastrado
+And   Não é possível ver o pesquisador de CPF "12345678911".
 When  Eu tento importar um arquivo de currículo de nome "CurriculoValidoComDoisArtigos.xml".
 Then  Estou na página de exibir pesquisadores
 And   É exibido um aviso de que um pesquisador foi cadastrado
@@ -39,10 +38,9 @@ And   O pesquisador de CPF "01234567890" não possui artigos
 
 #GUI
 Scenario: Cadastrar um pesquisador sem artigos com sucesso
-Given Estou na página de cadastrar pesquisadores
-And   O arquivo "CurriculoValidoSemArtigos.xml" contém um pesquisador de CPF "01234567890" e nome "Fulano".
+Given O arquivo "CurriculoValidoSemArtigos.xml" contém um pesquisador de CPF "01234567890" e nome "Fulano".
 And   O arquivo "CurriculoValidoSemArtigos.xml" não contem artigos
-And   O pesquisador de CPF "01234567890" não está cadastrado
+And   Não é possível ver o pesquisador de CPF "01234567890".
 When  Eu tento importar um arquivo de currículo de nome "CurriculoValidoSemArtigos.xml".
 Then  Estou na página de exibir pesquisadores
 And   É exibido um aviso de que um pesquisador foi cadastrado
@@ -57,8 +55,7 @@ Then  Nenhum pesquisador é cadastrado
 
 #GUI
 Scenario: Tentar importar algo que não é um arquivo de currículo
-Given Estou na página de cadastrar pesquisadores
-And   O arquivo "TestAndOperations.groovy" não é um arquivo de currículo
+Given O arquivo "TestAndOperations.groovy" não é um arquivo de currículo
 When  Eu tento importar um arquivo de currículo de nome "TestAndOperations.groovy".
 Then  Ainda estou na página de cadastrar pesquisadores
 And   É exibido um aviso de que o arquivo selecionado é inválido
@@ -71,8 +68,7 @@ Then  Nenhum pesquisador é cadastrado
 
 #GUI
 Scenario: Tentar importar um arquivo vazio
-Given Estou na página de cadastrar pesquisadores
-And   O arquivo "ArquivoVazio.xml" está vazio
+Given O arquivo "ArquivoVazio.xml" está vazio
 When  Eu tento importar um arquivo de currículo de nome "ArquivoVazio.xml".
 Then  Ainda estou na página de cadastrar pesquisadores
 And   É exibido um aviso de que o arquivo selecionado está vazio

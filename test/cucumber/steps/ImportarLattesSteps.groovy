@@ -4,6 +4,7 @@ import static cucumber.api.groovy.EN.*
 import static steps.TestAndOperations.*
 import rpa.Researcher
 import pages.CreateResearcherPage
+import pages.ListResearcherPage
 import pages.ShowResearcherPage
 
 //---------- GIVENs ----------
@@ -14,12 +15,13 @@ Given(~/^O arquivo "([^"]*)" contém um pesquisador de CPF "([^"]*)" e nome "([^
 And(~/^O pesquisador de CPF "([^"]*)" não está cadastrado$/) { String cpf ->
     assert (Researcher.findByCpf(cpf) == null)
 }
+And(~/^Não é possível ver o pesquisador de CPF "([^"]*)"\.$/) { String cpf ->
+    to ListResearcherPage
+    at ListResearcherPage
+    page.existsResearcherWithCpf(cpf) == false
+}
 And(~/^O arquivo "([^"]*)" contém o artigo "([^"]*)"\.$/) { String arquivo, String artigo ->
     assert searchArticleByTitle(buildResearcherWithFile(arquivo), artigo)
-}
-Given(~/^Estou na página de cadastrar pesquisadores$/) { ->
-    to CreateResearcherPage
-    at CreateResearcherPage
 }
 And(~/^O arquivo "([^"]*)" não contem artigos$/) { String arquivo ->
     def pesquisador = buildResearcherWithFile(arquivo)
@@ -37,6 +39,7 @@ When(~/^Um arquivo de currículo de nome "([^"]*)" é importado$/) { String arqu
     importFile(arquivo)
 }
 When(~/^Eu tento importar um arquivo de currículo de nome "([^"]*)"\.$/) { String arquivo ->
+    to CreateResearcherPage
     at CreateResearcherPage
     page.createResearcherWithFile(arquivo)
 }

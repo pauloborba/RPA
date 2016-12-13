@@ -1,5 +1,6 @@
 package steps
 
+import org.openqa.selenium.WebElement
 import rpa.ResearcherController
 import rpa.XmlExtractorService
 import rpa.Researcher
@@ -54,5 +55,16 @@ class TestAndOperations {
         def path = new File(dirFiles+filename)
         FileReader file = new FileReader(path)
         return (new BufferedReader(file).readLine() == null)
+    }
+
+    static public boolean containsText(String t, Collection<WebElement> allT){
+        boolean contain = false
+        for(a in allT){
+            if(a.getText() == t){
+                contain = true;
+                break;
+            }
+        }
+        contain
     }
 }
