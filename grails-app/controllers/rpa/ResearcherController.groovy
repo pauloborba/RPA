@@ -28,10 +28,6 @@ class ResearcherController {
         r.save()
     }
 
-    def update(){
-
-    }
-
     def importFile(){
         def xml = request.getFile('file')
         if(!xml.empty){

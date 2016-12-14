@@ -34,17 +34,13 @@ class TestAndOperations {
     }
 
     static public boolean searchArticleByTitle(Researcher r, String a) {
-        if (r == null || researcherHasNoArticles(r)) return false
+        if (r == null || r.articles.size() == 0) return false
         else {
             for (int i = 0; i < r.articles.size(); i++) {
                 if (r.articles[i].tittle == a) return true
             }
             return false
         }
-    }
-
-    static public boolean researcherHasNoArticles(Researcher r) {
-        return (r.articles == null || r.articles.size() < 1)
     }
 
     static public boolean noResearchers() {

@@ -65,7 +65,7 @@ And(~/^É exibido o artigo de título "([^"]*)", da revista "([^"]*)" e issn "([
     assert page.checkArticle(titulo, revista, issn)
 }
 And(~/^O pesquisador de CPF "([^"]*)" não possui artigos$/) { String cpf ->
-    assert researcherHasNoArticles(Researcher.findByCpf(cpf))
+    assert Researcher.findByCpf(cpf).articles.size() == 0
 }
 And(~/^Não é exibido nenhum artigo$/) { ->
     at ShowResearcherPage
