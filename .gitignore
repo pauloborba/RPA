@@ -52,7 +52,6 @@ test/unit/
 test/integration/
 grails-app/conf/hibernate/
 grails-app/migrations/
-grails-app/services/
 grails-app/taglib/
 grails-app/utils/
 web-app/META-INF/
