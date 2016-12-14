@@ -6,6 +6,7 @@ So that eu possa visualiza-los e compara-los depois
 #Controller
 Scenario: Cadastrar um pesquisador com vários artigos com sucesso
 Given O arquivo "CurriculoValidoComDoisArtigos.xml" contém um pesquisador de CPF "12345678911" e nome "Rafael".
+And   O arquivo "CurriculoValidoComDoisArtigos.xml" contém 2 artigos
 And   O arquivo "CurriculoValidoComDoisArtigos.xml" contém o artigo "Implementation cow confident with BFS".
 And   O arquivo "CurriculoValidoComDoisArtigos.xml" contém o artigo "Implementation sudoku with backtracking".
 And   O pesquisador de CPF "12345678911" não está cadastrado
@@ -17,6 +18,7 @@ And   O artigo "Implementation sudoku with backtracking" é adicionado ao currí
 #GUI
 Scenario: Cadastrar um pesquisador com vários artigos com sucesso
 Given O arquivo "CurriculoValidoComDoisArtigos.xml" contém um pesquisador de CPF "12345678911" e nome "Rafael".
+And   O arquivo "CurriculoValidoComDoisArtigos.xml" contém 2 artigos
 And   O arquivo "CurriculoValidoComDoisArtigos.xml" contém o artigo "Implementation cow confident with BFS".
 And   O arquivo "CurriculoValidoComDoisArtigos.xml" contém o artigo "Implementation sudoku with backtracking".
 And   Não é possível ver o pesquisador de CPF "12345678911".
@@ -30,7 +32,7 @@ And   É exibido o artigo de título "Implementation sudoku with backtracking", 
 #Controller
 Scenario: Cadastrar um pesquisador sem artigos com sucesso
 Given O arquivo "CurriculoValidoSemArtigos.xml" contém um pesquisador de CPF "01234567890" e nome "Fulano".
-And   O arquivo "CurriculoValidoSemArtigos.xml" não contem artigos
+And   O arquivo "CurriculoValidoSemArtigos.xml" contém 0 artigos
 And   O pesquisador de CPF "01234567890" não está cadastrado
 When  Um arquivo de currículo de nome "CurriculoValidoSemArtigos.xml" é importado
 Then  O pesquisador de nome "Fulano" e CPF "01234567890" é cadastrado no sistema
@@ -39,7 +41,7 @@ And   O pesquisador de CPF "01234567890" não possui artigos
 #GUI
 Scenario: Cadastrar um pesquisador sem artigos com sucesso
 Given O arquivo "CurriculoValidoSemArtigos.xml" contém um pesquisador de CPF "01234567890" e nome "Fulano".
-And   O arquivo "CurriculoValidoSemArtigos.xml" não contem artigos
+And   O arquivo "CurriculoValidoSemArtigos.xml" contém 0 artigos
 And   Não é possível ver o pesquisador de CPF "01234567890".
 When  Eu tento importar um arquivo de currículo de nome "CurriculoValidoSemArtigos.xml".
 Then  Estou na página de exibir pesquisadores

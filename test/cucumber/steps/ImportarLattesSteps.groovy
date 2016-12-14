@@ -20,12 +20,11 @@ And(~/^Não é possível ver o pesquisador de CPF "([^"]*)"\.$/) { String cpf ->
     at ListResearcherPage
     page.existsResearcherWithCpf(cpf) == false
 }
+And(~/^O arquivo "([^"]*)" contém (\d+) artigos$/) { String arquivo, int artigos ->
+    assert buildResearcherWithFile(arquivo).articles.size() == artigos
+}
 And(~/^O arquivo "([^"]*)" contém o artigo "([^"]*)"\.$/) { String arquivo, String artigo ->
     assert searchArticleByTitle(buildResearcherWithFile(arquivo), artigo)
-}
-And(~/^O arquivo "([^"]*)" não contem artigos$/) { String arquivo ->
-    def pesquisador = buildResearcherWithFile(arquivo)
-    assert pesquisador.articles.size() < 1
 }
 And(~/^O arquivo "([^"]*)" não é um arquivo de currículo$/) { String arquivo ->
     def pesquisador = buildResearcherWithFile(arquivo)
