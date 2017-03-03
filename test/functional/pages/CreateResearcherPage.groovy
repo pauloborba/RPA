@@ -17,4 +17,18 @@ class CreateResearcherPage extends PageWithI18nSupport {
         $("form").create().click()
     }
 
+    def createResearcherWithFile(String filename){
+        def file = new File(dirFiles+filename)
+        $("form").file = file.getAbsolutePath()
+        $("input", type: "submit").click()
+    }
+
+    def findInvallidMsg(){
+        assert $("div", class: "message").text() == helperMsg.getMessage('researcher.file.invalid')
+    }
+
+    def findEmptyMsg(){
+        assert $("div", class: "message").text() == helperMsg.getMessage('researcher.file.empty')
+    }
+
 }
