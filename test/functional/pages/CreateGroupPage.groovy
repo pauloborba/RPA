@@ -4,13 +4,12 @@ import geb.Page
 import rpa.Researcher
 import steps.InternationalizationHelper
 
-class CreateGroupPage extends Page{
-    InternationalizationHelper message = InternationalizationHelper.instance
-
+class CreateGroupPage extends PageWithI18nSupport{
     static url = "/RPA/researchGroup/create"
 
     static at = {
-        title ==~ message.getMessage('default.create.label', 'ResearchGroup')
+        def researchGroup = helperMsg.getMessage('researchGroup.label')
+        title ==~ helperMsg.getMessage('default.create.label', researchGroup)
     }
 
     boolean createNewGroup(nome, pesq) {

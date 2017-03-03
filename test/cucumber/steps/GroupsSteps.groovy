@@ -54,9 +54,10 @@ Then(~/^O sistema cria o grupo "([^"]*)", com "([^"]*)", "([^"]*)", "([^"]*)" e 
 
 //Controller test2
 When(~/^O sistema recebe uma submissao para adicionar o grupo "([^"]*)"$/) { String arg1 ->
-    def grupo = new ResearchGroup([name:arg1, researchers: null])
-    controladorGrupo.save(grupo)
-    controladorGrupo.response.reset()
+    def grupo = new ResearchGroup([name:arg1])
+    def controladorGrupo2 = new ResearchGroupController()
+    controladorGrupo2.save(grupo)
+    controladorGrupo2.response.reset()
 }
 
 Then(~/^O sistema nao cria um grupo "([^"]*)"$/) { String arg1 ->
@@ -90,16 +91,21 @@ Given(~/^Eu estou na pagina de Criacao de Grupos$/) { ->
 }
 
 
-And(~/^O pesquisador "([^"]*)" com o cpf "([^"]*)" pertence ao grupo "([^"]*)"$/) { String arg1, String arg2, String arg3 ->
+And(~/^O pesquisador "([^"]*)" criado com arquivo "([^"]*)" pertence ao grupo "([^"]*)"$/) { String name, String filename, String groupname ->
     to CreateResearcherPage
     at CreateResearcherPage
-    page.createNewResearcher(arg1, arg2)
+    page.saveOrUpdateResearcherWithFile(filename)
     def pesq = new Researcher[1]
-    pesq[0] = Researcher.findByName(arg1)
+    pesq[0] = Researcher.findByName(name)
     to CreateGroupPage
     at CreateGroupPage
-    assert page.createNewGroup(arg3, pesq)
-    assert ResearchGroup.findByName(arg3).findResearcher(Researcher.findByName(arg1))
+    assert page.createNewGroup(groupname, pesq)
+    ResearchGroup.all
+    Researcher.all
+    def researcher = Researcher.findByName(name)
+    def researchGroup = ResearchGroup.findByName(groupname)
+
+    assert researchGroup.findResearcher(researcher)
 }
 
 And(~/^Eu vejo os pesquisadores "([^"]*)", "([^"]*)" e "([^"]*)"$/) { String arg1, String arg2, String arg3 ->
