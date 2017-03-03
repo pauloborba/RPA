@@ -43,8 +43,11 @@ class ShowResearcherPage extends PageWithI18nSupport {
 
     }
 
-    def findAcceptedMsg(){
-        def savedmsg = helperMsg.getMessage('researcher.updated')
+    def findAcceptedMsg(boolean updated){
+        def savedmsg = helperMsg.getMessage('researcher.saved')
+        if (updated) {
+            savedmsg = helperMsg.getMessage('researcher.updated')
+        }
         assert $("div", class: "message").text() == savedmsg
     }
 
@@ -92,5 +95,24 @@ class ShowResearcherPage extends PageWithI18nSupport {
             assert containsText(helperMsg.getMessage('updateLattes.removed',title), allAlerts)
         }
 
+    }
+
+    boolean checkName(String nome){
+        return $("span", id: "name-value").text() == nome
+    }
+
+    boolean checkCpf(String cpf){
+        return $("span", id: "cpf-value").text() == cpf
+    }
+
+    boolean checkArticle(String title, String journal, String issn){
+        boolean matchTitle = containsText(title, $("span", class: "title").allElements())
+        boolean matchJournal = containsText(journal, $("span", class: "journal").allElements())
+        boolean matchIssn = containsText(issn, $("span", class: "issn").allElements())
+        return matchTitle & matchJournal & matchIssn
+    }
+
+    boolean areThereArticles() {
+        return $("span", id: "articles-value").text() != null
     }
 }

@@ -157,7 +157,7 @@ Then(~/^Eu estou na pagina de visualização$/) { ->
 
 And(~/^Eu vejo uma mensagem de confirmação$/) { ->
     at ShowResearcherPage
-    page.findAcceptedMsg()
+    page.findAcceptedMsg(true)
 }
 
 And(~/^É possível ver "([0-9]*)" atualizações$/) {
