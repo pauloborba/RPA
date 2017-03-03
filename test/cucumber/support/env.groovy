@@ -27,6 +27,10 @@ After() {
     Article.list().each {
         it.delete(flush:true)
     }
+    Qualis.list().each {
+        QualisAvaliation.where{qualis == it}.deleteAll()
+        it.delete(flush: true)
+    }
     scenarioInterceptor.destroy()
 
     bindingUpdater.remove()
