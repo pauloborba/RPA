@@ -1,10 +1,11 @@
 package rpa
 
 class Qualis {
-    String year
-    static hasMany = [avaliations:QualisAvaliation]
+    String title
+
+    static hasMany = [qualisAvaliations: QualisAvaliation]
 
     static constraints = {
-        year(nullable: false, blank: false)
+        title(nullable: false, blank: false, unique: true)
     }
 }
